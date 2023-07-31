@@ -21,7 +21,7 @@ public class TrackWhellRow
         for (int i = 0; i < colliders.Length; i++)
         {
 
-            colliders[i].motorTorque = breakTorque;
+            colliders[i].brakeTorque = breakTorque;
         }
     }
 
@@ -48,8 +48,65 @@ public class TrackWhellRow
         }
     }
 }
+[RequireComponent(typeof(Rigidbody))]
 public class TrackTank : Vehicle
 {
-    [SerializeField] private TrackWhellRow[] leftWheelRow;
-    [SerializeField] private TrackWhellRow[] rightWheelRow;
+    public override float LinerVelocity => rigidBody.velocity.magnitude;
+
+    [SerializeField] private TrackWhellRow leftWheelRow;
+    [SerializeField] private TrackWhellRow rightWheelRow;
+
+    [Header("Movement")]
+    [SerializeField] private float maxForwardTorque;
+    [SerializeField] private float maxBackwardMotorTorque;
+    [SerializeField] private float breakTorque;
+    [SerializeField] private float rollingResistance;
+
+    private Rigidbody rigidBody;
+
+    private void Start()
+    {
+        rigidBody = GetComponent<Rigidbody>();
+    }
+
+    private void FixedUpdate()
+    {
+        float targetMotorTorque = targetInputControl.z > 0 ? maxForwardTorque * Mathf.RoundToInt(targetInputControl.z) : maxBackwardMotorTorque * Mathf.RoundToInt(targetInputControl.z); // тернарный оператор
+        float breakTorque  = this.breakTorque * targetInputControl.y;
+        float steering    = targetInputControl.x;
+
+        // Break
+        leftWheelRow.Break(breakTorque);
+        rightWheelRow.Break(breakTorque);
+        // Rolling
+        if (targetMotorTorque == 0 && steering == 0)
+        {
+            leftWheelRow.Break(rollingResistance);
+            rightWheelRow.Break(rollingResistance);
+        }
+        else
+        {
+            leftWheelRow.Reset();
+            rightWheelRow.Reset();
+        }
+        // Rotate in palce
+
+        // Move
+        if (targetMotorTorque != 0)
+        {
+            if (steering == 0)
+            {
+                if (LinerVelocity < maxLinerVelocity)
+                {
+                    leftWheelRow.SetTorque(targetMotorTorque);
+                    rightWheelRow.SetTorque(targetMotorTorque);
+                }
+            }
+        }
+
+        leftWheelRow.UpdateMeshTransform();
+        rightWheelRow.UpdateMeshTransform();
+    }
+
+
 }

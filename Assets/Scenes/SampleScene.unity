@@ -1145,6 +1145,51 @@ WheelCollider:
     m_AsymptoteValue: 0.75
     m_Stiffness: 1
   m_Enabled: 1
+--- !u!1 &1464261164
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1464261166}
+  - component: {fileID: 1464261165}
+  m_Layer: 0
+  m_Name: Player
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1464261165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1464261164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1dfc8e79e6dc07549b7623733953ca03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Vehicle: {fileID: 919132148707599349}
+--- !u!4 &1464261166
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1464261164}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1478096505
 GameObject:
   m_ObjectHideFlags: 0
@@ -1635,7 +1680,7 @@ MonoBehaviour:
   engineSound: {fileID: 0}
   enginePitchModifier: 0
   leftWheelRow:
-  - colliders:
+    colliders:
     - {fileID: 1053539529}
     - {fileID: 1250165005}
     - {fileID: 630460740}
@@ -1652,7 +1697,7 @@ MonoBehaviour:
     - {fileID: 5789950711512068380}
     - {fileID: 4102100788859213790}
   rightWheelRow:
-  - colliders:
+    colliders:
     - {fileID: 1208616523}
     - {fileID: 445672548}
     - {fileID: 772286205}
@@ -1668,6 +1713,10 @@ MonoBehaviour:
     - {fileID: 1674714257874259396}
     - {fileID: 6239536725732001664}
     - {fileID: 8434123098030402557}
+  maxForwardTorque: 8500
+  maxBackwardMotorTorque: 5000
+  breakTorque: 50000
+  rollingResistance: 30000
 --- !u!4 &1074395949497893075
 Transform:
   m_ObjectHideFlags: 0
