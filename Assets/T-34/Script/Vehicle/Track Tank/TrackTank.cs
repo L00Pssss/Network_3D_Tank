@@ -67,12 +67,17 @@ public class TrackTank : Vehicle
 {
     public override float LinerVelocity => rigidBody.velocity.magnitude;
 
+    [SerializeField] private Transform centerOfMass;
+
+    [Header("Tracks")]
     [SerializeField] private TrackWhellRow leftWheelRow;
     [SerializeField] private TrackWhellRow rightWheelRow;
 
     [Header("Movement")]
+    [SerializeField] private ParameterCurve forwardTorqueCurve;
     [SerializeField] private float maxForwardTorque;
     [SerializeField] private float maxBackwardMotorTorque;
+    [SerializeField] private ParameterCurve backwardTorqueCurve;
     [SerializeField] private float breakTorque;
     [SerializeField] private float rollingResistance;
 
@@ -80,7 +85,7 @@ public class TrackTank : Vehicle
     [Header("Rotation")]
     [SerializeField] private float rotateTorqueInPlase;
     [SerializeField] private float rotateBreakInPlase;
-    [Space(2)]
+    [Space(10)]
     [SerializeField] private float rotateTorqueInMotion;
     [SerializeField] private float rotateBreakInMotion;
 
@@ -89,10 +94,12 @@ public class TrackTank : Vehicle
     [SerializeField] private float minSidewayStiffnessInMotion;
 
     private Rigidbody rigidBody;
+    [SerializeField] private float currentMotorTorque;
 
     private void Start()
     {
         rigidBody = GetComponent<Rigidbody>();
+        rigidBody.centerOfMass = centerOfMass.localPosition;
     }
 
     private void FixedUpdate()
@@ -100,6 +107,25 @@ public class TrackTank : Vehicle
         float targetMotorTorque = targetInputControl.z > 0 ? maxForwardTorque * Mathf.RoundToInt(targetInputControl.z) : maxBackwardMotorTorque * Mathf.RoundToInt(targetInputControl.z); // тернарный оператор
         float breakTorque = this.breakTorque * targetInputControl.y;
         float steering = targetInputControl.x;
+
+
+        // Update target motor torque
+        if (targetMotorTorque > 0)
+        {
+            currentMotorTorque = forwardTorqueCurve.MoveTowards(Time.fixedDeltaTime) * targetMotorTorque; 
+        }
+        if (targetMotorTorque < 0)
+        {
+            currentMotorTorque = backwardTorqueCurve.MoveTowards(Time.fixedDeltaTime) * targetMotorTorque; 
+        }
+
+        if (targetMotorTorque == 0)
+        {
+            currentMotorTorque = backwardTorqueCurve.Reset();
+            currentMotorTorque = forwardTorqueCurve.Reset();
+        }
+
+
 
         // Break
         leftWheelRow.Break(breakTorque);
@@ -118,15 +144,23 @@ public class TrackTank : Vehicle
         // Rotate in palce
         if (targetMotorTorque == 0 && steering != 0)
         {
-            if (steering < 0)
+            if (LinerVelocity < 0.5)
             {
-                leftWheelRow.Break(rotateBreakInPlase);
                 rightWheelRow.SetTorque(rotateTorqueInPlase);
-            }  
-            if (steering > 0)
-            {
                 leftWheelRow.SetTorque(rotateTorqueInPlase);
-                rightWheelRow.SetTorque(rotateBreakInPlase);
+            }
+            else
+            {
+                if (steering < 0)
+                {
+                    leftWheelRow.Break(rotateBreakInPlase);
+                    rightWheelRow.SetTorque(rotateTorqueInPlase);
+                }
+                if (steering > 0)
+                {
+                    leftWheelRow.SetTorque(rotateTorqueInPlase);
+                    rightWheelRow.Break(rotateBreakInPlase);
+                }
             }
 
             leftWheelRow.SetSidewayStiffness(1.0f + minSidewayStiffnessInPlace - Mathf.Abs(steering));
@@ -145,6 +179,28 @@ public class TrackTank : Vehicle
                     rightWheelRow.SetTorque(targetMotorTorque);
                 }
             }
+
+            if (LinerVelocity < 0.5)
+            {
+                rightWheelRow.SetTorque(rotateTorqueInMotion);
+                leftWheelRow.SetTorque(rotateTorqueInMotion);
+            }
+            else
+            {
+                if (steering < 0)
+                {
+                    leftWheelRow.Break(rotateBreakInMotion);
+                    rightWheelRow.SetTorque(rotateTorqueInMotion);
+                }
+                if (steering > 0)
+                {
+                    leftWheelRow.SetTorque(rotateTorqueInMotion);
+                    rightWheelRow.Break(rotateBreakInMotion);
+                }
+            }
+
+            leftWheelRow.SetSidewayStiffness(1.0f + minSidewayStiffnessInMotion - Mathf.Abs(steering));
+            rightWheelRow.SetSidewayStiffness(1.0f + minSidewayStiffnessInMotion - Mathf.Abs(steering));
         }
 
         leftWheelRow.UpdateMeshTransform();
