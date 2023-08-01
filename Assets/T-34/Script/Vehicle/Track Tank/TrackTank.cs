@@ -98,8 +98,8 @@ public class TrackTank : Vehicle
     private void FixedUpdate()
     {
         float targetMotorTorque = targetInputControl.z > 0 ? maxForwardTorque * Mathf.RoundToInt(targetInputControl.z) : maxBackwardMotorTorque * Mathf.RoundToInt(targetInputControl.z); // тернарный оператор
-        float breakTorque  = this.breakTorque * targetInputControl.y;
-        float steering    = targetInputControl.x;
+        float breakTorque = this.breakTorque * targetInputControl.y;
+        float steering = targetInputControl.x;
 
         // Break
         leftWheelRow.Break(breakTorque);
