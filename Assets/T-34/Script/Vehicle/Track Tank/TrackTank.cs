@@ -34,6 +34,20 @@ public class TrackWhellRow
         }
     }
 
+
+    public void SetSidewayStiffness(float stiffness)
+    {
+        WheelFrictionCurve wheelFrictionCurve = new WheelFrictionCurve();
+
+        for (int i = 0; i < colliders.Length; i++)
+        {
+            wheelFrictionCurve = colliders[i].sidewaysFriction;
+            wheelFrictionCurve.stiffness = stiffness;
+
+            colliders[i].sidewaysFriction = wheelFrictionCurve;
+        }
+    }
+
     public void UpdateMeshTransform()
     {
         for (int i = 0; i < meshs.Length; i++)
@@ -61,6 +75,18 @@ public class TrackTank : Vehicle
     [SerializeField] private float maxBackwardMotorTorque;
     [SerializeField] private float breakTorque;
     [SerializeField] private float rollingResistance;
+
+
+    [Header("Rotation")]
+    [SerializeField] private float rotateTorqueInPlase;
+    [SerializeField] private float rotateBreakInPlase;
+    [Space(2)]
+    [SerializeField] private float rotateTorqueInMotion;
+    [SerializeField] private float rotateBreakInMotion;
+
+    [Header("Friction")]
+    [SerializeField] private float minSidewayStiffnessInPlace;
+    [SerializeField] private float minSidewayStiffnessInMotion;
 
     private Rigidbody rigidBody;
 
@@ -90,6 +116,23 @@ public class TrackTank : Vehicle
             rightWheelRow.Reset();
         }
         // Rotate in palce
+        if (targetMotorTorque == 0 && steering != 0)
+        {
+            if (steering < 0)
+            {
+                leftWheelRow.Break(rotateBreakInPlase);
+                rightWheelRow.SetTorque(rotateTorqueInPlase);
+            }  
+            if (steering > 0)
+            {
+                leftWheelRow.SetTorque(rotateTorqueInPlase);
+                rightWheelRow.SetTorque(rotateBreakInPlase);
+            }
+
+            leftWheelRow.SetSidewayStiffness(1.0f + minSidewayStiffnessInPlace - Mathf.Abs(steering));
+            rightWheelRow.SetSidewayStiffness(1.0f + minSidewayStiffnessInPlace - Mathf.Abs(steering));
+        }
+
 
         // Move
         if (targetMotorTorque != 0)
