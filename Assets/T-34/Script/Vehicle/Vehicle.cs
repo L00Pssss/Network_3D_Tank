@@ -9,6 +9,11 @@ public class Vehicle : MonoBehaviour
 
     [SerializeField] private float enginePitchModifier;
 
+
+    [Header("Vehicle")]
+    [SerializeField] private Transform zoomOpticPosition;
+    public Transform ZoomOpticsPosition => zoomOpticPosition;
+
     public virtual float LinerVelocity => 0;
 
     public float NormalizedLinearVelocity

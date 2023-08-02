@@ -23,20 +23,34 @@ public class VehicleCamera : MonoBehaviour
     [SerializeField] private float distanceOffsetFromCollisionHit;
     [SerializeField] private float distanceLerpRate;
 
-    private new Camera camera;
+    [Header("Zoom Optics")]
+    [SerializeField] private GameObject zoomMaskEffect;
+    [SerializeField] private float zoomedFov;
+    [SerializeField] private float zoomedMaxVerticalAngle;
 
+    private new Camera camera;
+    private LayerController layerController;
 
     private Vector2 rotationContorol;
 
     private float deltaRotationX;
     private float deltaRotationY;
-
+    private float defaultFov;
     private float currentDistance;
+    private float defaultMaxVeritcalAngel;
+    private float lastDistance;
+
+    private bool isZoom;
+    
 
 
     private void Start()
     {
         camera = GetComponent<Camera>();
+        defaultFov = camera.fieldOfView;
+        defaultMaxVeritcalAngel = maxVericalAngel;
+
+        layerController = GetComponent<LayerController>();
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -48,6 +62,7 @@ public class VehicleCamera : MonoBehaviour
         UpdateControl();
 
         distance = Mathf.Clamp(distance, minDistance, maxDistance);
+        isZoom = distance <= minDistance;
 
         deltaRotationX += rotationContorol.x * rotateSensetive;
         deltaRotationY += rotationContorol.y * -rotateSensetive;
@@ -85,12 +100,45 @@ public class VehicleCamera : MonoBehaviour
         transform.rotation = finalRotatoin;
         transform.position = finalPositon;
         transform.position = AddLocalOffset(transform.position);
+
+        //Zoom
+
+        zoomMaskEffect.SetActive(isZoom);
+        if (isZoom == true)
+        {
+            layerController.SetLayerState(false);
+            transform.position = vehicle.ZoomOpticsPosition.position;
+            camera.fieldOfView = zoomedFov;
+            maxVericalAngel = zoomedMaxVerticalAngle;
+        }
+        else
+        {
+            layerController.SetLayerState(true);
+            camera.fieldOfView = defaultFov;
+            maxVericalAngel = defaultMaxVeritcalAngel;
+        }
     }
 
     private void UpdateControl()
     {
         rotationContorol = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
         distance += -Input.mouseScrollDelta.y * scrollSensetive;
+
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            isZoom = !isZoom; // перекулючение. 
+
+            if (isZoom == true)
+            {
+                lastDistance = distance;
+                distance = minDistance;
+            }
+            else
+            {
+                distance = lastDistance;
+                currentDistance = lastDistance;
+            }
+        }
     }
     private Vector3 AddLocalOffset(Vector3 position)
     {
