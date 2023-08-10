@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 [System.Serializable]
 public class TrackWhellRow
@@ -7,6 +9,7 @@ public class TrackWhellRow
 
     [SerializeField] private Transform[] meshs;
 
+    public float minRpm;
     public void SetTorque(float motorTorque)
     {
         for (int i = 0; i < colliders.Length; i++)
@@ -50,6 +53,35 @@ public class TrackWhellRow
 
     public void UpdateMeshTransform()
     {
+        //Find min rpm
+
+        List<float> allRpm = new List<float>();
+
+        for (int i = 0; i < colliders.Length; i++)
+        {
+            if (colliders[i].isGrounded == true)
+            {
+                allRpm.Add(colliders[i].rpm);
+            }
+        }
+
+        if (allRpm.Count > 0)
+        {
+            minRpm = Mathf.Abs(allRpm[0]);
+
+            for (int i = 0; i < allRpm.Count; i++)
+            {
+                if (Mathf.Abs(allRpm[i]) < minRpm)
+                {
+                    minRpm = Mathf.Abs(allRpm[i]);
+                }
+            }
+
+            minRpm = minRpm * Mathf.Sign(allRpm[0]);
+        }
+
+        float angel = minRpm * 360.0f / 60.0f * Time.fixedDeltaTime;
+
         for (int i = 0; i < meshs.Length; i++)
         {
             Vector3 position;
@@ -58,10 +90,11 @@ public class TrackWhellRow
             colliders[i].GetWorldPose(out position, out rotation);
 
             meshs[i].position = position;
-            meshs[i].rotation = rotation;
+            meshs[i].Rotate(angel, 0, 0);
         }
     }
 }
+
 [RequireComponent(typeof(Rigidbody))]
 public class TrackTank : Vehicle
 {
@@ -96,6 +129,9 @@ public class TrackTank : Vehicle
     private Rigidbody rigidBody;
     [SerializeField] private float currentMotorTorque;
 
+    public float LeftWheelRmp => leftWheelRow.minRpm;
+    public float RighttWheelRmp => rightWheelRow.minRpm;
+
     private void Start()
     {
         rigidBody = GetComponent<Rigidbody>();
@@ -112,11 +148,11 @@ public class TrackTank : Vehicle
         // Update target motor torque
         if (targetMotorTorque > 0)
         {
-            currentMotorTorque = forwardTorqueCurve.MoveTowards(Time.fixedDeltaTime) * targetMotorTorque; 
+            currentMotorTorque = forwardTorqueCurve.MoveTowards(Time.fixedDeltaTime) * targetMotorTorque;
         }
         if (targetMotorTorque < 0)
         {
-            currentMotorTorque = backwardTorqueCurve.MoveTowards(Time.fixedDeltaTime) * targetMotorTorque; 
+            currentMotorTorque = backwardTorqueCurve.MoveTowards(Time.fixedDeltaTime) * targetMotorTorque;
         }
 
         if (targetMotorTorque == 0)
@@ -144,7 +180,7 @@ public class TrackTank : Vehicle
         // Rotate in palce
         if (targetMotorTorque == 0 && steering != 0)
         {
-            if (LinerVelocity < 0.5)
+            if (steering != 0 && (Mathf.Abs(leftWheelRow.minRpm) < 1 || Mathf.Abs(rightWheelRow.minRpm) < 1))
             {
                 rightWheelRow.SetTorque(rotateTorqueInPlase);
                 leftWheelRow.SetTorque(rotateTorqueInPlase);
@@ -169,18 +205,19 @@ public class TrackTank : Vehicle
 
 
         // Move
+        // Move
         if (targetMotorTorque != 0)
         {
             if (steering == 0)
             {
                 if (LinerVelocity < maxLinerVelocity)
                 {
-                    leftWheelRow.SetTorque(targetMotorTorque);
-                    rightWheelRow.SetTorque(targetMotorTorque);
+                    leftWheelRow.SetTorque(currentMotorTorque);
+                    rightWheelRow.SetTorque(currentMotorTorque);
                 }
             }
 
-            if (LinerVelocity < 0.5)
+            if (steering != 0 && (Mathf.Abs(leftWheelRow.minRpm) < 1 || Mathf.Abs(rightWheelRow.minRpm) < 1))
             {
                 rightWheelRow.SetTorque(rotateTorqueInMotion);
                 leftWheelRow.SetTorque(rotateTorqueInMotion);
@@ -197,6 +234,48 @@ public class TrackTank : Vehicle
                     leftWheelRow.SetTorque(rotateTorqueInMotion);
                     rightWheelRow.Break(rotateBreakInMotion);
                 }
+
+                // ƒобавл€ем логику дл€ поворота при движении назад
+                if (targetMotorTorque < 0 && (steering < 0 || steering > 0))
+                {
+                    if (Mathf.Abs(leftWheelRow.minRpm) < 1 || Mathf.Abs(rightWheelRow.minRpm) < 1)
+                    {
+                        // ¬ этом случае, разрешаем поворот только влево или вправо при вращении назад
+                        if (steering < 0)
+                        {
+                            leftWheelRow.SetTorque(-rotateTorqueInPlase);
+                            rightWheelRow.SetTorque(rotateTorqueInPlase);
+                        }
+                        else if (steering > 0)
+                        {
+                            leftWheelRow.SetTorque(rotateTorqueInPlase);
+                            rightWheelRow.SetTorque(-rotateTorqueInPlase);
+                        }
+                    }
+                }
+
+                // ƒополнительна€ логика дл€ обработки смены направлени€ движени€
+                if (targetMotorTorque < 0)
+                {
+                    if (steering == 0)
+                    {
+                        // ѕомен€йте местами leftWheelRow и rightWheelRow
+                        rightWheelRow.SetTorque(currentMotorTorque);
+                        leftWheelRow.SetTorque(currentMotorTorque);
+                    }
+                    else if (steering < 0)
+                    {
+                        // ѕомен€йте местами leftWheelRow и rightWheelRow
+                        rightWheelRow.SetTorque(currentMotorTorque);
+                        leftWheelRow.SetTorque(currentMotorTorque * 0.5f);
+                    }
+                    else if (steering > 0)
+                    {
+                        // ѕомен€йте местами leftWheelRow и rightWheelRow
+                        rightWheelRow.SetTorque(currentMotorTorque * 0.5f);
+                        leftWheelRow.SetTorque(currentMotorTorque);
+                    }
+                }
             }
 
             leftWheelRow.SetSidewayStiffness(1.0f + minSidewayStiffnessInMotion - Mathf.Abs(steering));
@@ -206,6 +285,4 @@ public class TrackTank : Vehicle
         leftWheelRow.UpdateMeshTransform();
         rightWheelRow.UpdateMeshTransform();
     }
-
-
 }
