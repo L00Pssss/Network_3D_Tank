@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Player : NetworkBehaviour
 {
+    private static int TeamIdCounter;
     public static Player Local
     {
         get
@@ -28,6 +29,10 @@ public class Player : NetworkBehaviour
     [SyncVar(hook = nameof(OnNicknameChanged))]
     public string Nickname;
 
+
+    [SyncVar]
+    [SerializeField] private int teamId;
+    public int TeamId => teamId;
     private void OnNicknameChanged(string old, string newVal)
     {
         gameObject.name = "Player_" + newVal; // on Client
@@ -38,6 +43,20 @@ public class Player : NetworkBehaviour
     {
         Nickname = name;
         gameObject.name = "Player_" + name;
+    }
+
+    [Command]
+    public void CmdSetTeamId(int teamId)
+    {
+        this.teamId = teamId;
+    }
+
+    public override void OnStartServer()
+    {
+        base.OnStartServer();
+
+        teamId = TeamIdCounter % 2;
+        TeamIdCounter++;
     }
 
     public override void OnStartClient()
@@ -98,6 +117,8 @@ public class Player : NetworkBehaviour
             Debug.Log("Not Exist Prefabs");
         }
         GameObject playerVehicle = Instantiate(vehicle, transform.position, Quaternion.identity);
+
+        playerVehicle.transform.position = teamId % 2 == 0 ? NetworkSessionManager.Instance.RandomSpawnPointRed : NetworkSessionManager.Instance.RandomSpawnZonesBlue;
 
         NetworkServer.Spawn(playerVehicle, netIdentity.connectionToClient);
 
