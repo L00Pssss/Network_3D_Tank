@@ -1,12 +1,30 @@
 ﻿using UnityEngine;
 
+[RequireComponent (typeof(Player))]
 public class VehicleInput : MonoBehaviour
 {
-    [SerializeField] private Vehicle m_Vehicle;
+    private Player player;
+
+    private void Awake()
+    {
+        player = GetComponent<Player>();
+
+        if (player == null)
+        {
+            Debug.Log("NOL");
+        }
+    }
 
     protected virtual void Update()
     {
-        m_Vehicle.SetTargetControl(new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Jump"), Input.GetAxis("Vertical")));
+        if (player == null) return;
+
+        if(player.ActiveVechicle == null) return;
+
+        if (player.isOwned && player.isLocalPlayer)
+        {
+            player.ActiveVechicle.SetTargetControl(new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Jump"), Input.GetAxis("Vertical")));
+        }
     }
 
 }

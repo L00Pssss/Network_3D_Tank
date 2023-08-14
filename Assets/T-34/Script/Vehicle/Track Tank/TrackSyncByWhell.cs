@@ -17,7 +17,6 @@ public class TrackSyncByWhell : MonoBehaviour
         for (int i = 0; i < SyncPoints.Length; i++)
         {
             SyncPoints[i].offset = SyncPoints[i].bone.localPosition - SyncPoints[i].mesh.localPosition;
-            Debug.Log(SyncPoints[i].offset);
         }
     }
 

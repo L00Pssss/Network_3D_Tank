@@ -3,6 +3,8 @@
 [RequireComponent (typeof(Camera))]
 public class VehicleCamera : MonoBehaviour
 {
+    public static VehicleCamera Instance;
+
     [SerializeField] private Vehicle vehicle;
     [SerializeField] private Vector3 offset;
 
@@ -41,7 +43,18 @@ public class VehicleCamera : MonoBehaviour
     private float lastDistance;
 
     private bool isZoom;
-    
+
+
+    private void Awake()
+    {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+    }
 
 
     private void Start()
@@ -51,14 +64,11 @@ public class VehicleCamera : MonoBehaviour
         defaultMaxVeritcalAngel = maxVericalAngel;
 
         layerController = GetComponent<LayerController>();
-
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void Update()
     {
-
+        if (vehicle == null) return;
         UpdateControl();
 
         distance = Mathf.Clamp(distance, minDistance, maxDistance);
