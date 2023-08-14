@@ -51,10 +51,21 @@ namespace Mirror
             GUILayout.EndArea();
         }
 
+        [SerializeField] private string playerNickname;
+        public string PlayerNickname => playerNickname;
         void StartButtons()
         {
             if (!NetworkClient.active)
             {
+                GUILayout.BeginHorizontal();
+
+
+                GUILayout.Label("Nickname:");
+
+                playerNickname = GUILayout.TextField(playerNickname);
+
+                GUILayout.EndHorizontal();
+
                 // Server + Client
                 if (Application.platform != RuntimePlatform.WebGLPlayer)
                 {

@@ -24,6 +24,31 @@ public class Player : NetworkBehaviour
 
     public Vehicle ActiveVechicle {get;set;}
 
+    [Header("Player")]
+    [SyncVar(hook = nameof(OnNicknameChanged))]
+    public string Nickname;
+
+    private void OnNicknameChanged(string old, string newVal)
+    {
+        gameObject.name = "Player_" + newVal; // on Client
+    }
+
+    [Command] // on Server
+    public void CmdSetName(string name)
+    {
+        Nickname = name;
+        gameObject.name = "Player_" + name;
+    }
+
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+
+        if (isOwned == true)
+        {
+            CmdSetName(NetworkSessionManager.Instance.GetComponent<NetworkManagerHUD>().PlayerNickname);
+        }
+    }
 
     private void Update()
     {
