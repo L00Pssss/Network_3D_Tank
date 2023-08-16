@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Mirror;
+using UnityEngine;
 
 public class Vehicle : Destructible
 {
@@ -24,6 +25,28 @@ public class Vehicle : Destructible
 
             return Mathf.Clamp01(LinerVelocity / maxLinerVelocity);
         }
+    }
+
+    public Turret Turret;
+
+    [SyncVar]
+    private Vector3 netAimPoint;
+
+    public Vector3 NetAimPoint
+    {
+        get => netAimPoint;
+
+        set
+        {
+            netAimPoint = value;  // Client;
+            CmdSetNetAimPoint(value); // Server;
+        }
+    }
+
+    [Command]
+    private void CmdSetNetAimPoint(Vector3 vector)
+    {
+        netAimPoint = vector;
     }
 
     protected Vector3 targetInputControl;

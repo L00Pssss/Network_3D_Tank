@@ -13,7 +13,6 @@ public class Player : NetworkBehaviour
             if(x != null)
                 return x.GetComponent<Player>();
 
-            Debug.Log("Not Exist Prefabs");
             return null;
         }
     }
@@ -118,7 +117,7 @@ public class Player : NetworkBehaviour
         }
         GameObject playerVehicle = Instantiate(vehicle, transform.position, Quaternion.identity);
 
-        playerVehicle.transform.position = teamId % 2 == 0 ? NetworkSessionManager.Instance.RandomSpawnPointRed : NetworkSessionManager.Instance.RandomSpawnZonesBlue;
+        playerVehicle.transform.position = teamId % 2 == 0 ? NetworkSessionManager.Instance.RandomSpawnPointGreen : NetworkSessionManager.Instance.RandomSpawnZonesBlue;
 
         NetworkServer.Spawn(playerVehicle, netIdentity.connectionToClient);
 
