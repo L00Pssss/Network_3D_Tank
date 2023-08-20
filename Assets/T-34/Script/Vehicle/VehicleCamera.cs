@@ -63,7 +63,6 @@ public class VehicleCamera : MonoBehaviour
         defaultFov = camera.fieldOfView;
         defaultMaxVeritcalAngel = maxVericalAngel;
     }
-
     private void Update()
     {
         if (vehicle == null) return;
@@ -83,6 +82,8 @@ public class VehicleCamera : MonoBehaviour
         finalPositon = AddLocalOffset(finalPositon);
 
         float targetDistance = distance;
+
+        targetDistance = Mathf.Clamp(targetDistance, minDistance, maxDistance); // Ограничиваем целевое расстояние
 
         RaycastHit hit;
 

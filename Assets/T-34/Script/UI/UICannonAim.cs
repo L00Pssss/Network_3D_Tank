@@ -1,5 +1,6 @@
 using UnityEngine.UI;
 using UnityEngine;
+using TMPro;
 
 public class UICannonAim : MonoBehaviour
 {
@@ -8,6 +9,9 @@ public class UICannonAim : MonoBehaviour
     [SerializeField] private Image reloadSlider;
 
     private Vector3 aimPosition;
+    private Vector3 targetPosition; // Целевая позиция для сглаживания
+
+    [SerializeField] private float smoothSpeed = 5f; // Скорость сглаживания
 
     private void Update()
     {
@@ -26,6 +30,8 @@ public class UICannonAim : MonoBehaviour
         if (result.z > 0)
         {
             result.z = 0;
+
+            Vector3 smoothedPosition = Vector3.Lerp(aim.transform.position, targetPosition, smoothSpeed * Time.deltaTime);
 
             aim.transform.position = result;
         }
