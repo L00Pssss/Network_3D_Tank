@@ -32,6 +32,10 @@ public class Vehicle : Destructible
     [SyncVar]
     private Vector3 netAimPoint;
 
+    public void Fire()
+    {
+        Turret.Fire();
+    }
     public Vector3 NetAimPoint
     {
         get => netAimPoint;
@@ -69,4 +73,26 @@ public class Vehicle : Destructible
             engineSound.volume = 0.5f + NormalizedLinearVelocity;
         }
     }
+
+    public void SetVisibil(bool visible)
+    {
+        if (visible == true)
+        {
+            SetLayerToAll("Default");
+        }
+        else
+        {
+            SetLayerToAll("Tank_T-43");
+        }
+    }
+
+    public void SetLayerToAll(string layerName)
+    {
+        gameObject.layer = LayerMask.NameToLayer(layerName);
+
+        foreach (Transform t in transform.GetComponentsInChildren<Transform>())
+        {
+            t.gameObject.layer = LayerMask.NameToLayer(layerName);
+        }
+    }   
 }

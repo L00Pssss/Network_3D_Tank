@@ -1,3 +1,4 @@
+using Mirror;
 using UnityEngine;
 
 public class LayerController : MonoBehaviour
@@ -5,7 +6,12 @@ public class LayerController : MonoBehaviour
     [SerializeField] private Camera targetCamera;
     [SerializeField] private string layerNameToToggle;
 
-    public string LayerName => layerNameToToggle;
+
+    
+
+
+
+    // public string LayerName => layerNameToToggle;
 
 
 

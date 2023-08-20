@@ -5,6 +5,8 @@ public class UICannonAim : MonoBehaviour
 {
     [SerializeField] private Image aim;
 
+    [SerializeField] private Image reloadSlider;
+
     private Vector3 aimPosition;
 
     private void Update()
@@ -14,6 +16,8 @@ public class UICannonAim : MonoBehaviour
         if(Player.Local.ActiveVechicle == null) return;
 
         Vehicle v = Player.Local.ActiveVechicle;
+
+        reloadSlider.fillAmount = v.Turret.FireTimerNormalize;
 
         aimPosition = VehicleInput.TraceAimPointWithoutPlayerVehicle(v.Turret.LaunchPoint.position, v.Turret.LaunchPoint.forward);
 

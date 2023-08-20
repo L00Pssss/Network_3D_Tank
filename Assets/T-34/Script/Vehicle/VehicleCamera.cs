@@ -31,7 +31,6 @@ public class VehicleCamera : MonoBehaviour
     [SerializeField] private float zoomedMaxVerticalAngle;
 
     private new Camera camera;
-    private LayerController layerController;
 
     private Vector2 rotationContorol;
 
@@ -43,6 +42,7 @@ public class VehicleCamera : MonoBehaviour
     private float lastDistance;
 
     private bool isZoom;
+    public bool IsZoom => isZoom;
 
 
     private void Awake()
@@ -62,8 +62,6 @@ public class VehicleCamera : MonoBehaviour
         camera = GetComponent<Camera>();
         defaultFov = camera.fieldOfView;
         defaultMaxVeritcalAngel = maxVericalAngel;
-
-        layerController = GetComponent<LayerController>();
     }
 
     private void Update()
@@ -116,14 +114,12 @@ public class VehicleCamera : MonoBehaviour
         zoomMaskEffect.SetActive(isZoom);
         if (isZoom == true)
         {
-            layerController.SetLayerState(false);
             transform.position = vehicle.ZoomOpticsPosition.position;
             camera.fieldOfView = zoomedFov;
             maxVericalAngel = zoomedMaxVerticalAngle;
         }
         else
         {
-            layerController.SetLayerState(true);
             camera.fieldOfView = defaultFov;
             maxVericalAngel = defaultMaxVeritcalAngel;
         }

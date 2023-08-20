@@ -1,4 +1,5 @@
 using Mirror;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : NetworkBehaviour
@@ -70,6 +71,14 @@ public class Player : NetworkBehaviour
 
     private void Update()
     {
+        if (isLocalPlayer == true)
+        {
+            if (ActiveVechicle != null)
+            {
+                ActiveVechicle.SetVisibil(!VehicleCamera.Instance.IsZoom);
+            }
+        }
+
         if (isServer == true)
         {
             if (Input.GetKeyDown(KeyCode.F9))
