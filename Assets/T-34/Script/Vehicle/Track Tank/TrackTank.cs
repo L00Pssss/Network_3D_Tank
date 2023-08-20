@@ -121,6 +121,8 @@ public class TrackTank : Vehicle
     [Header("Tracks")]
     [SerializeField] private TrackWhellRow leftWheelRow;
     [SerializeField] private TrackWhellRow rightWheelRow;
+    [SerializeField] protected GameObject destoredPrefab;
+    [SerializeField] private GameObject visualModel;
 
     [Header("Movement")]
     [SerializeField] private ParameterCurve forwardTorqueCurve;
@@ -162,6 +164,15 @@ public class TrackTank : Vehicle
 
             CmdUpdateWheelRpm(LeftWheelRmp, RighttWheelRmp);
         }
+    }
+
+    protected override void OnDestructibleDestroy()
+    {
+        base.OnDestructibleDestroy();
+
+        GameObject ruinedVisualModel = Instantiate(destoredPrefab);
+        ruinedVisualModel.transform.position = visualModel.transform.position;
+        ruinedVisualModel.transform.rotation = visualModel.transform.rotation;
     }
 
     [Command]
