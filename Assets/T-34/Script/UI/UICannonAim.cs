@@ -13,6 +13,9 @@ public class UICannonAim : MonoBehaviour
 
     private Turret turret;
 
+    private Vehicle vehicle;
+
+
     [SerializeField] private float smoothSpeed = 5f; // Скорость сглаживания
 
 
@@ -21,19 +24,28 @@ public class UICannonAim : MonoBehaviour
     {
         NetworkSessionManager.Events.PlayerVehicleSpawned += UpdateUI;
     }
-    private void OnDestroy()
+    private void UnsubscribeEvents()
     {
         if (NetworkSessionManager.Instance != null && NetworkSessionManager.Events != null)
+        {
             NetworkSessionManager.Events.PlayerVehicleSpawned -= UpdateUI;
+        }
+
         if (turret != null)
+        {
             turret.Timer -= OnReloadAim;
+        }
 
-
+        if (vehicle != null)
+        {
+            vehicle.NetAimPointEvent -= OnChangePosition;
+        }
     }
 
     private void UpdateUI(Vehicle vehicle)
     {
-           turret = vehicle.Turret;
+            turret = vehicle.Turret;
+            this.vehicle = vehicle;
             UpdateReloadSlider(turret);
             UpdateAimPosition(vehicle);
     }
@@ -46,10 +58,20 @@ public class UICannonAim : MonoBehaviour
 
 
     // есть ли смысл использовать таким образом или оставить его в update ?
-    private void UpdateAimPosition(Vehicle newAimPosition)
+    private void UpdateAimPosition(Vehicle vehicle)
     {
+        vehicle.NetAimPointEvent += OnChangePosition;
+    }
 
-        aimPosition = VehicleInput.TraceAimPointWithoutPlayerVehicle(newAimPosition.Turret.LaunchPoint.position, newAimPosition.Turret.LaunchPoint.forward);
+    private void OnReloadAim(float turret)
+    {
+        reloadSlider.fillAmount = turret;
+    }
+
+    // есть ли смысл в этом коде ?
+    private void OnChangePosition()
+    {
+        aimPosition = VehicleInput.TraceAimPointWithoutPlayerVehicle(vehicle.Turret.LaunchPoint.position, vehicle.Turret.LaunchPoint.forward);
 
         Vector3 result = Camera.main.WorldToScreenPoint(aimPosition);
 
@@ -61,17 +83,6 @@ public class UICannonAim : MonoBehaviour
 
             aim.transform.position = smoothedPosition;
         }
-    }
-
-    private void OnReloadAim(float turret)
-    {
-        reloadSlider.fillAmount = turret;
-    }
-
-    // есть ли смысл в этом коде ?
-    private void OnChangePositon()
-    {
-
     }
 
 

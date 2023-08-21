@@ -3010,6 +3010,7 @@ MonoBehaviour:
   enginePitchModifier: 1
   zoomOpticPosition: {fileID: 624368917376478354}
   Turret: {fileID: 3859343835399678060}
+  vehicleInput: {fileID: 0}
   centerOfMass: {fileID: 624368916425883448}
   leftWheelRow:
     colliders:

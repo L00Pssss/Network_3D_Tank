@@ -30,7 +30,6 @@ public class VehicleInput : MonoBehaviour
         {
             player.ActiveVechicle.SetTargetControl(new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Jump"), Input.GetAxis("Vertical")));
             player.ActiveVechicle.NetAimPoint = TraceAimPointWithoutPlayerVehicle(VehicleCamera.Instance.transform.position, VehicleCamera.Instance.transform.forward);
-
             if (Input.GetMouseButton(0) == true)
             {
                 player.ActiveVechicle.Fire();

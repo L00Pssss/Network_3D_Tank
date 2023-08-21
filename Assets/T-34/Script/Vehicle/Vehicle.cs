@@ -1,8 +1,11 @@
 ﻿using Mirror;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Vehicle : Destructible
 {
+    public UnityAction NetAimPointEvent;
+
     [SerializeField] protected float maxLinerVelocity;
 
     [Header("Engine Sound")]
@@ -44,6 +47,7 @@ public class Vehicle : Destructible
         {
             netAimPoint = value;  // Client;
             CmdSetNetAimPoint(value); // Server;
+            NetAimPointEvent?.Invoke();
         }
     }
 
