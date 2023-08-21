@@ -1,10 +1,12 @@
 using Mirror;
-using Unity.VisualScripting;
+using UnityEngine.Events;
 using UnityEngine;
 
 public class Player : NetworkBehaviour
 {
     private static int TeamIdCounter;
+
+    public UnityAction<Vehicle> VehicleSpawned;
     public static Player Local
     {
         get
@@ -147,6 +149,8 @@ public class Player : NetworkBehaviour
         {
             VehicleCamera.Instance.SetTarget(ActiveVechicle); // передаем камеру. 
         }
+
+        VehicleSpawned?.Invoke(ActiveVechicle);
     }
 
 

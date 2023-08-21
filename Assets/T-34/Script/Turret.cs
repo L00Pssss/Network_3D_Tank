@@ -13,6 +13,8 @@ public class Turret : NetworkBehaviour
     public Projectile Projectile => projectile;
 
     private float fireTimer;
+
+    public float FireTimer => fireTimer;
     public float FireTimerNormalize => fireTimer / fireRate;
 
     [SyncVar]
@@ -21,6 +23,7 @@ public class Turret : NetworkBehaviour
 
 
     public UnityAction<int> AmmoChanged;
+    public UnityAction<float> Timer;
 
 
     [Server]
@@ -52,6 +55,7 @@ public class Turret : NetworkBehaviour
     protected void RpcAmmoChanged()
     {
         AmmoChanged?.Invoke(ammoCount);
+        Timer?.Invoke(FireTimerNormalize);
     }
 
 
@@ -94,6 +98,7 @@ public class Turret : NetworkBehaviour
     {
         if (fireTimer > 0)
         {
+            Timer?.Invoke(FireTimerNormalize);
             fireTimer -= Time.deltaTime;
         }
     }

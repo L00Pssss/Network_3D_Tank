@@ -1,6 +1,5 @@
 using UnityEngine.UI;
 using UnityEngine;
-using TMPro;
 
 public class UICannonAim : MonoBehaviour
 {
@@ -9,21 +8,41 @@ public class UICannonAim : MonoBehaviour
     [SerializeField] private Image reloadSlider;
 
     private Vector3 aimPosition;
-    private Vector3 targetPosition; // ÷елева€ позици€ дл€ сглаживани€
+
+    private Vector3 smoothedPosition; 
 
     [SerializeField] private float smoothSpeed = 5f; // —корость сглаживани€
 
-    private void Update()
+
+
+    private void Start()
     {
-        if (Player.Local == null) return;
+        NetworkSessionManager.Events.PlayerVehicleSpawned += UpdateUI;
+    }
+    private void OnDestroy()
+    {
+        if (NetworkSessionManager.Instance != null && NetworkSessionManager.Events != null)
+            NetworkSessionManager.Events.PlayerVehicleSpawned -= UpdateUI;
+            
+    }
 
-        if(Player.Local.ActiveVechicle == null) return;
+    private void UpdateUI(Vehicle vehicle)
+    {
+            UpdateReloadSlider(vehicle.Turret);
+            UpdateAimPosition(vehicle);
+    }
+    // хот€ событие отрабатываетс€ в update не совсем понимаю правильно и рацианально ли эта релизаци€ 
+    private void UpdateReloadSlider(Turret turret)
+    {
+          turret.Timer += OnReloadAim;
+    }
 
-        Vehicle v = Player.Local.ActiveVechicle;
 
-        reloadSlider.fillAmount = v.Turret.FireTimerNormalize;
+    // есть ли смысл использовать таким образом или оставить его в update ?
+    private void UpdateAimPosition(Vehicle newAimPosition)
+    {
 
-        aimPosition = VehicleInput.TraceAimPointWithoutPlayerVehicle(v.Turret.LaunchPoint.position, v.Turret.LaunchPoint.forward);
+        aimPosition = VehicleInput.TraceAimPointWithoutPlayerVehicle(newAimPosition.Turret.LaunchPoint.position, newAimPosition.Turret.LaunchPoint.forward);
 
         Vector3 result = Camera.main.WorldToScreenPoint(aimPosition);
 
@@ -31,9 +50,47 @@ public class UICannonAim : MonoBehaviour
         {
             result.z = 0;
 
-            Vector3 smoothedPosition = Vector3.Lerp(aim.transform.position, targetPosition, smoothSpeed * Time.deltaTime);
+            smoothedPosition = Vector3.Lerp(smoothedPosition, result, smoothSpeed * Time.deltaTime);
 
-            aim.transform.position = result;
+            aim.transform.position = smoothedPosition;
         }
     }
+
+    private void OnReloadAim(float turret)
+    {
+        reloadSlider.fillAmount = turret;
+    }
+
+    // есть ли смысл в этом коде ?
+    private void OnChangePositon()
+    {
+
+    }
+
+
+    // —тарый код
+
+    //private void Update()
+    //{
+    //    if (Player.Local == null) return;
+
+    //    if (Player.Local.ActiveVechicle == null) return;
+
+    //    Vehicle v = Player.Local.ActiveVechicle;
+
+    //    reloadSlider.fillAmount = v.Turret.FireTimerNormalize;
+
+    //    aimPosition = VehicleInput.TraceAimPointWithoutPlayerVehicle(v.Turret.LaunchPoint.position, v.Turret.LaunchPoint.forward);
+
+    //    Vector3 result = Camera.main.WorldToScreenPoint(aimPosition);
+
+    //    if (result.z > 0)
+    //    {
+    //        result.z = 0;
+
+    //        smoothedPosition = Vector3.Lerp(smoothedPosition, result, smoothSpeed * Time.deltaTime);
+
+    //        aim.transform.position = smoothedPosition;
+    //    }
+    //}
 }

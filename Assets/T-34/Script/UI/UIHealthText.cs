@@ -5,12 +5,31 @@ public class UIHealthText : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI text;
 
-    private void Update()
+    private Destructible destructible;
+
+    private void Start()
     {
-        if(Player.Local == null) return;
+        NetworkSessionManager.Events.PlayerVehicleSpawned += OnPlayerVehicleSpawned;
+    }
 
-        if(Player.Local.ActiveVechicle == null) return;
+    private void OnDestroy()
+    {
+        if (NetworkSessionManager.Instance != null && NetworkSessionManager.Events != null)
+            NetworkSessionManager.Events.PlayerVehicleSpawned -= OnPlayerVehicleSpawned;
+        if (destructible != null)
+            destructible.HitPointChange -= OnHitPointChage;
+    }
 
-        text.text = Player.Local.ActiveVechicle.HitPoint.ToString();
+    private void OnPlayerVehicleSpawned(Vehicle vehicle)
+    {
+        destructible = vehicle;
+
+        destructible.HitPointChange += OnHitPointChage;
+        text.text = destructible.HitPoint.ToString();
+    }
+
+    private void OnHitPointChage(float hitPoint)
+    {
+        text.text = hitPoint.ToString();
     }
 }

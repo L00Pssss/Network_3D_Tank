@@ -5,12 +5,31 @@ public class UIAmmoText : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI text;
 
-    private void Update()
+    private Turret turret;
+
+    private void Start()
     {
-        if (Player.Local == null) return;
+        NetworkSessionManager.Events.PlayerVehicleSpawned += OnPlayerVehicleSpawned;
+    }
 
-        if (Player.Local.ActiveVechicle == null) return;
+    private void OnDestroy()
+    {
+        if (NetworkSessionManager.Instance != null && NetworkSessionManager.Events != null)
+            NetworkSessionManager.Events.PlayerVehicleSpawned -= OnPlayerVehicleSpawned;
+        if (turret != null)
+            turret.AmmoChanged -= OnAmmoChanded;
+    }
 
-        text.text = Player.Local.ActiveVechicle.Turret.AmmoCount.ToString();
+    private void OnPlayerVehicleSpawned(Vehicle vehicle)
+    {
+        turret = vehicle.Turret;
+
+        turret.AmmoChanged += OnAmmoChanded;
+        text.text = turret.AmmoCount.ToString();
+    }
+
+    private void OnAmmoChanded(int ammo)
+    {
+        text.text = ammo.ToString();
     }
 }

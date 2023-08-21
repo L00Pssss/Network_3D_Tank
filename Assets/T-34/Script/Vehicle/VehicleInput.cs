@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent (typeof(Player))]
 public class VehicleInput : MonoBehaviour
@@ -6,6 +7,8 @@ public class VehicleInput : MonoBehaviour
     public const float AimDistance = 1000;
 
     private Player player;
+
+    public UnityAction<Vector3> AimPositionChanged;
 
     private void Awake()
     {
