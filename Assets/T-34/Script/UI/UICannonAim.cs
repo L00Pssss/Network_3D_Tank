@@ -11,6 +11,8 @@ public class UICannonAim : MonoBehaviour
 
     private Vector3 smoothedPosition; 
 
+    private Turret turret;
+
     [SerializeField] private float smoothSpeed = 5f; // Скорость сглаживания
 
 
@@ -23,17 +25,22 @@ public class UICannonAim : MonoBehaviour
     {
         if (NetworkSessionManager.Instance != null && NetworkSessionManager.Events != null)
             NetworkSessionManager.Events.PlayerVehicleSpawned -= UpdateUI;
-            
+        if (turret != null)
+            turret.Timer -= OnReloadAim;
+
+
     }
 
     private void UpdateUI(Vehicle vehicle)
     {
-            UpdateReloadSlider(vehicle.Turret);
+           turret = vehicle.Turret;
+            UpdateReloadSlider(turret);
             UpdateAimPosition(vehicle);
     }
     // хотя событие отрабатывается в update не совсем понимаю правильно и рацианально ли эта релизация 
     private void UpdateReloadSlider(Turret turret)
     {
+
           turret.Timer += OnReloadAim;
     }
 
