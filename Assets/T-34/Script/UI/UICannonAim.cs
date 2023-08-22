@@ -83,31 +83,4 @@ public class UICannonAim : MonoBehaviour
             aim.transform.position = smoothedPosition;
         }
     }
-
-
-    // Старый код
-
-    //private void Update()
-    //{
-    //    if (Player.Local == null) return;
-
-    //    if (Player.Local.ActiveVechicle == null) return;
-
-    //    Vehicle v = Player.Local.ActiveVechicle;
-
-    //    reloadSlider.fillAmount = v.Turret.FireTimerNormalize;
-
-    //    aimPosition = VehicleInput.TraceAimPointWithoutPlayerVehicle(v.Turret.LaunchPoint.position, v.Turret.LaunchPoint.forward);
-
-    //    Vector3 result = Camera.main.WorldToScreenPoint(aimPosition);
-
-    //    if (result.z > 0)
-    //    {
-    //        result.z = 0;
-
-    //        smoothedPosition = Vector3.Lerp(smoothedPosition, result, smoothSpeed * Time.deltaTime);
-
-    //        aim.transform.position = smoothedPosition;
-    //    }
-    //}
 }
