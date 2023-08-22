@@ -19,11 +19,11 @@ public class UICannonAim : MonoBehaviour
     [SerializeField] private float smoothSpeed = 5f; // Скорость сглаживания
 
 
-
     private void Start()
     {
         NetworkSessionManager.Events.PlayerVehicleSpawned += UpdateUI;
     }
+
     private void UnsubscribeEvents()
     {
         if (NetworkSessionManager.Instance != null && NetworkSessionManager.Events != null)
@@ -44,20 +44,19 @@ public class UICannonAim : MonoBehaviour
 
     private void UpdateUI(Vehicle vehicle)
     {
+            UnsubscribeEvents();
             turret = vehicle.Turret;
             this.vehicle = vehicle;
             UpdateReloadSlider(turret);
             UpdateAimPosition(vehicle);
     }
-    // хотя событие отрабатывается в update не совсем понимаю правильно и рацианально ли эта релизация 
+
     private void UpdateReloadSlider(Turret turret)
     {
 
           turret.Timer += OnReloadAim;
     }
 
-
-    // есть ли смысл использовать таким образом или оставить его в update ?
     private void UpdateAimPosition(Vehicle vehicle)
     {
         vehicle.NetAimPointEvent += OnChangePosition;
