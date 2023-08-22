@@ -85,22 +85,7 @@ public class Player : NetworkBehaviour
         {
             if (Input.GetKeyDown(KeyCode.F9))
             {
-                foreach (var v in FindObjectsOfType<Player>())
-                {
-                    if (v.ActiveVechicle != null)
-                    {
-                        NetworkServer.UnSpawn(v.ActiveVechicle.gameObject);
-                        Destroy(v.ActiveVechicle.gameObject);
-
-
-                        v.ActiveVechicle = null;
-                    }
-                }
-
-                foreach (var v in FindObjectsOfType<Player>())
-                {
-                    v.SvSpwanClintVehicle();
-                }
+                NetworkSessionManager.Match.SvRestartMatch();
             }
         }
 

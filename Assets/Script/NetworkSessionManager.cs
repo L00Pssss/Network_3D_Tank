@@ -12,12 +12,15 @@ public class NetworkSessionManager : NetworkManager
 
     public static NetworkSessionManager Instance => singleton as NetworkSessionManager;
     public static GameEventCollector Events => Instance.gameEventCollector;
+    public static MatchController Match => Instance.matchController;
 
     public bool IsServer => (mode == NetworkManagerMode.Host || mode == NetworkManagerMode.ServerOnly);
     public bool IsClient => (mode == NetworkManagerMode.Host || mode == NetworkManagerMode.ClientOnly);
 
 
     [SerializeField] private GameEventCollector gameEventCollector;
+
+    [SerializeField] private MatchController matchController;
 
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
