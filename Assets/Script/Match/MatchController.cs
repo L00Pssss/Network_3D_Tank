@@ -4,7 +4,6 @@ using UnityEngine.Events;
 public interface IMatchCodition
 {
     bool IsTriggered { get; }
-
     void OnServerMatchStart(MatchController controller);
     void OnServerMatchEnd(MatchController controller);
 }
@@ -75,7 +74,7 @@ public class MatchController : NetworkBehaviour
             v.OnServerMatchStart(this);
         }
 
-        SvMatchEnd?.Invoke();
+        SvMatchStart?.Invoke();
 
         RpcMatchStart();
     }
@@ -89,6 +88,8 @@ public class MatchController : NetworkBehaviour
         }
 
         matchActive = false;
+
+        SvMatchEnd?.Invoke();
 
         RpcMatchEnd();
     }
