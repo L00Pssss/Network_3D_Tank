@@ -5,6 +5,8 @@ public class MatchTimer : NetworkBehaviour, IMatchCodition
 {
     [SerializeField] private float matchTime;
 
+    public float MatchTime => matchTime;
+
     [SyncVar]
     private float timeLeft;
     public float TimeLeft => timeLeft;
@@ -15,7 +17,7 @@ public class MatchTimer : NetworkBehaviour, IMatchCodition
 
     public void OnServerMatchStart(MatchController controller)
     {
-        Reset();
+        Reset();     
     }
 
     public void OnServerMatchEnd(MatchController controller)

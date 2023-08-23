@@ -6,12 +6,13 @@ public class Destructible : NetworkBehaviour
 {
     public UnityAction<float> HitPointChange;
 
-    public float MaxHitPoint => m_MaxhitPoint;
-    [SerializeField] private float m_MaxhitPoint;
+    public float MaxHitPoint => maxhitPoint;
+    [SerializeField] private float maxhitPoint;
 
-    [SerializeField] private GameObject m_DestroySfx;
+    [SerializeField] private GameObject destroySfx;
 
-    [SerializeField] private UnityEvent Destroed;
+    [SerializeField] private UnityEvent<Destructible> destroed;
+    public UnityEvent<Destructible> OnEventDeath => destroed;
 
     public float HitPoint => currentHitPoint;
     private float currentHitPoint;
@@ -23,8 +24,8 @@ public class Destructible : NetworkBehaviour
     {
         base.OnStartServer();
 
-        syncCurrentHitPoint = m_MaxhitPoint;
-        currentHitPoint = m_MaxhitPoint;
+        syncCurrentHitPoint = maxhitPoint;
+        currentHitPoint = maxhitPoint;
     }
     [Server]
     public void SvApplyDamage(float damage)
@@ -33,9 +34,9 @@ public class Destructible : NetworkBehaviour
 
         if (syncCurrentHitPoint <= 0)
         {
-            if (m_DestroySfx != null)
+            if (destroySfx != null)
             {
-               GameObject sfx =  Instantiate(m_DestroySfx, transform.position, Quaternion.identity);
+               GameObject sfx =  Instantiate(destroySfx, transform.position, Quaternion.identity);
 
                NetworkServer.Spawn(sfx);
             }
@@ -54,7 +55,7 @@ public class Destructible : NetworkBehaviour
 
     protected virtual void OnDestructibleDestroy()
     {
-        Destroed?.Invoke();
+        destroed?.Invoke(this);
     }
 
 

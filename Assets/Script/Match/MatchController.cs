@@ -21,6 +21,9 @@ public class MatchController : NetworkBehaviour
     private bool matchActive;
     public bool IsMatchActive => matchActive;
 
+
+    public int WinTeamId = -1;
+
     private IMatchCodition[] matchCoditions;
 
     private void Awake()
@@ -85,13 +88,18 @@ public class MatchController : NetworkBehaviour
         foreach (var v in matchCoditions)
         {
             v.OnServerMatchEnd(this);
+
+            if (v is ConditionTeamDeathmatch)
+            {
+                WinTeamId = (v as ConditionTeamDeathmatch).WinTeamId;
+            }
         }
 
         matchActive = false;
 
         SvMatchEnd?.Invoke();
 
-        RpcMatchEnd();
+        RpcMatchEnd(WinTeamId);
     }
 
     [ClientRpc]
@@ -102,8 +110,9 @@ public class MatchController : NetworkBehaviour
     }
 
     [ClientRpc]
-    private void RpcMatchEnd()
+    private void RpcMatchEnd(int winTeamId)
     {
+        WinTeamId = winTeamId;
         MatchEnd?.Invoke();
     }
 }

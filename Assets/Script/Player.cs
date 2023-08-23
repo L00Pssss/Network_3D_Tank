@@ -24,6 +24,7 @@ public class Player : NetworkBehaviour
 
     [SerializeField] 
     private Vehicle[] Vehicleprefab;
+    [SerializeField] private VehicleInput vehicleInput;
 
     public Vehicle ActiveVechicle {get;set;}
 
@@ -68,6 +69,27 @@ public class Player : NetworkBehaviour
         if (isOwned == true)
         {
             CmdSetName(NetworkSessionManager.Instance.GetComponent<NetworkManagerHUD>().PlayerNickname);
+
+            NetworkSessionManager.Match.MatchEnd += OnMatchEnd;
+        }
+    }
+
+    public override void OnStopClient()
+    {
+        base.OnStopClient();
+
+        if (isOwned)
+        {
+            NetworkSessionManager.Match.MatchEnd -= OnMatchEnd;
+        }
+    }
+
+    private void OnMatchEnd()
+    {
+        if (ActiveVechicle != null)
+        {
+            ActiveVechicle.SetTargetControl(Vector3.zero);
+            vehicleInput.enabled = false;
         }
     }
 
@@ -134,6 +156,8 @@ public class Player : NetworkBehaviour
         {
             VehicleCamera.Instance.SetTarget(ActiveVechicle); // передаем камеру. 
         }
+
+        vehicleInput.enabled = true;
 
         VehicleSpawned?.Invoke(ActiveVechicle);
     }
