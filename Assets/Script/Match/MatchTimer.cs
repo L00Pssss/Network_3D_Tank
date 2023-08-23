@@ -17,11 +17,13 @@ public class MatchTimer : NetworkBehaviour, IMatchCodition
 
     public void OnServerMatchStart(MatchController controller)
     {
+        Debug.Log("MatchStart");
         Reset();     
     }
 
     public void OnServerMatchEnd(MatchController controller)
     {
+        Debug.Log("MatchEnd");
         enabled = false;
     }
 

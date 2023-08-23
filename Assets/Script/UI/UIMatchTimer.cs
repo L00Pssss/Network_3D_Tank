@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
 public class UIMatchTimer : MonoBehaviour
@@ -8,9 +6,8 @@ public class UIMatchTimer : MonoBehaviour
     [SerializeField] private MatchTimer timer;
     [SerializeField] private TextMeshProUGUI text;
 
-   // private float lastUpdateTime;
+
     [SerializeField] private int UpdateInterval = 2;
-    bool stoptimer = true;
 
     private float timerUI;
 
@@ -24,7 +21,7 @@ public class UIMatchTimer : MonoBehaviour
     {
         timerUI += Time.deltaTime;
 
-        if (timerUI >= UpdateInterval && stoptimer == true)
+        if (timerUI >= UpdateInterval)
         {
             UpdateTimeText();
             timerUI = 0f;
@@ -40,4 +37,10 @@ public class UIMatchTimer : MonoBehaviour
     {
         return text.text = $"{(time / 60):00}:{(time % 60):00}";
     }
+
+
+    //private void Update()
+    //{
+    //    text.text = timer.TimeLeft.ToString("F0");
+    //}
 }

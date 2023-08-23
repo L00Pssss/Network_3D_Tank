@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ConditionTeamDeathmatch : MonoBehaviour, IMatchCodition
 { 
-    private int green;
+    private int red;
     private int blue;
 
     private int winTeamId = -1;
@@ -28,8 +28,8 @@ public class ConditionTeamDeathmatch : MonoBehaviour, IMatchCodition
             {
                 player.ActiveVechicle.OnEventDeath.AddListener(OnEventDeathHandeler);
 
-                if (player.TeamId == TeamSide.teamGreen)
-                    green++;
+                if (player.TeamId == TeamSide.teamRed)
+                    red++;
                 else if (player.TeamId == TeamSide.teamBlue)
                     blue++;
             }
@@ -40,12 +40,12 @@ public class ConditionTeamDeathmatch : MonoBehaviour, IMatchCodition
     {
         var ownerPlayer = destructible.Owner?.GetComponent<Player>();
 
-        if (ownerPlayer != null) return;
+        if (ownerPlayer == null) return;
 
         switch (ownerPlayer.TeamId)
         {
-            case TeamSide.teamGreen:
-                green--;
+            case TeamSide.teamRed:
+                red--;
                 break;
             case TeamSide.teamBlue:
                 blue--;
@@ -53,7 +53,7 @@ public class ConditionTeamDeathmatch : MonoBehaviour, IMatchCodition
 
         }
 
-        if (green == 0)
+        if (red == 0)
         {
             winTeamId = 1;
             triggerd = true;
@@ -68,7 +68,7 @@ public class ConditionTeamDeathmatch : MonoBehaviour, IMatchCodition
 
     private void Reset()
     {
-        green = 0;
+        red = 0;
         blue = 0;
         triggerd = false;
     }

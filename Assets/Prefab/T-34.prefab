@@ -321,7 +321,7 @@ Transform:
   - {fileID: 624368916310919846}
   - {fileID: 624368916647795297}
   m_Father: {fileID: 4523008661314286288}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &624368915995387248
 GameObject:
@@ -1369,7 +1369,7 @@ Transform:
   - {fileID: 8266055326889088660}
   - {fileID: 578994959824056508}
   - {fileID: 578994960332617657}
-  m_Father: {fileID: 4523008661314286288}
+  m_Father: {fileID: 3575320298771162808}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &624368917622606410
@@ -1795,6 +1795,7 @@ Transform:
   - {fileID: 7465421545048884535}
   - {fileID: 1232302738570438905}
   - {fileID: 4359821799531220011}
+  - {fileID: 624368917567008514}
   m_Father: {fileID: 4523008661314286288}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2891,7 +2892,6 @@ Transform:
   - {fileID: 624368915995387249}
   - {fileID: 624368916425883448}
   - {fileID: 624368917376478354}
-  - {fileID: 624368917567008514}
   - {fileID: 624368915901849750}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -2927,9 +2927,9 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  m_MaxhitPoint: 480
-  m_DestroySfx: {fileID: 0}
-  Destroed:
+  maxhitPoint: 480
+  destroySfx: {fileID: 0}
+  destroed:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1231678034943907499}
@@ -2992,25 +2992,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 624368917567008513}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   Owner: {fileID: 0}
   maxLinerVelocity: 30
   engineSound: {fileID: 624368916310919847}
   enginePitchModifier: 1
   zoomOpticPosition: {fileID: 624368917376478354}
   Turret: {fileID: 3859343835399678060}
-  vehicleInput: {fileID: 0}
   centerOfMass: {fileID: 624368916425883448}
   leftWheelRow:
     colliders:

@@ -22,8 +22,7 @@ public class Player : NetworkBehaviour
 
 
 
-    [SerializeField] 
-    private Vehicle[] Vehicleprefab;
+    [SerializeField] private Vehicle[] Vehicleprefab;
     [SerializeField] private VehicleInput vehicleInput;
 
     public Vehicle ActiveVechicle {get;set;}
