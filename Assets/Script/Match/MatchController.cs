@@ -94,6 +94,18 @@ public class MatchController : NetworkBehaviour
             {
                 WinTeamId = (v as ConditionTeamDeathmatch).WinTeamId;
             }
+
+            if (v is ConditonCaptureBase)
+            {
+                if ((v as ConditonCaptureBase).RedBaseCaptureLevel == 100)
+                {
+                    WinTeamId = TeamSide.teamBlue;
+                } 
+                if ((v as ConditonCaptureBase).BlueBaseCaptureLevel == 100)
+                {
+                    WinTeamId = TeamSide.teamRed;
+                }
+            }
         }
 
         matchActive = false;

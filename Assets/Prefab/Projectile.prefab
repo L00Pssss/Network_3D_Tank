@@ -50,7 +50,7 @@ MonoBehaviour:
   velocity: 750
   lifetime: 20
   mass: 0
-  damage: 1000
+  damage: 100
   damageScatter: 0.2
   impactForce: 50000
 --- !u!96 &3410680008738690989
