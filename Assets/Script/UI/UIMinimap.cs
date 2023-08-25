@@ -15,7 +15,7 @@ public class UIMinimap : MonoBehaviour
     private void Start()
     {
         NetworkSessionManager.Match.MatchStart += OnMatchStart;
-   //     NetworkSessionManager.Match.MatchStart += OnMatchEnd;
+        NetworkSessionManager.Match.MatchEnd += OnMatchEnd;
     }
 
     private void OnDestroy()
@@ -23,7 +23,7 @@ public class UIMinimap : MonoBehaviour
         if (NetworkSessionManager.Instance != null && NetworkSessionManager.Match != null)
         {
             NetworkSessionManager.Match.MatchStart -= OnMatchStart;
-     //       NetworkSessionManager.Match.MatchStart -= OnMatchEnd;
+            NetworkSessionManager.Match.MatchEnd -= OnMatchEnd;
         }
     }
 
@@ -45,11 +45,6 @@ public class UIMinimap : MonoBehaviour
                 tankMarks[i].SetOtherColor();
 
             tankMarks[i].transform.SetParent(background.transform);
-        }
-
-        for (int i = 0; i < tankMarks.Length; i++)
-        {
-            Debug.Log(tankMarks[i].name);
         }
     }
 
