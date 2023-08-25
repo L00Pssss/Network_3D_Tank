@@ -3159,8 +3159,8 @@ MonoBehaviour:
   mask: {fileID: 4401281158462984309}
   horizontalRotationSpeed: 30
   verticalRotationSpeed: 30
-  maxTopAngel: -15
-  maxBottomAngel: 7
+  maxTopAngel: -15.7
+  maxBottomAngel: 4.5
   fireSound: {fileID: 624368916647795296}
   mazzel: {fileID: 624368916646106640}
   foreceRecoil: 30000
