@@ -150,6 +150,7 @@ public class Player : NetworkBehaviour
         if (vehicle == null) return;
 
         ActiveVechicle = vehicle.GetComponent<Vehicle>();
+        ActiveVechicle.Owner = netIdentity;
 
         if (ActiveVechicle != null && ActiveVechicle.isOwned && VehicleCamera.Instance != null)
         {
