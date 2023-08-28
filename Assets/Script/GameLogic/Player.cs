@@ -1,6 +1,36 @@
 using Mirror;
 using UnityEngine.Events;
 using UnityEngine;
+using System;
+
+[Serializable]
+public class PlayerData
+{
+    public int Id;
+    public string Nickname;
+
+    public PlayerData(int id, string nickname)
+    {
+        Id = id;
+        Nickname = nickname;
+    }
+}
+
+public static class PlayerDataWriterRead
+{
+    public static void WritePlayerData(this NetworkWriter writer, PlayerData value)
+    {
+        writer.WriteInt(value.Id);
+        writer.WriteString(value.Nickname);
+    }
+
+    public static PlayerData ReadPlayerData(this NetworkReader reader)
+    {
+        return new PlayerData(reader.ReadInt(), reader.ReadString());
+    }
+}
+
+
 
 public class Player : NetworkBehaviour
 {
@@ -127,7 +157,7 @@ public class Player : NetworkBehaviour
     {
         if (ActiveVechicle != null) return;
 
-        GameObject vehicle = Vehicleprefab[Random.Range(0, Vehicleprefab.Length)].gameObject;
+        GameObject vehicle = Vehicleprefab[UnityEngine.Random.Range(0, Vehicleprefab.Length)].gameObject;
         if (vehicle == null)
         {
             Debug.Log("Not Exist Prefabs");
