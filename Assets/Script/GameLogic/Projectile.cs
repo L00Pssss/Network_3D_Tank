@@ -1,5 +1,4 @@
 using Mirror;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
@@ -17,6 +16,8 @@ public class Projectile : MonoBehaviour
     [SerializeField] private float impactForce;
 
     private const float RayAdvance = 1.1f;
+
+    public NetworkIdentity Owner { get; set; } // Player
 
     private void Start()
     {
@@ -50,6 +51,19 @@ public class Projectile : MonoBehaviour
                     float dmg = damage + Random.Range(-damageScatter, damageScatter) * damage;
 
                     destructible.SvApplyDamage((int)dmg);
+
+                    if (destructible.HitPoint <= 0)
+                    {
+                        if (Owner != null)
+                        {
+                            Player player = Owner.GetComponent<Player>();
+
+                            if (player != null)
+                            {
+                                player.Frags++;
+                            }
+                        }
+                    }
                 }
             }
 

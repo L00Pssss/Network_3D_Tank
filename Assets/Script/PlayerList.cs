@@ -25,27 +25,69 @@ namespace NeworkChat
         }
 
         [Server]
-        public void SvAddCurrentPlayer(PlayerData data)
+        public void SvAddPlayer(PlayerData data)
         {
             AllPlayerData.Add(data);
-            if (isServerOnly == true)
+
+            RpcClearPlayerDataList();
+
+            for (int i = 0; i < AllPlayerData.Count; i++)
             {
-                RpcUpdateUserList(AllPlayerData);
+                RpcAddPlayer(AllPlayerData[i]);
             }
         }
 
         [Server]
-        public void SvRemoveCurrentUser(PlayerData data)
+        public void SvRemovePlayer(PlayerData data)
         {
-            AllPlayerData.Remove(data);
-            RpcUpdateUserList(AllPlayerData);
+            for (int i = 0; i < AllPlayerData.Count; i++)
+            {
+                if (AllPlayerData[i].Id == data.Id)
+                {
+                    AllPlayerData.RemoveAt(i);
+                    break;
+                }
+            }
+            RpcRemovePlayer(data);
         }
 
         [ClientRpc]
-        private void RpcUpdateUserList(List<PlayerData> userList)
+        private void RpcClearPlayerDataList()
         {
-            // Обновляем список только на клиенте, к которому применяется это RPC.
-            UpdatePlayerList?.Invoke(userList);
+            //check host
+            if (isServer == true) return;
+
+            AllPlayerData.Clear();
+        }
+
+        [ClientRpc]
+        private void RpcAddPlayer(PlayerData data)
+        {
+            //check host
+            if (isServer == true && isClient == true)
+            {
+                UpdatePlayerList?.Invoke(AllPlayerData);
+                return;
+            }
+
+            AllPlayerData.Add(data);
+
+            UpdatePlayerList?.Invoke(AllPlayerData);
+        }
+
+        [ClientRpc]
+        private void RpcRemovePlayer(PlayerData data)
+        {
+            for (int i = 0; i < AllPlayerData.Count; i++)
+            {
+                if (AllPlayerData[i].Id == data.Id)
+                {
+                    AllPlayerData.RemoveAt(i);
+                    break;
+                }
+            }
+
+            UpdatePlayerList?.Invoke(AllPlayerData);
         }
     }
 }
