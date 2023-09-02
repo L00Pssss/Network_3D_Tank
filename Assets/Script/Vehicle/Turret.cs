@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
+using UnityEngine.Serialization;
 
 public class Turret : NetworkBehaviour
 {
@@ -9,8 +10,8 @@ public class Turret : NetworkBehaviour
 
     [SerializeField] private float fireRate;
 
-    [SerializeField] protected Projectile projectile;
-    public Projectile Projectile => projectile;
+    [SerializeField] protected ProjectileProperties projectileProperties;
+    public ProjectileProperties ProjectileProjectile => projectileProperties;
 
     private float fireTimer;
 

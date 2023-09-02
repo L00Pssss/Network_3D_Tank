@@ -224,7 +224,7 @@ public class Player : NetworkBehaviour
         ActiveVechicle = playerVehicle.GetComponentInParent<Vehicle>();
         ActiveVechicle.Owner = netIdentity;
 
-        RpcSetVehicle(ActiveVechicle.netIdentity); // передача клиенту. 
+        RpcSetVehicle(ActiveVechicle.netIdentity); // РїРµСЂРµРґР°С‡Р° РєР»РёРµРЅС‚Сѓ. 
     }
 
     [ClientRpc]
@@ -237,7 +237,7 @@ public class Player : NetworkBehaviour
 
         if (ActiveVechicle != null && ActiveVechicle.isOwned && VehicleCamera.Instance != null)
         {
-            VehicleCamera.Instance.SetTarget(ActiveVechicle); // передаем камеру. 
+            VehicleCamera.Instance.SetTarget(ActiveVechicle); // РїРµСЂРµРґР°РµРј РєР°РјРµСЂСѓ. 
         }
 
         vehicleInput.enabled = true;

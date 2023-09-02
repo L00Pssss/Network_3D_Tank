@@ -99,4 +99,12 @@ public class Vehicle : Destructible
             t.gameObject.layer = LayerMask.NameToLayer(layerName);
         }
     }   
+    
+    [SyncVar(hook = "T")]
+    public NetworkIdentity Owner;
+
+    private void T(NetworkIdentity oldValue, NetworkIdentity newValue)
+    {
+
+    }
 }

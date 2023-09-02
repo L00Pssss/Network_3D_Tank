@@ -16,7 +16,7 @@ public class UICannonAim : MonoBehaviour
     private Vehicle vehicle;
 
 
-    [SerializeField] private float smoothSpeed = 5f; // Скорость сглаживания
+    [SerializeField] private float smoothSpeed = 5f; // РЎРєРѕСЂРѕСЃС‚СЊ СЃРіР»Р°Р¶РёРІР°РЅРёСЏ
 
 
     private void Start()
@@ -67,7 +67,7 @@ public class UICannonAim : MonoBehaviour
         reloadSlider.fillAmount = turret;
     }
 
-    // есть ли смысл в этом коде ?
+    // РµСЃС‚СЊ Р»Рё СЃРјС‹СЃР» РІ СЌС‚РѕРј РєРѕРґРµ ?
     private void OnChangePosition()
     {
         aimPosition = VehicleInput.TraceAimPointWithoutPlayerVehicle(vehicle.Turret.LaunchPoint.position, vehicle.Turret.LaunchPoint.forward);

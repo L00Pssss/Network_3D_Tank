@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
@@ -154,6 +155,19 @@ public class TrackTank : Vehicle
     {
         rigidBody = GetComponent<Rigidbody>();
         rigidBody.centerOfMass = centerOfMass.localPosition;
+        Destroyed += OnTrackTankDestroyed;
+    }
+
+    private void OnDestroy()
+    {
+        Destroyed -= OnTrackTankDestroyed;
+    }
+
+    private void OnTrackTankDestroyed(Destructible destructible)
+    {
+        GameObject ruinedVisualModel = Instantiate(destoredPrefab);
+        ruinedVisualModel.transform.position = visualModel.transform.position;
+        ruinedVisualModel.transform.rotation = visualModel.transform.rotation;
     }
 
     private void FixedUpdate()
@@ -165,16 +179,7 @@ public class TrackTank : Vehicle
             CmdUpdateWheelRpm(LeftWheelRmp, RighttWheelRmp);
         }
     }
-
-    protected override void OnDestructibleDestroy()
-    {
-        base.OnDestructibleDestroy();
-
-        GameObject ruinedVisualModel = Instantiate(destoredPrefab);
-        ruinedVisualModel.transform.position = visualModel.transform.position;
-        ruinedVisualModel.transform.rotation = visualModel.transform.rotation;
-    }
-
+    
     [Command]
     private void CmdUpdateWheelRpm(float leftRpm, float rightRpm)
     {

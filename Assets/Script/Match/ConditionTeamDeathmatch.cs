@@ -5,7 +5,6 @@ public class ConditionTeamDeathmatch : MonoBehaviour, IMatchCodition
 { 
     private int red;
     private int blue;
-
     private int winTeamId = -1;
     public int WinTeamId => winTeamId;
 
@@ -15,6 +14,7 @@ public class ConditionTeamDeathmatch : MonoBehaviour, IMatchCodition
 
     public void OnServerMatchEnd(MatchController controller)
     {
+
 
     }
 
@@ -26,8 +26,8 @@ public class ConditionTeamDeathmatch : MonoBehaviour, IMatchCodition
         {
             if (player.ActiveVechicle != null)
             {
-                player.ActiveVechicle.OnEventDeath.AddListener(OnEventDeathHandeler);
-
+                player.ActiveVechicle.Destroyed += OnVehicleDestroyed;
+                
                 if (player.TeamId == TeamSide.teamRed)
                     red++;
                 else if (player.TeamId == TeamSide.teamBlue)
@@ -36,9 +36,13 @@ public class ConditionTeamDeathmatch : MonoBehaviour, IMatchCodition
         }
     }
 
-    private void OnEventDeathHandeler(Destructible destructible)
+    private void OnVehicleDestroyed(Destructible destructible)
     {
-        var ownerPlayer = destructible.Owner?.GetComponent<Player>();
+        Vehicle vehicle = (destructible as Vehicle);
+        
+        if (vehicle == null) return;
+        
+        var ownerPlayer = vehicle.Owner?.GetComponent<Player>();
 
         if (ownerPlayer == null) return;
 

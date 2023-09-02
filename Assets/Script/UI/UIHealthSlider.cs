@@ -16,7 +16,7 @@ public class UIHealthSlider : MonoBehaviour
     {
         this.destructible = destructible;
 
-        destructible.HitPointChange += OnHitPointChange;
+        destructible.HitPointChanged += OnHitPointChanged;
         slider.maxValue = destructible.MaxHitPoint;
         slider.value = slider.maxValue;
 
@@ -34,10 +34,10 @@ public class UIHealthSlider : MonoBehaviour
     {
         if (destructible != null) return;
 
-        destructible.HitPointChange -= OnHitPointChange;
+        destructible.HitPointChanged -= OnHitPointChanged;
     }
 
-    private void OnHitPointChange(float hitPoint)
+    private void OnHitPointChanged(float hitPoint)
     {
         slider.value = hitPoint;
     }
