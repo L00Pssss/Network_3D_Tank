@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class UIAmmoText : MonoBehaviour
 {
+    /*
     [SerializeField] private TextMeshProUGUI text;
 
     private Turret turret;
@@ -32,4 +33,5 @@ public class UIAmmoText : MonoBehaviour
     {
         text.text = ammo.ToString();
     }
+    */
 }

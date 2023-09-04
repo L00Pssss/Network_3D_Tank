@@ -15,6 +15,8 @@ public class ProjectileProperties : ScriptableObject
 
     [Header("Common")] 
     [SerializeField] private Projectile projectilePrefab;
+
+    [SerializeField] private Sprite icon;
     
     [Header("Movement")] 
     [SerializeField] private float velocity;
@@ -30,6 +32,8 @@ public class ProjectileProperties : ScriptableObject
 
     public Projectile ProjectilePrefab => projectilePrefab;
     public ProjectileType Type => type;
+
+    public Sprite Icon => icon;
     public float Velocity => velocity;
     public float Mass => mass;
     public float ImpactForce => impactForce;

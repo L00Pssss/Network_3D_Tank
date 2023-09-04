@@ -3168,6 +3168,9 @@ GameObject:
   - component: {fileID: 3859343835399678063}
   - component: {fileID: -8743056314940688254}
   - component: {fileID: 8345095755326827479}
+  - component: {fileID: 4268467132667651402}
+  - component: {fileID: 3304789513335127234}
+  - component: {fileID: 9057295644812582518}
   m_Layer: 0
   m_Name: T-34
   m_TagString: Untagged
@@ -3398,8 +3401,10 @@ MonoBehaviour:
   syncInterval: 0
   launchPoint: {fileID: 8800167975858104065}
   fireRate: 5
-  projectileProperties: {fileID: 11400000, guid: dd20cc11ee0061c4ea72d86fdf3c1bdf, type: 2}
-  ammoCount: 20
+  ammunitions:
+  - {fileID: 4268467132667651402}
+  - {fileID: 3304789513335127234}
+  - {fileID: 9057295644812582518}
   tower: {fileID: 6059145924912126952}
   mask: {fileID: 4401281158462984309}
   horizontalRotationSpeed: 30
@@ -3495,6 +3500,57 @@ MonoBehaviour:
   compressRotation: 0
   positionPrecision: 0.01
   scalePrecision: 0.01
+--- !u!114 &4268467132667651402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3859343835399678058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a4ff890b917763488b37635c34a9b82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  projectileProperties: {fileID: 11400000, guid: dd20cc11ee0061c4ea72d86fdf3c1bdf, type: 2}
+  syncAmmoCount: 15
+--- !u!114 &3304789513335127234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3859343835399678058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a4ff890b917763488b37635c34a9b82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  projectileProperties: {fileID: 11400000, guid: 6c673f46d25318b42a137f59873f4170, type: 2}
+  syncAmmoCount: 5
+--- !u!114 &9057295644812582518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3859343835399678058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a4ff890b917763488b37635c34a9b82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  projectileProperties: {fileID: 11400000, guid: ea41022315219a84fa7f01b4b8741267, type: 2}
+  syncAmmoCount: 5
 --- !u!1 &4088013986436401957
 GameObject:
   m_ObjectHideFlags: 0
