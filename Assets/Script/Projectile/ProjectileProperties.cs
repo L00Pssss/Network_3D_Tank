@@ -65,6 +65,6 @@ public class ProjectileProperties : ScriptableObject
 
     public float GetSpreadArmorPenetration()
     {
-        return ArmorPenetration * Random.Range(1 - ArmorPenetrationSpread, 1 + armorPenetrationSpread);
+        return ArmorPenetration * Random.Range(1 - ArmorPenetrationSpread, 1 + ArmorPenetrationSpread);
     }
 }

@@ -82,17 +82,19 @@ public class ProjectileHit : MonoBehaviour
         Debug.DrawRay((raycastHit.point), raycastHit.normal, Color.green);
         Debug.DrawRay((raycastHit.point), projectile.transform.right, Color.yellow);
         
-        Debug.Log($"armor: {hitArmor.Thickness}, resucedArmor {reducedArmor},normal {normalization}, angel: {angel}, penetration: {projectilePenetration} Type: {hitResult.type} ");
-        Debug.LogError("Pause");
+       
 
         if (angel > projectile.Properties.RicochetAngel && projectile.Properties.Caliber < hitArmor.Thickness * 3)
             hitResult.type = ProjectileHitType.Ricochet;
 
-        else if (projectilePenetration > reducedArmor)
+        else if (projectilePenetration >= reducedArmor)
             hitResult.type = ProjectileHitType.Penetration;
 
         else if (projectilePenetration < reducedArmor)
             hitResult.type = ProjectileHitType.NoPenetration;
+        
+        Debug.Log($"armor: {hitArmor.Thickness}, resucedArmor {reducedArmor},normal {normalization}, angel: {angel}, penetration: {projectilePenetration} Type: {hitResult.type} ");
+        Debug.LogError("Pause");
 
         hitResult.point = raycastHit.point;
 
