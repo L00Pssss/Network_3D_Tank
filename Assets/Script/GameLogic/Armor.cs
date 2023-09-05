@@ -14,6 +14,10 @@ public class Armor : MonoBehaviour
 
     public ArmorType Type => armorType;
     public Destructible Destructible => destructible;
+    
+    /// <summary>
+    /// Толщина.
+    /// </summary>
     public int Thickness => thickness;
 
     private void Awake()

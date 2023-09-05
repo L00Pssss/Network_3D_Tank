@@ -36,9 +36,11 @@ public class Projectile : MonoBehaviour
     {
         transform.position = projectileHit.RaycastHit.point;
 
-        if (NetworkSessionManager.Instance.IsServer)
+        ProjectileHitResult hitResult = projectileHit.GetHitResult();
+
+        if (hitResult.type == ProjectileHitType.Penetration)
         {
-            if (projectileHit.HitDestructible != null)
+            if (NetworkSessionManager.Instance.IsServer)
             {
                 SvTakeDamage();
 
@@ -54,12 +56,12 @@ public class Projectile : MonoBehaviour
     private void SvTakeDamage()
     {
         float damage = Properties.Damage;
-        projectileHit.HitDestructible.SvApplyDamage(damage);
+        projectileHit.HitArmor.Destructible.SvApplyDamage(damage);
     }
 
     private void SvAddFrags()
     {
-        if (projectileHit.HitDestructible.HitPoint <= 0)
+        if (projectileHit.HitArmor.Destructible.HitPoint <= 0)
         {
             if (Owner != null)
             {
