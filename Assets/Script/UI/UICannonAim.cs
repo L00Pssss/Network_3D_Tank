@@ -24,7 +24,7 @@ public class UICannonAim : MonoBehaviour
         NetworkSessionManager.Events.PlayerVehicleSpawned += UpdateUI;
     }
 
-    private void UnsubscribeEvents()
+    private void OnDestroy()
     {
         if (NetworkSessionManager.Instance != null && NetworkSessionManager.Events != null)
         {
@@ -44,7 +44,6 @@ public class UICannonAim : MonoBehaviour
 
     private void UpdateUI(Vehicle vehicle)
     {
-            UnsubscribeEvents();
             turret = vehicle.Turret;
             this.vehicle = vehicle;
             UpdateReloadSlider(turret);
