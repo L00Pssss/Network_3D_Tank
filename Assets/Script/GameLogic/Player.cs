@@ -201,7 +201,7 @@ public class Player : NetworkBehaviour
         {
             if (ActiveVechicle != null)
             {
-                ActiveVechicle.SetVisibil(!VehicleCamera.Instance.IsZoom);
+                ActiveVechicle.SetVisible(!VehicleCamera.Instance.IsZoom);
             }
         }
 

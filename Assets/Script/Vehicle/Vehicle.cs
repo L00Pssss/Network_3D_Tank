@@ -78,7 +78,7 @@ public class Vehicle : Destructible
         }
     }
 
-    public void SetVisibil(bool visible)
+    public void SetVisible(bool visible)
     {
         if (visible == true)
         {
