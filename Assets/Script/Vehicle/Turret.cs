@@ -26,6 +26,8 @@ public class Turret : NetworkBehaviour
 
     [SyncVar] 
     private int syncSelectedAmmunitionIndex;
+
+    public int SelectedAmmunitionIndex => syncSelectedAmmunitionIndex;
     
     public UnityAction<float> Timer;
 

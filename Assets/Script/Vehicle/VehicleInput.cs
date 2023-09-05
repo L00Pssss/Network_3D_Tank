@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent (typeof(Player))]
@@ -19,6 +20,16 @@ public class VehicleInput : MonoBehaviour
             Debug.Log("NOL");
         }
     }
+    
+    private int selectedProjectileIndex = -1;
+    private Dictionary<KeyCode, int> keyToProjectileIndex = new Dictionary<KeyCode, int>
+    {
+        {KeyCode.Alpha1, 0},
+        {KeyCode.Alpha2, 1},
+        {KeyCode.Alpha3, 2}
+    };
+    
+    
 
     protected virtual void Update()
     {
@@ -34,6 +45,32 @@ public class VehicleInput : MonoBehaviour
             {
                 player.ActiveVechicle.Fire();
             }
+
+            foreach (var kvp in keyToProjectileIndex)
+            {
+                if (Input.GetKeyDown(kvp.Key))
+                {
+                    if (selectedProjectileIndex == kvp.Value)
+                    {
+                        ConfirmSelection();
+                    }
+                    else
+                    {
+                        selectedProjectileIndex = kvp.Value;
+                    }
+                }
+            }
+            
+            
+        }
+    }
+    
+    void ConfirmSelection()
+    {
+        if (selectedProjectileIndex != -1)
+        {
+            player.ActiveVechicle.Turret.SetSelectProjectile(selectedProjectileIndex);
+            selectedProjectileIndex = -1;
         }
     }
 

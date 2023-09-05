@@ -3232,7 +3232,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  maxHitPoint: 100
+  maxHitPoint: 680
   EventDestroyed:
     m_PersistentCalls:
       m_Calls: []
