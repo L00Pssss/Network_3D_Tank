@@ -36,27 +36,31 @@ public class Projectile : MonoBehaviour
     {
         transform.position = projectileHit.RaycastHit.point;
 
-        ProjectileHitResult hitResult = projectileHit.GetHitResult();
-
-        if (hitResult.type == ProjectileHitType.Penetration)
+        if (NetworkSessionManager.Instance.IsServer)
         {
-            if (NetworkSessionManager.Instance.IsServer)
+            ProjectileHitResult hitResult = projectileHit.GetHitResult();
+
+            if (hitResult.Type == ProjectileHitType.Penetration)
             {
-                SvTakeDamage();
+
+                SvTakeDamage(hitResult);
 
                 SvAddFrags();
             }
+
+            Owner.GetComponent<Player>().SvInvokeProjectileHit(hitResult);
         }
+
 
         Destroy();
     }
 
     #region Server
 
-    private void SvTakeDamage()
+    private void SvTakeDamage(ProjectileHitResult hitResult)
     {
         float damage = Properties.Damage;
-        projectileHit.HitArmor.Destructible.SvApplyDamage(damage);
+        projectileHit.HitArmor.Destructible.SvApplyDamage(hitResult.Damage);
     }
 
     private void SvAddFrags()

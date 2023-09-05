@@ -9,8 +9,9 @@ public enum ProjectileHitType
 }
 public class ProjectileHitResult
 {
-    public ProjectileHitType type;
-    public Vector3 point;
+    public ProjectileHitType Type;
+    public float Damage;
+    public Vector3 Point;
 }
 
 [RequireComponent(typeof(Projectile))]
@@ -54,11 +55,10 @@ public class ProjectileHit : MonoBehaviour
     public ProjectileHitResult GetHitResult()
     {
         ProjectileHitResult hitResult = new ProjectileHitResult();
-
         if (hitArmor == null)
         {
-            hitResult.type = ProjectileHitType.Environment;
-            hitResult.point = raycastHit.point;
+            hitResult.Type = ProjectileHitType.Environment;
+            hitResult.Point = raycastHit.point;
             return hitResult;
         }
 
@@ -81,22 +81,26 @@ public class ProjectileHit : MonoBehaviour
         Debug.DrawRay((raycastHit.point), -projectile.transform.forward, Color.red);
         Debug.DrawRay((raycastHit.point), raycastHit.normal, Color.green);
         Debug.DrawRay((raycastHit.point), projectile.transform.right, Color.yellow);
-        
-       
+
+        hitResult.Damage = projectile.Properties.GetSpreadDamage();
 
         if (angel > projectile.Properties.RicochetAngel && projectile.Properties.Caliber < hitArmor.Thickness * 3)
-            hitResult.type = ProjectileHitType.Ricochet;
+            hitResult.Type = ProjectileHitType.Ricochet;
 
         else if (projectilePenetration >= reducedArmor)
-            hitResult.type = ProjectileHitType.Penetration;
+            hitResult.Type = ProjectileHitType.Penetration;
 
         else if (projectilePenetration < reducedArmor)
-            hitResult.type = ProjectileHitType.NoPenetration;
+            hitResult.Type = ProjectileHitType.NoPenetration;
         
-        Debug.Log($"armor: {hitArmor.Thickness}, resucedArmor {reducedArmor},normal {normalization}, angel: {angel}, penetration: {projectilePenetration} Type: {hitResult.type} ");
-        Debug.LogError("Pause");
+        Debug.Log($"armor: {hitArmor.Thickness}, resucedArmor {reducedArmor},normal {normalization}, angel: {angel}, penetration: {projectilePenetration} Type: {hitResult.Type} ");
 
-        hitResult.point = raycastHit.point;
+        if (hitResult.Type == ProjectileHitType.Penetration)
+            hitResult.Damage = projectile.Properties.GetSpreadDamage();
+        else
+            hitResult.Damage = 0;
+
+        hitResult.Point = raycastHit.point;
 
         return hitResult;
     }
