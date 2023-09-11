@@ -5,6 +5,8 @@ public enum ProjectileHitType
     Penetration,
     NoPenetration,
     Ricochet,
+    ModulePenetration,
+    ModuleNoPenetration,
     Environment
 }
 public class ProjectileHitResult
@@ -62,6 +64,8 @@ public class ProjectileHit : MonoBehaviour
             return hitResult;
         }
 
+
+
         float normalization = projectile.Properties.NormalizationAngel;
 
         if (projectile.Properties.Caliber > hitArmor.Thickness * 2)
@@ -84,7 +88,7 @@ public class ProjectileHit : MonoBehaviour
 
         hitResult.Damage = projectile.Properties.GetSpreadDamage();
 
-        if (angel > projectile.Properties.RicochetAngel && projectile.Properties.Caliber < hitArmor.Thickness * 3)
+        if (angel > projectile.Properties.RicochetAngel && projectile.Properties.Caliber < hitArmor.Thickness * 3 && hitArmor.Type == ArmorType.Vehicle)
             hitResult.Type = ProjectileHitType.Ricochet;
 
         else if (projectilePenetration >= reducedArmor)
@@ -99,6 +103,15 @@ public class ProjectileHit : MonoBehaviour
             hitResult.Damage = projectile.Properties.GetSpreadDamage();
         else
             hitResult.Damage = 0;
+
+        if (hitArmor.Type == ArmorType.Module)
+        {
+            if (hitResult.Type == ProjectileHitType.Penetration)
+                hitResult.Type = ProjectileHitType.ModulePenetration;
+
+            if (hitResult.Type == ProjectileHitType.NoPenetration)
+                hitResult.Type = ProjectileHitType.ModuleNoPenetration;
+        }
 
         hitResult.Point = raycastHit.point;
 

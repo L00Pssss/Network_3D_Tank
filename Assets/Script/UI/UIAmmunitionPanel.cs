@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class UIAmmunitionPanel : MonoBehaviour
@@ -14,29 +16,40 @@ public class UIAmmunitionPanel : MonoBehaviour
 
     private void Start()
     {
-        NetworkSessionManager.Events.PlayerVehicleSpawned += OnPlayerVehicleSpawned;
+        NetworkSessionManager.Match.MatchStart += OnMatchStarted;
+        NetworkSessionManager.Match.MatchEnd += OnMatchEnd;
     }
 
     private void OnDestroy()
     {
-        if (NetworkSessionManager.Instance != null && NetworkSessionManager.Events != null)
-            NetworkSessionManager.Events.PlayerVehicleSpawned -= OnPlayerVehicleSpawned;
-        if (turret != null)
-            turret.UpdateSelectedAmmunation -= OnTurretUpdateSlectedAmmunation;
-        for (int i = 0; i < allAmmunitions.Count; i++)
+        if (NetworkSessionManager.Instance != null && NetworkSessionManager.Match != null)
         {
-            allAmmunitions[i].AmmoCountChanged -= OnAmmoCountChanged;
+            NetworkSessionManager.Match.MatchStart -= OnMatchStarted;
+            NetworkSessionManager.Match.MatchEnd -= OnMatchEnd;
         }
+
     }
 
-    private void OnPlayerVehicleSpawned(Vehicle vehicle)
+    private void OnMatchStarted()
     {
-        turret = vehicle.Turret;
+        turret = Player.Local.ActiveVechicle.Turret;
 
         turret.UpdateSelectedAmmunation += OnTurretUpdateSlectedAmmunation;
+        
+        Debug.Log((turret.Ammunitions.Length));
+        Debug.Log((turret.name));
 
+        for (int i = 0; i < ammunitionPanel.childCount; i++)
+        {
+            Destroy(ammunitionPanel.GetChild(i).gameObject);
+        }
+        
+        allAmmunitionElements.Clear();;
+        allAmmunitions.Clear();
+        
         for (int i = 0; i < turret.Ammunitions.Length; i++)
         {
+            
             UIAmmunitionElement ammunitionElement = Instantiate(ammunitionElementPrefab);
             ammunitionElement.transform.SetParent(ammunitionPanel);
             ammunitionElement.transform.localPosition = Vector3.one;
@@ -52,9 +65,19 @@ public class UIAmmunitionPanel : MonoBehaviour
                 ammunitionElement.Select();
             }
         }
-        
     }
 
+    private void OnMatchEnd()
+    {
+        if (turret != null)
+            turret.UpdateSelectedAmmunation -= OnTurretUpdateSlectedAmmunation;
+        for (int i = 0; i < allAmmunitions.Count; i++)
+        {
+            allAmmunitions[i].AmmoCountChanged -= OnAmmoCountChanged;
+        }
+    }
+
+    
     private void OnAmmoCountChanged(int ammoCount)
     {
         allAmmunitionElements[turret.SelectedAmmunitionIndex].UpdateAmmoCount(ammoCount);

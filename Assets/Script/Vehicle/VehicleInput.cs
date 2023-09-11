@@ -78,18 +78,20 @@ public class VehicleInput : MonoBehaviour
     {
         Ray ray = new Ray(start, direction);
 
-        RaycastHit[] htis = Physics.RaycastAll(ray, AimDistance);
+        RaycastHit[] hits = Physics.RaycastAll(ray, AimDistance);
 
-        var m = Player.Local.ActiveVechicle.GetComponent<Rigidbody>();
+        var playerRigidbody = Player.Local.ActiveVechicle;
 
-        foreach (RaycastHit hit in htis)
+        for (int i = hits.Length - 1; i >= 0; i--)
         {
-            if (hit.rigidbody == m)
+            if(hits[i].collider.isTrigger == true)
+                continue;
+            if(hits[i].collider.transform.root.GetComponent<Vehicle>() == playerRigidbody)
                 continue;
 
-            return hit.point;
+            return hits[i].point;
         }
 
-        return ray.GetPoint(AimDistance);
+        return ray.GetPoint((AimDistance));
     }
 }

@@ -32,6 +32,8 @@ public class Vehicle : Destructible
 
     public Turret Turret;
 
+    public int TeamId;
+
     [SyncVar]
     private Vector3 netAimPoint;
 

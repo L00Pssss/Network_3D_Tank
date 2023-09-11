@@ -9,7 +9,7 @@ public class UITankInfoCollector : MonoBehaviour
 
     private UITankInfo[] tankInfo;
 
-    private List<Player> playersWithoutLocal;
+    private List<Vehicle> VehiclesWithoutLocal;
 
     private void Start()
     {
@@ -28,24 +28,24 @@ public class UITankInfoCollector : MonoBehaviour
 
     private void OnMatchStart()
     {
-        Player[] players = FindObjectsOfType<Player>();
+        Vehicle[] Vehicles = FindObjectsOfType<Vehicle>();
 
-        playersWithoutLocal = new List<Player>(players.Length - 1);
+        VehiclesWithoutLocal = new List<Vehicle>(Vehicles.Length - 1);
 
-        for (int i = 0; i < players.Length; i++)
+        for (int i = 0; i < Vehicles.Length; i++)
         {
-            if (players[i] == Player.Local) continue;
+            if (Vehicles[i] == Player.Local.ActiveVechicle) continue;
 
-            playersWithoutLocal.Add(players[i]);
+            VehiclesWithoutLocal.Add(Vehicles[i]);
         }
 
-        tankInfo = new UITankInfo[playersWithoutLocal.Count];
+        tankInfo = new UITankInfo[VehiclesWithoutLocal.Count];
 
-        for (int i = 0; i < playersWithoutLocal.Count; i++)
+        for (int i = 0; i < VehiclesWithoutLocal.Count; i++)
         {
             tankInfo[i] = Instantiate(tankInfoPrefab);
 
-            tankInfo[i].SetTank(playersWithoutLocal[i].ActiveVechicle);
+            tankInfo[i].SetTank(VehiclesWithoutLocal[i]);
             tankInfo[i].transform.SetParent(tankInfoPanel);
         }
     }

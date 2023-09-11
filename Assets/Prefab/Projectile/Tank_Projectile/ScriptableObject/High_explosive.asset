@@ -19,4 +19,9 @@ MonoBehaviour:
   mass: 0.001
   impactForce: 5000
   damage: 50
-  damageSpread: 0.025
+  damageSpread: 0.25
+  caliber: 85
+  armorPenetration: 50
+  armorPenetrationSpread: 0.25
+  normolizationAngel: 5
+  ricochetAngel: 70

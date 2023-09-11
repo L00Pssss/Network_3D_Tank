@@ -10,7 +10,7 @@ public class UIMinimap : MonoBehaviour
     [SerializeField] protected Image background;
 
     private UITankMark[] tankMarks;
-    private Player[] players;
+    private Vehicle[] vehicles;
 
     private void Start()
     {
@@ -29,17 +29,15 @@ public class UIMinimap : MonoBehaviour
 
     private void OnMatchStart()
     {
-        players = FindObjectsOfType<Player>();
+        vehicles = FindObjectsOfType<Vehicle>();
 
-        tankMarks = new UITankMark[players.Length];
-
-        Debug.Log(tankMarks.Length);
+        tankMarks = new UITankMark[vehicles.Length];
 
         for (int i = 0; i < tankMarks.Length; i++) 
         {
             tankMarks[i] = Instantiate(tankMarkPrefab);
 
-            if (players[i].TeamId == Player.Local.TeamId)
+            if (vehicles[i].TeamId == Player.Local.TeamId)
                 tankMarks[i].SetLocalColor();
             else
                 tankMarks[i].SetOtherColor();
@@ -54,7 +52,7 @@ public class UIMinimap : MonoBehaviour
         {
             Destroy(background.transform.GetChild(i).gameObject);
         }
-        tankMarks = null; // на выбор. 
+        tankMarks = null; // пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ. 
     }
 
     private void Update()
@@ -64,9 +62,9 @@ public class UIMinimap : MonoBehaviour
 
         for (int i = 0; i < tankMarks.Length; i++)
         {
-            if (players[i] == null) continue;
+            if (vehicles[i] == null) continue;
 
-            Vector3 normalPositon = sizeMap.GetNormalPositon(players[i].ActiveVechicle.transform.position);
+            Vector3 normalPositon = sizeMap.GetNormalPositon(vehicles[i].transform.position);
 
             Vector3 posInMinimap = new Vector3(normalPositon.x * background.rectTransform.sizeDelta.x * 0.5f,
                 normalPositon.z * background.rectTransform.sizeDelta.y * 0.5f, 0);

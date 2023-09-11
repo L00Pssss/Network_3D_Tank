@@ -65,8 +65,7 @@ public class UICannonAim : MonoBehaviour
     {
         reloadSlider.fillAmount = turret;
     }
-
-    // есть ли смысл в этом коде ?
+    
     private void OnChangePosition()
     {
         aimPosition = VehicleInput.TraceAimPointWithoutPlayerVehicle(vehicle.Turret.LaunchPoint.position, vehicle.Turret.LaunchPoint.forward);

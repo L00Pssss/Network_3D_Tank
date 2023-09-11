@@ -26,7 +26,8 @@ public class UIHitResultPanel : MonoBehaviour
 
     private void OnProjectileHit(ProjectileHitResult hitResult)
     {
-        if(hitResult.Type == ProjectileHitType.Environment) return;
+        if(hitResult.Type == ProjectileHitType.Environment || hitResult.Type == ProjectileHitType.ModulePenetration ||
+           hitResult.Type == ProjectileHitType.ModuleNoPenetration) return;
 
         UIHitResultPopup hitPopup = Instantiate(hitResultPopup);
         hitPopup.transform.SetParent(spawnPanel);

@@ -40,9 +40,8 @@ public class Projectile : MonoBehaviour
         {
             ProjectileHitResult hitResult = projectileHit.GetHitResult();
 
-            if (hitResult.Type == ProjectileHitType.Penetration)
+            if (hitResult.Type == ProjectileHitType.Penetration || hitResult.Type == ProjectileHitType.ModulePenetration)
             {
-
                 SvTakeDamage(hitResult);
 
                 SvAddFrags();
@@ -65,6 +64,8 @@ public class Projectile : MonoBehaviour
 
     private void SvAddFrags()
     {
+        if (projectileHit.HitArmor.Type == ArmorType.Module) return;
+        
         if (projectileHit.HitArmor.Destructible.HitPoint <= 0)
         {
             if (Owner != null)
