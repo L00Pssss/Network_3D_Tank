@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
-using UnityEngine.Serialization;
 
 public class Turret : NetworkBehaviour
 {
@@ -34,6 +33,7 @@ public class Turret : NetworkBehaviour
 
     public void SetSelectProjectile(int index)
     {
+        Debug.Log(index+ " SetSelectProjectile");
         if(isOwned == false) return;
         
         if(index < 0 || index > ammunitions.Length) return;

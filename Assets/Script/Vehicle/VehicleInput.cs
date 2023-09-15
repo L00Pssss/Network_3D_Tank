@@ -9,8 +9,6 @@ public class VehicleInput : MonoBehaviour
 
     private Player player;
 
-    public UnityAction<Vector3> AimPositionChanged;
-
     private void Awake()
     {
         player = GetComponent<Player>();
@@ -22,6 +20,7 @@ public class VehicleInput : MonoBehaviour
     }
     
     private int selectedProjectileIndex = -1;
+    
     private Dictionary<KeyCode, int> keyToProjectileIndex = new Dictionary<KeyCode, int>
     {
         {KeyCode.Alpha1, 0},
@@ -67,6 +66,7 @@ public class VehicleInput : MonoBehaviour
     
     void ConfirmSelection()
     {
+        Debug.Log((selectedProjectileIndex));
         if (selectedProjectileIndex != -1)
         {
             player.ActiveVechicle.Turret.SetSelectProjectile(selectedProjectileIndex);

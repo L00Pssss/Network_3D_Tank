@@ -310,7 +310,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!64 &216179890
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -773,29 +773,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41f84591ce72545258ea98cb7518d8b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &651931578 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 862832617848663675, guid: d33b390feb7b9d44ba17b20f16297528, type: 3}
-  m_PrefabInstance: {fileID: 8514718133693976806}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &651931579 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2496782493025321776, guid: d33b390feb7b9d44ba17b20f16297528, type: 3}
   m_PrefabInstance: {fileID: 8514718133693976806}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &651931581
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 651931578}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9cfc3c1626c503e47ae4e1ddc5e41760, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  reloadModule: {fileID: 179076432}
 --- !u!1 &661081634
 GameObject:
   m_ObjectHideFlags: 0
@@ -1464,7 +1446,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 68.15
+  m_fontSize: 61.55
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2991,7 +2973,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!64 &1649818663
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -4088,6 +4070,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1941420789}
+  - component: {fileID: 1941420790}
   m_Layer: 5
   m_Name: ReloadModule
   m_TagString: Untagged
@@ -4116,6 +4099,22 @@ RectTransform:
   m_AnchoredPosition: {x: 450, y: -140}
   m_SizeDelta: {x: 204, y: 277}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1941420790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1941420788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cfc3c1626c503e47ae4e1ddc5e41760, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  reloadModule: {fileID: 179076432}
+  trackModuleRight: 0
+  trackModuleLeft: 0
+  vehicleModule: []
 --- !u!1 &1970266495
 GameObject:
   m_ObjectHideFlags: 0
@@ -4893,7 +4892,15 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7273562722037853171, guid: d33b390feb7b9d44ba17b20f16297528, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7273562722037853171, guid: d33b390feb7b9d44ba17b20f16297528, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7348178275737145912, guid: d33b390feb7b9d44ba17b20f16297528, type: 3}
+      propertyPath: m_Value
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

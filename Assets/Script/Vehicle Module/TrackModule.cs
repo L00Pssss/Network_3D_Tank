@@ -16,8 +16,11 @@ public class TrackModule : NetworkBehaviour
     
 
     private TrackTank tank;
-    private void Start()
+
+    public override void OnStartClient()
     {
+     //   base.OnStartClient();
+        
         tank = GetComponent<TrackTank>();
 
         leftTrack.Destroyed += OnLeftTrackDestroyed;
@@ -25,6 +28,11 @@ public class TrackModule : NetworkBehaviour
         
         leftTrack.Recovered += OnLeftTrackRecovered;
         rightTrack.Recovered += OnRightTrackRecovered;
+    }
+
+    private void Start()
+    {
+
         
         
     }

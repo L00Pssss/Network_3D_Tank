@@ -1,35 +1,63 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UIReloadModule : MonoBehaviour
 {
     [SerializeField] private Slider reloadModule;
+
+    [SerializeField] private float trackModuleRight = 0;
+    [SerializeField] private float trackModuleLeft = 0;
     
 
-    [SerializeField] private VehicleModule vehicleModule;
+    [SerializeField] private VehicleModule[] vehicleModule;
     
     private void Start()
     {
-        NetworkSessionManager.Events.PlayerVehicleSpawned += UpdateUI;
+        NetworkSessionManager.Events.PlayerVehicleSpawned += UpdateVehicleModules;
     }
 
     private void OnDestroy()
     {
         if (NetworkSessionManager.Instance != null && NetworkSessionManager.Events != null)
         {
-            NetworkSessionManager.Events.PlayerVehicleSpawned -= UpdateUI;
+            NetworkSessionManager.Events.PlayerVehicleSpawned -= UpdateVehicleModules;
         }
+        
+        if (vehicleModule != null)
+        {
+            vehicleModule[0].OnTimerUpdate -= UpdateLeftTrackModule;
+            vehicleModule[1].OnTimerUpdate -= UpdateRightTrackModule;
+        }
+        
+        
     }
 
-    private void UpdateUI(Vehicle vehicle)
+    private void UpdateVehicleModules(Vehicle vehicle)
     {
-        vehicleModule = vehicle.GetComponent<VehicleModule>();
-        UpdateReloading();
+        vehicleModule = vehicle.GetComponents<VehicleModule>();
+        SubscribeToModuleUpdates(vehicleModule);
     }
 
-    private void UpdateReloading()
+    private void SubscribeToModuleUpdates(VehicleModule[] modules)
     {
-        reloadModule.value = vehicleModule.Rem;
+        modules[0].OnTimerUpdate += UpdateLeftTrackModule;
+        modules[1].OnTimerUpdate += UpdateRightTrackModule;
+        // Добавьте подписку на другие модули, если необходимо.
+    }
+
+    private void UpdateLeftTrackModule(float time)
+    {
+        trackModuleLeft = time;
+    }
+
+    private void UpdateRightTrackModule(float time)
+    {
+        trackModuleRight = time;
+    }
+
+    private void Update()
+    {
+        reloadModule.value = (trackModuleLeft > trackModuleRight) ? trackModuleLeft : trackModuleRight;
+
     }
 }

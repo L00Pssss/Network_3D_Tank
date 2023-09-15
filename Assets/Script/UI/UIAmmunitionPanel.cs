@@ -1,6 +1,5 @@
-using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using Mirror;
 using UnityEngine;
 
 public class UIAmmunitionPanel : MonoBehaviour
@@ -55,7 +54,7 @@ public class UIAmmunitionPanel : MonoBehaviour
             ammunitionElement.transform.localPosition = Vector3.one;
             ammunitionElement.SetAmmunition(turret.Ammunitions[i]);
 
-            turret.Ammunitions[i].AmmoCountChanged += OnAmmoCountChanged;
+            turret.Ammunitions[i].AmmoCountChanged += RPCAmmoCountChanged;
             
             allAmmunitionElements.Add(ammunitionElement);
             allAmmunitions.Add(turret.Ammunitions[i]);
@@ -73,13 +72,13 @@ public class UIAmmunitionPanel : MonoBehaviour
             turret.UpdateSelectedAmmunation -= OnTurretUpdateSlectedAmmunation;
         for (int i = 0; i < allAmmunitions.Count; i++)
         {
-            allAmmunitions[i].AmmoCountChanged -= OnAmmoCountChanged;
+            allAmmunitions[i].AmmoCountChanged -= RPCAmmoCountChanged;
         }
     }
-
     
-    private void OnAmmoCountChanged(int ammoCount)
+    private void RPCAmmoCountChanged(int ammoCount)
     {
+        Debug.Log(ammoCount + " RPCAmmoCountChanged"  );
         allAmmunitionElements[turret.SelectedAmmunitionIndex].UpdateAmmoCount(ammoCount);
     }
 

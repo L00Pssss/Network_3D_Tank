@@ -40,7 +40,8 @@ public class Projectile : MonoBehaviour
         {
             ProjectileHitResult hitResult = projectileHit.GetHitResult();
 
-            if (hitResult.Type == ProjectileHitType.Penetration || hitResult.Type == ProjectileHitType.ModulePenetration)
+            if (hitResult.Type == ProjectileHitType.Penetration || hitResult.Type == ProjectileHitType.ModulePenetration || 
+                hitResult.Type == ProjectileHitType.HighExplosiveFragmentation)
             {
                 SvTakeDamage(hitResult);
 

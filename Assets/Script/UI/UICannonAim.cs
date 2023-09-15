@@ -52,8 +52,7 @@ public class UICannonAim : MonoBehaviour
 
     private void UpdateReloadSlider(Turret turret)
     {
-
-          turret.Timer += OnReloadAim;
+        turret.Timer += OnReloadAim;
     }
 
     private void UpdateAimPosition(Vehicle vehicle)

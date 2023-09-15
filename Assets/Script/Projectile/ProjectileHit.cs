@@ -7,6 +7,7 @@ public enum ProjectileHitType
     Ricochet,
     ModulePenetration,
     ModuleNoPenetration,
+    HighExplosiveFragmentation,
     Environment
 }
 public class ProjectileHitResult
@@ -80,6 +81,8 @@ public class ProjectileHit : MonoBehaviour
         float reducedArmor = hitArmor.Thickness / Mathf.Cos(angel * Mathf.Deg2Rad);
 
         float projectilePenetration = projectile.Properties.GetSpreadArmorPenetration();
+
+        ProjectileType ProjectileType = projectile.Properties.Type;
         
         // Visual angel
         Debug.DrawRay((raycastHit.point), -projectile.transform.forward, Color.red);
@@ -94,8 +97,15 @@ public class ProjectileHit : MonoBehaviour
         else if (projectilePenetration >= reducedArmor)
             hitResult.Type = ProjectileHitType.Penetration;
 
+        else if (projectilePenetration < reducedArmor && projectile.Properties.Type == ProjectileType.HighExplosive)
+        {
+            hitResult.Type = ProjectileHitType.HighExplosiveFragmentation;
+        }
         else if (projectilePenetration < reducedArmor)
+        {
             hitResult.Type = ProjectileHitType.NoPenetration;
+        }
+
         
         Debug.Log($"armor: {hitArmor.Thickness}, resucedArmor {reducedArmor},normal {normalization}, angel: {angel}, penetration: {projectilePenetration} Type: {hitResult.Type} ");
 
@@ -103,6 +113,9 @@ public class ProjectileHit : MonoBehaviour
             hitResult.Damage = projectile.Properties.GetSpreadDamage();
         else
             hitResult.Damage = 0;
+
+        if (hitResult.Type == ProjectileHitType.HighExplosiveFragmentation)
+            hitResult.Damage = projectile.Properties.Damage;
 
         if (hitArmor.Type == ArmorType.Module)
         {
@@ -113,8 +126,11 @@ public class ProjectileHit : MonoBehaviour
                 hitResult.Type = ProjectileHitType.ModuleNoPenetration;
         }
 
-        hitResult.Point = raycastHit.point;
 
+        hitResult.Point = raycastHit.point;
+        
+        Debug.Log(hitResult.Type);
+        
         return hitResult;
     }
 }

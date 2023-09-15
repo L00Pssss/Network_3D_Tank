@@ -41,7 +41,7 @@ public class Ammunition : NetworkBehaviour
     #endregion
 
     #region Client
-
+    
     private void SyncAmmoCount(int oldValue, int newValue)
     {
         AmmoCountChanged?.Invoke(newValue);
