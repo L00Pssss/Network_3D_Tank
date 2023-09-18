@@ -60,9 +60,9 @@ public class UICannonAim : MonoBehaviour
         vehicle.NetAimPointEvent += OnChangePosition;
     }
 
-    private void OnReloadAim(float turret)
+    private void OnReloadAim(float normalizedTimer)
     {
-        reloadSlider.fillAmount = turret;
+        reloadSlider.fillAmount = normalizedTimer;
     }
     
     private void OnChangePosition()

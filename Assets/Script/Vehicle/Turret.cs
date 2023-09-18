@@ -31,7 +31,8 @@ public class Turret : NetworkBehaviour
 
     public void SetSelectProjectile(int index)
     {
-        Debug.Log(index+ " SetSelectProjectile");
+        Debug.Log($"SetSelectProjectile on client with index {index}");
+
         if(isOwned == false) return;
         
         if(index < 0 || index > ammunitions.Length) return;
@@ -40,6 +41,8 @@ public class Turret : NetworkBehaviour
 
         if (isClient == true)
         {
+            Debug.Log("CmdReloadAmmunation called on the client");
+
             CmdReloadAmmunation();
         }
         
@@ -87,12 +90,18 @@ public class Turret : NetworkBehaviour
 
         OnFire();
     }
+    
+    [ClientRpc]
+    private void RpcUpdateTimer(float normalizedTimer)
+    {
+        Timer?.Invoke(normalizedTimer);
+    }
 
     protected virtual void Update()
     {
         if (fireTimer > 0)
         {
-            Timer?.Invoke(FireTimerNormalize);
+            RpcUpdateTimer(FireTimerNormalize);
             fireTimer -= Time.deltaTime;
         }
     }
