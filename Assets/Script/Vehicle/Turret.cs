@@ -15,16 +15,14 @@ public class Turret : NetworkBehaviour
 
     private float fireTimer;
     
-    public float FireTimer => fireTimer;
-    
     public Transform LaunchPoint => launchPoint;
 
-    public ProjectileProperties SelectedProjectile => ammunitions[syncSelectedAmmunitionIndex].ProjectileProperties;
+    public ProjectileProperties SelectedProjectile => Ammunitions[syncSelectedAmmunitionIndex].ProjectileProperties;
     public float FireTimerNormalize => fireTimer / fireRate;
     
 
     [SyncVar] 
-    private int syncSelectedAmmunitionIndex;
+    [SerializeField] private int syncSelectedAmmunitionIndex;
 
     public int SelectedAmmunitionIndex => syncSelectedAmmunitionIndex;
     
@@ -45,7 +43,7 @@ public class Turret : NetworkBehaviour
             CmdReloadAmmunation();
         }
         
-        UpdateSelectedAmmunation?.Invoke(index);
+        UpdateSelectedAmmunation?.Invoke(syncSelectedAmmunitionIndex);
     }
     
 

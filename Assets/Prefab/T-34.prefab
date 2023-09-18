@@ -3195,8 +3195,8 @@ GameObject:
   - component: {fileID: 4268467132667651402}
   - component: {fileID: 3304789513335127234}
   - component: {fileID: 9057295644812582518}
-  - component: {fileID: 1649592241089585067}
-  - component: {fileID: 2921707808175813114}
+  - component: {fileID: 6686647065120636079}
+  - component: {fileID: 3447091765135453639}
   - component: {fileID: 8594297131335561576}
   m_Layer: 0
   m_Name: T-34
@@ -3433,12 +3433,13 @@ MonoBehaviour:
   - {fileID: 4268467132667651402}
   - {fileID: 3304789513335127234}
   - {fileID: 9057295644812582518}
+  syncSelectedAmmunitionIndex: 0
   tower: {fileID: 6059145924912126952}
   mask: {fileID: 4401281158462984309}
   horizontalRotationSpeed: 30
   verticalRotationSpeed: 30
-  maxTopAngel: -15.5
-  maxBottomAngel: 5
+  maxTopAngel: -15.75
+  maxBottomAngel: 3.15
   fireSound: {fileID: 624368916647795296}
   mazzel: {fileID: 624368916646106640}
   foreceRecoil: 30000
@@ -3579,7 +3580,7 @@ MonoBehaviour:
   syncInterval: 0
   projectileProperties: {fileID: 11400000, guid: ea41022315219a84fa7f01b4b8741267, type: 2}
   syncAmmoCount: 5
---- !u!114 &1649592241089585067
+--- !u!114 &6686647065120636079
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3588,7 +3589,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3859343835399678058}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed488cf9e34c92244b9e186b5416d051, type: 3}
+  m_Script: {fileID: 11500000, guid: eae8f0502e505de4092db7299dde0d32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncDirection: 0
@@ -3601,11 +3602,11 @@ MonoBehaviour:
   EventRecovered:
     m_PersistentCalls:
       m_Calls: []
-  currentHitPoint: 0
-  title: Left Track
+  currentHitPoint: 1
+  title: Left_Track_Module
   armor: {fileID: 6112487722295469868}
   recoveredTime: 6
---- !u!114 &2921707808175813114
+--- !u!114 &3447091765135453639
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3614,7 +3615,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3859343835399678058}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed488cf9e34c92244b9e186b5416d051, type: 3}
+  m_Script: {fileID: 11500000, guid: d8ec965338492934a8cb76e3cf023689, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncDirection: 0
@@ -3627,8 +3628,8 @@ MonoBehaviour:
   EventRecovered:
     m_PersistentCalls:
       m_Calls: []
-  currentHitPoint: 0
-  title: Right Track
+  currentHitPoint: 1
+  title: Right_Track_Module
   armor: {fileID: 3259975847409674049}
   recoveredTime: 6
 --- !u!114 &8594297131335561576
@@ -3650,8 +3651,8 @@ MonoBehaviour:
   leftTrackDamageMesh: {fileID: 8310139627066241196}
   rightTrackMesh: {fileID: 2519690206067781069}
   rightTrackDamageMesh: {fileID: 6832954811048866238}
-  leftTrack: {fileID: 1649592241089585067}
-  rightTrack: {fileID: 2921707808175813114}
+  leftTrack: {fileID: 6686647065120636079}
+  rightTrack: {fileID: 3447091765135453639}
 --- !u!1 &4088013986436401957
 GameObject:
   m_ObjectHideFlags: 0

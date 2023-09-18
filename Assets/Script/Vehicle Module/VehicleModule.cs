@@ -2,16 +2,16 @@ using Mirror;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class VehicleModule : Destructible
+public abstract class VehicleModule : Destructible
 {
-    [SerializeField] private string title;
-    [SerializeField] private Armor armor;
-    [SerializeField] private float recoveredTime;
+    [SerializeField] protected string title;
+    [SerializeField] protected Armor armor;
+    [SerializeField] protected float recoveredTime;
 
-    private float remainingRecoveryTime;
+    protected float remainingRecoveryTime;
     public float Rem => remainingRecoveryTime / recoveredTime;
     
-    public UnityAction<float> OnTimerUpdate;
+    public event UnityAction<float> OnTimerUpdate;
 
     private void Awake()
     {
@@ -58,10 +58,9 @@ public class VehicleModule : Destructible
     {
         OnTimerUpdate?.Invoke(time);
     }
+    
+    
+    // Абстрактный метод для обработки уничтожения модуля
+    public abstract void OnModuleDestroyed(Destructible destructible);
 
-    private void OnModuleDestroyed(Destructible destructible)
-    {
-        remainingRecoveryTime = recoveredTime;
-        enabled = true;
-    }
 }

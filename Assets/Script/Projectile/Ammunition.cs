@@ -16,11 +16,11 @@ public class Ammunition : NetworkBehaviour
 
     #region  Server
 
-    [Server]
-    public void SvAddAmmo(int count)
-    {
-        syncAmmoCount += count;
-    }
+    // [Server]
+    // public void SvAddAmmo(int count)
+    // {
+    //     syncAmmoCount += count;
+    // }
 
     [Server]
     public bool SvDrawAmmo(int count)
@@ -44,6 +44,7 @@ public class Ammunition : NetworkBehaviour
     
     private void SyncAmmoCount(int oldValue, int newValue)
     {
+        Debug.Log(newValue + " SyncAmmoCount");
         AmmoCountChanged?.Invoke(newValue);
     }
 
