@@ -44,6 +44,8 @@ public class TankTurret : Turret
 
         var projectile = Instantiate(SelectedProjectile.ProjectilePrefab); // var - тот же.
         
+        Debug.Log($"projectile + {projectile.name}");
+        
         projectile.Owner = tank.Owner;
         projectile.SetProperties(SelectedProjectile);
         

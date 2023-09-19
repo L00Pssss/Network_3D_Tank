@@ -34,7 +34,7 @@ public class UIAmmunitionPanel : MonoBehaviour
         turret = Player.Local.ActiveVechicle.Turret;
 
         turret.UpdateSelectedAmmunation += OnTurretUpdateSlectedAmmunation;
-        
+
         Debug.Log((turret.Ammunitions.Length));
         Debug.Log((turret.name));
 

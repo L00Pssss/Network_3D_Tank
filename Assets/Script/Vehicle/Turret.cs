@@ -31,8 +31,6 @@ public class Turret : NetworkBehaviour
 
     public void SetSelectProjectile(int index)
     {
-        Debug.Log($"SetSelectProjectile on client with index {index}");
-
         if(isOwned == false) return;
         
         if(index < 0 || index > ammunitions.Length) return;
@@ -41,12 +39,11 @@ public class Turret : NetworkBehaviour
 
         if (isClient == true)
         {
-            Debug.Log("CmdReloadAmmunation called on the client");
-
+            CmdSelectProjectile(index);
             CmdReloadAmmunation();
         }
         
-        UpdateSelectedAmmunation?.Invoke(syncSelectedAmmunitionIndex);
+        UpdateSelectedAmmunation.Invoke(syncSelectedAmmunitionIndex);
     }
     
 
@@ -66,6 +63,13 @@ public class Turret : NetworkBehaviour
     private void CmdReloadAmmunation()
     {
         fireTimer = fireRate;
+    }
+    
+    [Command]
+    private void CmdSelectProjectile(int index)
+    {
+        // Обновление выбранного боеприпаса на сервере
+        syncSelectedAmmunitionIndex = index;
     }
 
     [Command]
@@ -101,7 +105,10 @@ public class Turret : NetworkBehaviour
     {
         if (fireTimer > 0)
         {
-            RpcUpdateTimer(FireTimerNormalize);
+            if (isServer)
+            {
+                RpcUpdateTimer(FireTimerNormalize);
+            }
             fireTimer -= Time.deltaTime;
         }
     }
