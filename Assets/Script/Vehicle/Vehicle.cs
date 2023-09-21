@@ -32,6 +32,8 @@ public class Vehicle : Destructible
 
     public Turret Turret;
 
+    public VehicleViewer vehicleViewer;
+
     public int TeamId;
 
     [SyncVar]

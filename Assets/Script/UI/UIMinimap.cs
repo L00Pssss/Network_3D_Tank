@@ -3,6 +3,8 @@ using UnityEngine.UI;
 
 public class UIMinimap : MonoBehaviour
 {
+    [SerializeField] private Transform mainCanvas;
+    
     [SerializeField] private SizeMap sizeMap;
 
     [SerializeField] private UITankMark tankMarkPrefab;
@@ -64,10 +66,22 @@ public class UIMinimap : MonoBehaviour
         {
             if (vehicles[i] == null) continue;
 
+            if (vehicles[i] != Player.Local.ActiveVechicle)
+            {
+                bool isVisible = Player.Local.ActiveVechicle.vehicleViewer.IsVisible((vehicles[i].netIdentity));
+            
+                tankMarks[i].gameObject.SetActive((isVisible));
+            }
+    
+            if (tankMarks[i].gameObject.activeSelf == false) continue;
+
             Vector3 normalPositon = sizeMap.GetNormalPositon(vehicles[i].transform.position);
 
             Vector3 posInMinimap = new Vector3(normalPositon.x * background.rectTransform.sizeDelta.x * 0.5f,
                 normalPositon.z * background.rectTransform.sizeDelta.y * 0.5f, 0);
+            
+            posInMinimap.x *= mainCanvas.localScale.x;
+            posInMinimap.y *= mainCanvas.localScale.y;
 
             tankMarks[i].transform.position = background.transform.position + posInMinimap;
         }
