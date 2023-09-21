@@ -1,10 +1,15 @@
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(Vehicle))]
 public class VehicleViewer : NetworkBehaviour
 {
+    private const float X_RAY_DISTANCE = 50.0f;
+        
+    private const float BASE_EXIT_TIME_FROM_DISCOVERY = 10.0f;
+    
     [SerializeField] private float viewDistance;
 
     [SerializeField] private Transform[] viewPoints;
@@ -13,9 +18,11 @@ public class VehicleViewer : NetworkBehaviour
 
     private Vehicle vehicle;
 
-    public List<VehicleDimensions> allVehicleDimensionsList = new List<VehicleDimensions>(); // debug
+    public List<VehicleDimensions> allVehicleDimensions = new List<VehicleDimensions>(); // debug
     
     public SyncList<NetworkIdentity> visibleVehicles = new SyncList<NetworkIdentity>(); // debug
+
+    public List<float> remainingTime = new List<float>();
 
     public override void OnStartServer()
     {
@@ -50,9 +57,12 @@ public class VehicleViewer : NetworkBehaviour
             if(vehicleDimensions == null) continue;
 
             if (vehicle.TeamId != allVehicle[i].TeamId)
-                allVehicleDimensionsList.Add(vehicleDimensions);
+                allVehicleDimensions.Add(vehicleDimensions);
             else
+            {
                 visibleVehicles.Add(vehicleDimensions.Vehicle.netIdentity);
+                remainingTime.Add(-1);
+            }
         }
     }
 
@@ -60,25 +70,53 @@ public class VehicleViewer : NetworkBehaviour
     {
         if(isServer == false) return;
 
-        for (int i = 0; i < allVehicleDimensionsList.Count; i++)
+        for (int i = 0; i < allVehicleDimensions.Count; i++)
         {
+            if(allVehicleDimensions[i].Vehicle == null) continue;
+            
             bool IsVivble = false;
 
             for (int j = 0; j < viewPoints.Length; j++)
             {
-                IsVivble = CheckVisibility(viewPoints[i].position, allVehicleDimensionsList[i]);
+                IsVivble = CheckVisibility(viewPoints[i].position, allVehicleDimensions[i]);
                 
                 if(IsVivble == true) break;
             }
 
-            if (IsVivble == true && visibleVehicles.Contains(allVehicleDimensionsList[i].Vehicle.netIdentity) == false)
+            if (IsVivble == true && visibleVehicles.Contains(allVehicleDimensions[i].Vehicle.netIdentity) == false)
             {
-                visibleVehicles.Add(allVehicleDimensionsList[i].Vehicle.netIdentity);
+                visibleVehicles.Add(allVehicleDimensions[i].Vehicle.netIdentity);
+                remainingTime.Add(-1);
             }
-            
-            if (IsVivble == false && visibleVehicles.Contains(allVehicleDimensionsList[i].Vehicle.netIdentity) == true)
+
+            if (IsVivble == true && visibleVehicles.Contains(allVehicleDimensions[i].Vehicle.netIdentity) == true)
             {
-                visibleVehicles.Remove(allVehicleDimensionsList[i].Vehicle.netIdentity);
+                remainingTime[visibleVehicles.IndexOf(allVehicleDimensions[i].Vehicle.netIdentity)] = -1;
+            }
+            if (IsVivble == false && visibleVehicles.Contains(allVehicleDimensions[i].Vehicle.netIdentity) == true)
+            {
+                if (remainingTime[visibleVehicles.IndexOf(allVehicleDimensions[i].Vehicle.netIdentity)] == -1)
+                {
+                    remainingTime[visibleVehicles.IndexOf(allVehicleDimensions[i].Vehicle.netIdentity)] =
+                        BASE_EXIT_TIME_FROM_DISCOVERY;
+                }
+                //  visibleVehicles.Remove(allVehicleDimensionsList[i].Vehicle.netIdentity);
+            }
+        }
+
+        for (int i = 0; i < remainingTime.Count; i++)
+        {
+            if (remainingTime[i] > 0)
+            {
+                remainingTime[i] -= Time.deltaTime;
+                if (remainingTime[i] <= 0)
+                    remainingTime[i] = 0;
+            }
+
+            if (remainingTime[i] == 0)
+            {
+                remainingTime.RemoveAt(i);
+                visibleVehicles.RemoveAt(i);
             }
         }
     }

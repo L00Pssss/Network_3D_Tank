@@ -151,9 +151,14 @@ public class TrackTank : Vehicle
     public float LeftWheelRmp => leftWheelRow.minRpm;
     public float RighttWheelRmp => rightWheelRow.minRpm;
 
-    private void Start()
+    private void Awake()
     {
         rigidBody = GetComponent<Rigidbody>();
+    }
+
+    private void Start()
+    {
+       
         rigidBody.centerOfMass = centerOfMass.localPosition;
         Destroyed += OnTrackTankDestroyed;
     }

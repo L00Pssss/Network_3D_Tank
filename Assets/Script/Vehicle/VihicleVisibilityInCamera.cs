@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class VihicleVisibilityInCamera : MonoBehaviour
 {
-    private List<Vehicle> vehicle = new List<Vehicle>();
+    private List<Vehicle> vehicles = new List<Vehicle>();
+    
+    [SerializeField] private float  xRayDistance = 50.0f; //
     private void Start()
     {
         NetworkSessionManager.Match.MatchStart += OnMatchStart;
@@ -20,7 +22,7 @@ public class VihicleVisibilityInCamera : MonoBehaviour
 
     private void OnMatchStart()
     {
-        vehicle.Clear();
+        vehicles.Clear();
         
         Vehicle[] allVehicle = FindObjectsOfType<Vehicle>();
 
@@ -28,17 +30,23 @@ public class VihicleVisibilityInCamera : MonoBehaviour
         {
             if(allVehicle[i] == Player.Local.ActiveVechicle) continue;
             
-            vehicle.Add(allVehicle[i]);
+            vehicles.Add(allVehicle[i]);
         }
     }
 
     private void Update()
     {
-        for (int i = 0; i < vehicle.Count; i++)
+        for (int i = 0; i < vehicles.Count; i++)
         {
-            bool isVisible = Player.Local.ActiveVechicle.vehicleViewer.IsVisible((vehicle[i].netIdentity));
+            bool isVisible = Player.Local.ActiveVechicle.vehicleViewer.IsVisible((vehicles[i].netIdentity));
             
-            vehicle[i].SetVisible(isVisible);
+            
+            if (Vector3.Distance(vehicles[i].transform.position, Player.Local.ActiveVechicle.transform.position) <= xRayDistance)
+            {
+                isVisible = true;
+            }
+            
+            vehicles[i].SetVisible(isVisible);
         }
     }
 }
