@@ -182,6 +182,8 @@ public class TrackTank : Vehicle
             UpdateMotorTorque();
 
             CmdUpdateWheelRpm(LeftWheelRmp, RighttWheelRmp);
+
+            CmdUpdateLinearVelocity(LinerVelocity);
         }
     }
     
@@ -189,6 +191,12 @@ public class TrackTank : Vehicle
     private void CmdUpdateWheelRpm(float leftRpm, float rightRpm)
     {
         SvUpdateWheelRpm(leftRpm, rightRpm);
+    }
+
+    [Command]
+    private void CmdUpdateLinearVelocity(float velocity)
+    {
+        syncLinearVelocity = velocity;
     }
 
     [Server]

@@ -20,13 +20,14 @@ public class Vehicle : Destructible
 
     public virtual float LinerVelocity => 0;
 
+    protected float syncLinearVelocity;
     public float NormalizedLinearVelocity
     {
         get
         {
-            if (Mathf.Approximately(0, LinerVelocity) == true) return 0;
+            if (Mathf.Approximately(0, syncLinearVelocity) == true) return 0;
 
-            return Mathf.Clamp01(LinerVelocity / maxLinerVelocity);
+            return Mathf.Clamp01(syncLinearVelocity / maxLinerVelocity);
         }
     }
 

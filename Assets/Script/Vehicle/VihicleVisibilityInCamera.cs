@@ -6,7 +6,6 @@ public class VihicleVisibilityInCamera : MonoBehaviour
 {
     private List<Vehicle> vehicles = new List<Vehicle>();
     
-    [SerializeField] private float  xRayDistance = 50.0f; //
     private void Start()
     {
         NetworkSessionManager.Match.MatchStart += OnMatchStart;
@@ -39,13 +38,7 @@ public class VihicleVisibilityInCamera : MonoBehaviour
         for (int i = 0; i < vehicles.Count; i++)
         {
             bool isVisible = Player.Local.ActiveVechicle.vehicleViewer.IsVisible((vehicles[i].netIdentity));
-            
-            
-            if (Vector3.Distance(vehicles[i].transform.position, Player.Local.ActiveVechicle.transform.position) <= xRayDistance)
-            {
-                isVisible = true;
-            }
-            
+
             vehicles[i].SetVisible(isVisible);
         }
     }

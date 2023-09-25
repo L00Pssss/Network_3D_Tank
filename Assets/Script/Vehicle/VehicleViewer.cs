@@ -9,6 +9,8 @@ public class VehicleViewer : NetworkBehaviour
     private const float X_RAY_DISTANCE = 50.0f;
         
     private const float BASE_EXIT_TIME_FROM_DISCOVERY = 10.0f;
+
+    private const float CAMOUFLAGE_DISTANCE = 150.0F;
     
     [SerializeField] private float viewDistance;
 
@@ -130,8 +132,23 @@ public class VehicleViewer : NetworkBehaviour
     {
         float distance = Vector3.Distance(transform.position, vehicleDimensions.transform.position);
 
+        if (Vector3.Distance(viewPoint, vehicleDimensions.transform.position) <= X_RAY_DISTANCE) return true;
+            
         if (distance > viewDistance) return false;
+
+        float currentViewDistance = viewDistance;
+
+        if (distance >= CAMOUFLAGE_DISTANCE)
+        {
+            VehicleComuflage vehicleComuflage = vehicleDimensions.Vehicle.GetComponent<VehicleComuflage>();
+            
+            if(vehicleComuflage != null)
+                currentViewDistance = viewDistance - vehicleComuflage.CurrentDistance;
+        }
+
+        if (distance > currentViewDistance) return false;
 
         return vehicleDimensions.IsVisibleFromPoint(transform.root, viewPoint, color);
     }
+
 }
