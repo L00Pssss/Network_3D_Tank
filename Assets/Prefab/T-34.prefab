@@ -3421,6 +3421,7 @@ GameObject:
   - component: {fileID: 8594297131335561576}
   - component: {fileID: 1196831028043778912}
   - component: {fileID: 3699118951671943427}
+  - component: {fileID: 9174976644518748635}
   m_Layer: 0
   m_Name: T-34
   m_TagString: Untagged
@@ -3918,7 +3919,24 @@ MonoBehaviour:
   - {fileID: 2364063130565335223}
   - {fileID: 6570355196253390710}
   color: {r: 0, g: 0, b: 0, a: 0}
-  allVehicleDimensionsList: []
+  allVehicleDimensions: []
+  remainingTime: []
+--- !u!114 &9174976644518748635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3859343835399678058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5cfaf8ac3750ee4caa3e856a8fc179b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseDistance: 70
+  percent: 0
+  percentLerpRate: 0.5
+  percentOnFire: 0.07
 --- !u!1 &4088013986436401957
 GameObject:
   m_ObjectHideFlags: 0
