@@ -49,7 +49,7 @@ public class VehicleComuflage : MonoBehaviour
             targetPercent = 0.5f;
         }
         
-        if (vehicle.NormalizedLinearVelocity > 0.01f)
+        if (vehicle.NormalizedLinearVelocity <= 0.01f)
         {
             targetPercent = 1.0f;
         }

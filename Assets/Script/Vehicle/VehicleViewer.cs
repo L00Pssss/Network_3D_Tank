@@ -76,33 +76,32 @@ public class VehicleViewer : NetworkBehaviour
         {
             if(allVehicleDimensions[i].Vehicle == null) continue;
             
-            bool IsVivble = false;
+            bool IsVisible = false;
 
             for (int j = 0; j < viewPoints.Length; j++)
             {
-                IsVivble = CheckVisibility(viewPoints[i].position, allVehicleDimensions[i]);
+                IsVisible = CheckVisibility(viewPoints[i].position, allVehicleDimensions[i]);
                 
-                if(IsVivble == true) break;
+                if(IsVisible == true) break;
             }
 
-            if (IsVivble == true && visibleVehicles.Contains(allVehicleDimensions[i].Vehicle.netIdentity) == false)
+            if (IsVisible == true && visibleVehicles.Contains(allVehicleDimensions[i].Vehicle.netIdentity) == false)
             {
                 visibleVehicles.Add(allVehicleDimensions[i].Vehicle.netIdentity);
                 remainingTime.Add(-1);
             }
 
-            if (IsVivble == true && visibleVehicles.Contains(allVehicleDimensions[i].Vehicle.netIdentity) == true)
+            if (IsVisible == true && visibleVehicles.Contains(allVehicleDimensions[i].Vehicle.netIdentity) == true)
             {
                 remainingTime[visibleVehicles.IndexOf(allVehicleDimensions[i].Vehicle.netIdentity)] = -1;
             }
-            if (IsVivble == false && visibleVehicles.Contains(allVehicleDimensions[i].Vehicle.netIdentity) == true)
+            if (IsVisible == false && visibleVehicles.Contains(allVehicleDimensions[i].Vehicle.netIdentity) == true)
             {
                 if (remainingTime[visibleVehicles.IndexOf(allVehicleDimensions[i].Vehicle.netIdentity)] == -1)
                 {
                     remainingTime[visibleVehicles.IndexOf(allVehicleDimensions[i].Vehicle.netIdentity)] =
                         BASE_EXIT_TIME_FROM_DISCOVERY;
                 }
-                //  visibleVehicles.Remove(allVehicleDimensionsList[i].Vehicle.netIdentity);
             }
         }
 
