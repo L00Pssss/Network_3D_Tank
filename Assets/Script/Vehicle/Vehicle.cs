@@ -85,12 +85,14 @@ public class Vehicle : Destructible
 
     public void SetVisible(bool visible)
     {
-        if (visible == true && gameObject.layer != LayerMask.NameToLayer("Default"))
+        if (visible == true)
         {
+            if(gameObject.layer == LayerMask.NameToLayer("Default")) return;
             SetLayerToAll("Default");
         }
-        else if (visible == false && gameObject.layer != LayerMask.NameToLayer("Tank_T-43"))
+        else
         {
+            if(gameObject.layer == LayerMask.NameToLayer("Tank_T-43")) return;
             SetLayerToAll("Tank_T-43");
         }
     }

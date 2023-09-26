@@ -1,13 +1,14 @@
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 [RequireComponent(typeof(Vehicle))]
 public class VehicleViewer : NetworkBehaviour
 {
+    private const float UPDATE_INTERVAL = 0.5f;
+    
     private const float X_RAY_DISTANCE = 50.0f;
-        
+
     private const float BASE_EXIT_TIME_FROM_DISCOVERY = 10.0f;
 
     private const float CAMOUFLAGE_DISTANCE = 150.0F;
@@ -19,6 +20,8 @@ public class VehicleViewer : NetworkBehaviour
     [SerializeField] private Color color;
 
     private Vehicle vehicle;
+
+    private float remainingTimeLastUpdate;
 
     public List<VehicleDimensions> allVehicleDimensions = new List<VehicleDimensions>(); // debug
     
@@ -72,53 +75,61 @@ public class VehicleViewer : NetworkBehaviour
     {
         if(isServer == false) return;
 
-        for (int i = 0; i < allVehicleDimensions.Count; i++)
+        remainingTimeLastUpdate += Time.deltaTime;
+
+        if (remainingTimeLastUpdate >= UPDATE_INTERVAL)
         {
-            if(allVehicleDimensions[i].Vehicle == null) continue;
-            
-            bool IsVisible = false;
+            for (int i = 0; i < allVehicleDimensions.Count; i++)
+            {
+                if (allVehicleDimensions[i].Vehicle == null) continue;
 
-            for (int j = 0; j < viewPoints.Length; j++)
-            {
-                IsVisible = CheckVisibility(viewPoints[j].position, allVehicleDimensions[j]);
-                
-                if(IsVisible == true) break;
-            }
+                bool IsVisible = false;
 
-            if (IsVisible == true && visibleVehicles.Contains(allVehicleDimensions[i].Vehicle.netIdentity) == false)
-            {
-                visibleVehicles.Add(allVehicleDimensions[i].Vehicle.netIdentity);
-                remainingTime.Add(-1);
-            }
-
-            if (IsVisible == true && visibleVehicles.Contains(allVehicleDimensions[i].Vehicle.netIdentity) == true)
-            {
-                remainingTime[visibleVehicles.IndexOf(allVehicleDimensions[i].Vehicle.netIdentity)] = -1;
-            }
-            if (IsVisible == false && visibleVehicles.Contains(allVehicleDimensions[i].Vehicle.netIdentity) == true)
-            {
-                if (remainingTime[visibleVehicles.IndexOf(allVehicleDimensions[i].Vehicle.netIdentity)] == -1)
+                for (int j = 0; j < viewPoints.Length; j++)
                 {
-                    remainingTime[visibleVehicles.IndexOf(allVehicleDimensions[i].Vehicle.netIdentity)] =
-                        BASE_EXIT_TIME_FROM_DISCOVERY;
+                    IsVisible = CheckVisibility(viewPoints[j].position, allVehicleDimensions[i]);
+
+                    if (IsVisible == true) break;
+                }
+
+                if (IsVisible == true && visibleVehicles.Contains(allVehicleDimensions[i].Vehicle.netIdentity) == false)
+                {
+                    visibleVehicles.Add(allVehicleDimensions[i].Vehicle.netIdentity);
+                    remainingTime.Add(-1);
+                }
+
+                if (IsVisible == true && visibleVehicles.Contains(allVehicleDimensions[i].Vehicle.netIdentity) == true)
+                {
+                    remainingTime[visibleVehicles.IndexOf(allVehicleDimensions[i].Vehicle.netIdentity)] = -1;
+                }
+
+                if (IsVisible == false && visibleVehicles.Contains(allVehicleDimensions[i].Vehicle.netIdentity) == true)
+                {
+                    if (remainingTime[visibleVehicles.IndexOf(allVehicleDimensions[i].Vehicle.netIdentity)] == -1)
+                    {
+                        remainingTime[visibleVehicles.IndexOf(allVehicleDimensions[i].Vehicle.netIdentity)] =
+                            BASE_EXIT_TIME_FROM_DISCOVERY;
+                    }
                 }
             }
-        }
 
-        for (int i = 0; i < remainingTime.Count; i++)
-        {
-            if (remainingTime[i] > 0)
+            for (int i = 0; i < remainingTime.Count; i++)
             {
-                remainingTime[i] -= Time.deltaTime;
-                if (remainingTime[i] <= 0)
-                    remainingTime[i] = 0;
+                if (remainingTime[i] > 0)
+                {
+                    remainingTime[i] -= Time.deltaTime;
+                    if (remainingTime[i] <= 0)
+                        remainingTime[i] = 0;
+                }
+
+                if (remainingTime[i] == 0)
+                {
+                    remainingTime.RemoveAt(i);
+                    visibleVehicles.RemoveAt(i);
+                }
             }
 
-            if (remainingTime[i] == 0)
-            {
-                remainingTime.RemoveAt(i);
-                visibleVehicles.RemoveAt(i);
-            }
+            remainingTimeLastUpdate = 0;
         }
     }
 

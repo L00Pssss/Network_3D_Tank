@@ -19,7 +19,7 @@ public class VehicleDimensions : MonoBehaviour
 
         for (int i = 0; i < points.Length; i++)
         {
-            Debug.DrawLine(point, points[i].position, color);
+        //    Debug.DrawLine(point, points[i].position, color);
 
             RaycastHit[]  hits = Physics.RaycastAll(point, (points[i].position - point).normalized,
                 Vector3.Distance(point, points[i].position));
