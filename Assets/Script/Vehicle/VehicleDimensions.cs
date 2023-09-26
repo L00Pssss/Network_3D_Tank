@@ -8,6 +8,8 @@ public class VehicleDimensions : MonoBehaviour
 
     private Vehicle vehicle;
     public Vehicle Vehicle => vehicle;
+
+    private RaycastHit[] hits = new RaycastHit[10];
     private void Awake()
     {
         vehicle = GetComponent<Vehicle>();
@@ -21,11 +23,11 @@ public class VehicleDimensions : MonoBehaviour
         {
         //    Debug.DrawLine(point, points[i].position, color);
 
-            RaycastHit[]  hits = Physics.RaycastAll(point, (points[i].position - point).normalized,
+            int lenghtRaycastHit  = Physics.RaycastNonAlloc(point, (points[i].position - point).normalized, hits,
                 Vector3.Distance(point, points[i].position));
 
             visible = true;
-            for (int j = 0; j < hits.Length; j++)
+            for (int j = 0; j < lenghtRaycastHit; j++)
             {
                 if(hits[j].collider.transform.root == source)
                     continue;
