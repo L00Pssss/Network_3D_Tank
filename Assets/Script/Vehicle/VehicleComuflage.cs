@@ -20,7 +20,7 @@ public class VehicleComuflage : MonoBehaviour
 
     private void Start()
     {
-        if(NetworkSessionManager.Instance.IsServer  == false) return;
+        if(NetworkSessionManager.Instance.IsServer == false) return;
 
         vehicle = GetComponent<Vehicle>();
 
@@ -30,9 +30,12 @@ public class VehicleComuflage : MonoBehaviour
 
     private void OnDestroy()
     {
-        if(NetworkSessionManager.Instance.IsServer  == false) return;
+        if(NetworkSessionManager.Instance != null && NetworkSessionManager.Instance.IsServer == false) return;
 
-        vehicle.Turret.Shot -= OnShot;
+        if (vehicle != null && vehicle.Turret != null)
+        {
+            vehicle.Turret.Shot -= OnShot;
+        }
     }
 
     private void OnShot()
@@ -56,6 +59,7 @@ public class VehicleComuflage : MonoBehaviour
 
         percent = Mathf.MoveTowards(percent, targetPercent, Time.deltaTime * percentLerpRate);
         percent = Mathf.Clamp01(percent);
+        
         currentDistance = baseDistance * percent;
 
     }

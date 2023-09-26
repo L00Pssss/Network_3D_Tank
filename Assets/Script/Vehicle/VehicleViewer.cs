@@ -80,7 +80,7 @@ public class VehicleViewer : NetworkBehaviour
 
             for (int j = 0; j < viewPoints.Length; j++)
             {
-                IsVisible = CheckVisibility(viewPoints[i].position, allVehicleDimensions[i]);
+                IsVisible = CheckVisibility(viewPoints[j].position, allVehicleDimensions[j]);
                 
                 if(IsVisible == true) break;
             }
