@@ -29,6 +29,8 @@ public class MatchController : NetworkBehaviour
     public event UnityAction SvMatchStart;
     public event UnityAction SvMatchEnd;
 
+    [SerializeField] private MatchMemberSpawner spawner;
+
     [SyncVar]
     private bool matchActive;
     public bool IsMatchActive => matchActive;
@@ -68,21 +70,7 @@ public class MatchController : NetworkBehaviour
 
         matchActive = true;
 
-        foreach (var v in FindObjectsOfType<Player>())
-        {
-            if (v.ActiveVehicle != null)
-            {
-                NetworkServer.UnSpawn(v.ActiveVehicle.gameObject);
-                Destroy(v.ActiveVehicle.gameObject);
-
-                v.ActiveVehicle = null;
-            }
-        }
-
-        foreach (var v in FindObjectsOfType<Player>())
-        {
-            v.SvSpwanClintVehicle();
-        }
+        spawner.SvRespawnVehiclesAllMembers();
 
         foreach (var v in matchCoditions)
         {

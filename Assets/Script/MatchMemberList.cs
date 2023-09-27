@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 public class MatchMemberList : NetworkBehaviour
 {
@@ -12,7 +13,9 @@ public class MatchMemberList : NetworkBehaviour
         Instance = this;
     }
 
-    [SerializeField] private List<MatchMemberData> AllMemberData = new List<MatchMemberData>();
+    [SerializeField] private List<MatchMemberData> allMemberData = new List<MatchMemberData>();
+
+    public int MemberDataCount => allMemberData.Count;
 
     public static UnityAction<List<MatchMemberData>> UpdateList;
 
@@ -20,30 +23,30 @@ public class MatchMemberList : NetworkBehaviour
     {
         base.OnStartClient();
 
-        AllMemberData.Clear();
+        allMemberData.Clear();
     }
 
     [Server]
     public void SvAddMember(MatchMemberData memberData)
     {
-        AllMemberData.Add(memberData);
+        allMemberData.Add(memberData);
 
         RpcClearMemberDataList();
 
-        for (int i = 0; i < AllMemberData.Count; i++)
+        for (int i = 0; i < allMemberData.Count; i++)
         {
-            RpcAddMember(AllMemberData[i]);
+            RpcAddMember(allMemberData[i]);
         }
     }
 
     [Server]
     public void SvRemoveMember(MatchMemberData memberData)
     {
-        for (int i = 0; i < AllMemberData.Count; i++)
+        for (int i = 0; i < allMemberData.Count; i++)
         {
-            if (AllMemberData[i].Id == memberData.Id)
+            if (allMemberData[i].Id == memberData.Id)
             {
-                AllMemberData.RemoveAt(i);
+                allMemberData.RemoveAt(i);
                 break;
             }
         }
@@ -57,7 +60,7 @@ public class MatchMemberList : NetworkBehaviour
         //check host
         if (isServer == true) return;
 
-        AllMemberData.Clear();
+        allMemberData.Clear();
     }
 
     [ClientRpc]
@@ -66,27 +69,27 @@ public class MatchMemberList : NetworkBehaviour
         //check host
         if (isServer == true && isClient == true)
         {
-            UpdateList?.Invoke(AllMemberData);
+            UpdateList?.Invoke(allMemberData);
             return;
         }
 
-        AllMemberData.Add(memberData);
+        allMemberData.Add(memberData);
 
-        UpdateList?.Invoke(AllMemberData);
+        UpdateList?.Invoke(allMemberData);
     }
 
     [ClientRpc]
     private void RpcRemoveMember(MatchMemberData memberData)
     {
-        for (int i = 0; i < AllMemberData.Count; i++)
+        for (int i = 0; i < allMemberData.Count; i++)
         {
-            if (AllMemberData[i].Id == memberData.Id)
+            if (allMemberData[i].Id == memberData.Id)
             {
-                AllMemberData.RemoveAt(i);
+                allMemberData.RemoveAt(i);
                 break;
             }
         }
 
-        UpdateList?.Invoke(AllMemberData);
+        UpdateList?.Invoke(allMemberData);
     }
 }
