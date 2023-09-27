@@ -1,5 +1,3 @@
-using NeworkChat;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,28 +14,28 @@ public class UIPlayerList : MonoBehaviour
 
     private void Start()
     {
-        PlayerList.UpdatePlayerList += OnUpdatePlayerList;
+        MatchMemberList.UpdateList += OnUpdatePlayerList;
         Player.ChangeFrags += OnChangeFrags;
     }
 
     private void OnDestroy()
     {
-        PlayerList.UpdatePlayerList -= OnUpdatePlayerList;
+        MatchMemberList.UpdateList -= OnUpdatePlayerList;
         Player.ChangeFrags -= OnChangeFrags;
     }
 
-    private void OnChangeFrags(int playerNEtId, int frags)
+    private void OnChangeFrags(MatchMember member, int frags)
     {
         for (int i = 0; i < allplayerLables.Count; i++)
         {
-            if (allplayerLables[i].NetId == playerNEtId)
+            if (allplayerLables[i].NetId == member.netId)
             {
                 allplayerLables[i].UpdateFrag(frags);
             }
         }
     }
 
-    private void OnUpdatePlayerList(List<PlayerData> playerData)
+    private void OnUpdatePlayerList(List<MatchMemberData> memberData)
     {
         for (int i = 0; i < localTeamPanel.childCount; i++)
         {
@@ -50,21 +48,21 @@ public class UIPlayerList : MonoBehaviour
 
         allplayerLables.Clear();
 
-        for (int i = 0; i < playerData.Count; i++)
+        for (int i = 0; i < memberData.Count; i++)
         {
-            if (playerData[i].TeamId == Player.Local.TeamId)
+            if (memberData[i].TeamId == Player.Local.TeamId)
             {
-                AddPlayeLable(playerData[i], playerLablePrefab, localTeamPanel);
+                AddPlayeLable(memberData[i], playerLablePrefab, localTeamPanel);
             }
 
-            if (playerData[i].TeamId != Player.Local.TeamId)
+            if (memberData[i].TeamId != Player.Local.TeamId)
             {
-                AddPlayeLable(playerData[i], playerLablePrefab, otherTeamPanel);
+                AddPlayeLable(memberData[i], playerLablePrefab, otherTeamPanel);
             }
         }
     }
 
-    private void AddPlayeLable(PlayerData playerData, UIPlayerLable playerLable, Transform parent)
+    private void AddPlayeLable(MatchMemberData playerData, UIPlayerLable playerLable, Transform parent)
     {
         UIPlayerLable uIPlayerLable = Instantiate(playerLable);
 

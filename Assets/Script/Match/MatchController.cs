@@ -12,6 +12,17 @@ public interface IMatchCodition
 
 public class MatchController : NetworkBehaviour
 {
+    private static int TeamIdCounter;
+
+    public static int GetNextTeamID()
+    {
+        return TeamIdCounter++ % 2;
+    }
+    public static void ResetTeamCounter()
+    {
+        TeamIdCounter = 1;
+    }
+
     public event UnityAction MatchStart;
     public event UnityAction MatchEnd;
 
@@ -59,12 +70,12 @@ public class MatchController : NetworkBehaviour
 
         foreach (var v in FindObjectsOfType<Player>())
         {
-            if (v.ActiveVechicle != null)
+            if (v.ActiveVehicle != null)
             {
-                NetworkServer.UnSpawn(v.ActiveVechicle.gameObject);
-                Destroy(v.ActiveVechicle.gameObject);
+                NetworkServer.UnSpawn(v.ActiveVehicle.gameObject);
+                Destroy(v.ActiveVehicle.gameObject);
 
-                v.ActiveVechicle = null;
+                v.ActiveVehicle = null;
             }
         }
 

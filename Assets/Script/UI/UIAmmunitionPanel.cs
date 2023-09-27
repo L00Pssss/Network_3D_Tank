@@ -31,7 +31,7 @@ public class UIAmmunitionPanel : MonoBehaviour
 
     private void OnMatchStarted()
     {
-        turret = Player.Local.ActiveVechicle.Turret;
+        turret = Player.Local.ActiveVehicle.Turret;
 
         turret.UpdateSelectedAmmunation += OnTurretUpdateSlectedAmmunation;
 

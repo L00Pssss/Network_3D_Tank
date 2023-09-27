@@ -34,15 +34,15 @@ public class VehicleInput : MonoBehaviour
     {
         if (player == null) return;
 
-        if(player.ActiveVechicle == null) return;
+        if(player.ActiveVehicle == null) return;
 
         if (player.isOwned && player.isLocalPlayer)
         {
-            player.ActiveVechicle.SetTargetControl(new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Jump"), Input.GetAxis("Vertical")));
-            player.ActiveVechicle.NetAimPoint = TraceAimPointWithoutPlayerVehicle(VehicleCamera.Instance.transform.position, VehicleCamera.Instance.transform.forward);
+            player.ActiveVehicle.SetTargetControl(new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Jump"), Input.GetAxis("Vertical")));
+            player.ActiveVehicle.NetAimPoint = TraceAimPointWithoutPlayerVehicle(VehicleCamera.Instance.transform.position, VehicleCamera.Instance.transform.forward);
             if (Input.GetMouseButton(0) == true)
             {
-                player.ActiveVechicle.Fire();
+                player.ActiveVehicle.Fire();
             }
 
             foreach (var kvp in keyToProjectileIndex)
@@ -69,7 +69,7 @@ public class VehicleInput : MonoBehaviour
         Debug.Log((selectedProjectileIndex));
         if (selectedProjectileIndex != -1)
         {
-            player.ActiveVechicle.Turret.SetSelectProjectile(selectedProjectileIndex);
+            player.ActiveVehicle.Turret.SetSelectProjectile(selectedProjectileIndex);
             selectedProjectileIndex = -1;
         }
     }
@@ -80,7 +80,7 @@ public class VehicleInput : MonoBehaviour
 
         RaycastHit[] hits = Physics.RaycastAll(ray, AimDistance);
 
-        var playerRigidbody = Player.Local.ActiveVechicle;
+        var playerRigidbody = Player.Local.ActiveVehicle;
 
         for (int i = hits.Length - 1; i >= 0; i--)
         {

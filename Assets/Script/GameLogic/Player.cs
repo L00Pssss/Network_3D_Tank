@@ -1,48 +1,12 @@
 using Mirror;
 using UnityEngine.Events;
 using UnityEngine;
-using System;
-using NeworkChat;
 
-[Serializable]
-public class PlayerData
+public class Player : MatchMember
 {
-    public int Id;
-    public string Nickname;
-    public int TeamId;
-    public PlayerData(int id, string nickname, int teamId)
-    {
-        Id = id;
-        Nickname = nickname;
-        TeamId = teamId;
-    }
-}
-
-public static class PlayerDataWriterRead
-{
-    public static void WritePlayerData(this NetworkWriter writer, PlayerData value)
-    {
-        writer.WriteInt(value.Id);
-        writer.WriteString(value.Nickname);
-        writer.WriteInt(value.TeamId);
-    }
-
-    public static PlayerData ReadPlayerData(this NetworkReader reader)
-    {
-        return new PlayerData(reader.ReadInt(), reader.ReadString(), reader.ReadInt());
-    }
-}
-
-
-
-public class Player : NetworkBehaviour
-{
-    private static int TeamIdCounter;
-
     public event UnityAction<Vehicle> VehicleSpawned;
-    public event UnityAction<ProjectileHitResult> ProjectileHit; 
+    public event UnityAction<ProjectileHitResult> ProjectileHit;
 
-    public static UnityAction<int, int> ChangeFrags;
     public static Player Local
     {
         get
@@ -56,35 +20,8 @@ public class Player : NetworkBehaviour
         }
     }
 
-
-
     [SerializeField] private Vehicle[] Vehicleprefab;
     [SerializeField] private VehicleInput vehicleInput;
-
-    public Vehicle ActiveVechicle {get;set;}
-
-    [Header("Player")]
-    [SyncVar(hook = nameof(OnNicknameChanged))]
-    public string Nickname;
-
-
-    [SyncVar]
-    [SerializeField] private int teamId;
-    public int TeamId => teamId;
-
-    [SyncVar(hook = nameof(OnFragsChanged))]
-    private int frags;
-    public int Frags
-    {
-        set
-        {
-            frags = value;
-
-            //Server
-            ChangeFrags?.Invoke((int)netId, frags);
-        }
-        get { return frags; }
-    }
 
     [Server]
     public void SvInvokeProjectileHit(ProjectileHitResult hitResult)
@@ -105,45 +42,18 @@ public class Player : NetworkBehaviour
         ProjectileHit?.Invoke(hitResult);
     }
 
-    //Client
-    private void OnFragsChanged(int old, int newVal)
-    {
-        ChangeFrags?.Invoke((int)netId, newVal);
-    }
-
-    private PlayerData data;
-    public PlayerData Data => data;
-    private void OnNicknameChanged(string old, string newVal)
-    {
-        gameObject.name = "Player_" + newVal; // on Client
-    }
-
-    [Command] // on Server
-    public void CmdSetName(string name)
-    {
-        Nickname = name;
-        gameObject.name = "Player_" + name;
-    }
-
-    [Command]
-    public void CmdSetTeamId(int teamId)
-    {
-        this.teamId = teamId;
-    }
-
     public override void OnStartServer()
     {
         base.OnStartServer();
 
-        teamId = TeamIdCounter % 2;
-        TeamIdCounter++;
+        teamId = MatchController.GetNextTeamID();
     }
 
     public override void OnStopServer()
     {
         base.OnStopServer();
 
-        PlayerList.Instance.SvRemovePlayer(data);
+        MatchMemberList.Instance.SvRemoveMember(data);
     }
 
     public override void OnStartClient()
@@ -156,26 +66,14 @@ public class Player : NetworkBehaviour
 
             NetworkSessionManager.Match.MatchEnd += OnMatchEnd;
 
-            data = new PlayerData((int) netId, NetworkSessionManager.Instance.GetComponent<NetworkManagerHUD>().PlayerNickname, teamId);
+            data = new MatchMemberData((int) netId, NetworkSessionManager.Instance.GetComponent<NetworkManagerHUD>().PlayerNickname, teamId, netIdentity);
 
             CmdAddPlayer(Data);
 
             CmdUpdateData(Data);
         }
     }
-
-    [Command]
-    private void CmdAddPlayer(PlayerData data)
-    {
-        PlayerList.Instance.SvAddPlayer(data);
-    }
-
-    [Command]
-    private void CmdUpdateData(PlayerData data)
-    {
-        this.data = data;
-    }
-
+    
     public override void OnStopClient()
     {
         base.OnStopClient();
@@ -186,11 +84,19 @@ public class Player : NetworkBehaviour
         }
     }
 
+    [Command]
+    private void CmdAddPlayer(MatchMemberData memberData)
+    {
+        MatchMemberList.Instance.SvAddMember(memberData);
+    }
+    
+
+
     private void OnMatchEnd()
     {
-        if (ActiveVechicle != null)
+        if (ActiveVehicle != null)
         {
-            ActiveVechicle.SetTargetControl(Vector3.zero);
+            ActiveVehicle.SetTargetControl(Vector3.zero);
             vehicleInput.enabled = false;
         }
     }
@@ -199,9 +105,9 @@ public class Player : NetworkBehaviour
     {
         if (isLocalPlayer == true)
         {
-            if (ActiveVechicle != null)
+            if (ActiveVehicle != null)
             {
-                ActiveVechicle.SetVisible(!VehicleCamera.Instance.IsZoom);
+                ActiveVehicle.SetVisible(!VehicleCamera.Instance.IsZoom);
             }
         }
 
@@ -228,7 +134,7 @@ public class Player : NetworkBehaviour
     [Server]
     public void SvSpwanClintVehicle()
     {
-        if (ActiveVechicle != null) return;
+        if (ActiveVehicle != null) return;
 
         GameObject vehicle = Vehicleprefab[UnityEngine.Random.Range(0, Vehicleprefab.Length)].gameObject;
         if (vehicle == null)
@@ -241,11 +147,11 @@ public class Player : NetworkBehaviour
 
         NetworkServer.Spawn(playerVehicle, netIdentity.connectionToClient);
 
-        ActiveVechicle = playerVehicle.GetComponentInParent<Vehicle>();
-        ActiveVechicle.Owner = netIdentity;
-        ActiveVechicle.TeamId = teamId;
+        ActiveVehicle = playerVehicle.GetComponentInParent<Vehicle>();
+        ActiveVehicle.Owner = netIdentity;
+        ActiveVehicle.TeamId = teamId;
 
-        RpcSetVehicle(ActiveVechicle.netIdentity); // передача клиенту. 
+        RpcSetVehicle(ActiveVehicle.netIdentity); // передача клиенту. 
     }
 
     [ClientRpc]
@@ -253,18 +159,18 @@ public class Player : NetworkBehaviour
     {
         if (vehicle == null) return;
 
-        ActiveVechicle = vehicle.GetComponent<Vehicle>();
-        ActiveVechicle.Owner = netIdentity;
-        ActiveVechicle.TeamId = teamId;
+        ActiveVehicle = vehicle.GetComponent<Vehicle>();
+        ActiveVehicle.Owner = netIdentity;
+        ActiveVehicle.TeamId = teamId;
 
-        if (ActiveVechicle != null && ActiveVechicle.isOwned && VehicleCamera.Instance != null)
+        if (ActiveVehicle != null && ActiveVehicle.isOwned && VehicleCamera.Instance != null)
         {
-            VehicleCamera.Instance.SetTarget(ActiveVechicle); // передаем камеру. 
+            VehicleCamera.Instance.SetTarget(ActiveVehicle); // передаем камеру. 
         }
 
         vehicleInput.enabled = true;
 
-        VehicleSpawned?.Invoke(ActiveVechicle);
+        VehicleSpawned?.Invoke(ActiveVehicle);
     }
 
 

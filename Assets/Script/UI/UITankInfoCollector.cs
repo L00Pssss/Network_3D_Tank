@@ -34,7 +34,7 @@ public class UITankInfoCollector : MonoBehaviour
 
         for (int i = 0; i < Vehicles.Length; i++)
         {
-            if (Vehicles[i] == Player.Local.ActiveVechicle) continue;
+            if (Vehicles[i] == Player.Local.ActiveVehicle) continue;
 
             VehiclesWithoutLocal.Add(Vehicles[i]);
         }
@@ -68,7 +68,7 @@ public class UITankInfoCollector : MonoBehaviour
         {
             if(tankInfo[i] == null) continue;
 
-            bool isVisible = Player.Local.ActiveVechicle.vehicleViewer.IsVisible((tankInfo[i].Tank.netIdentity));
+            bool isVisible = Player.Local.ActiveVehicle.vehicleViewer.IsVisible((tankInfo[i].Tank.netIdentity));
             
             tankInfo[i].gameObject.SetActive((isVisible));
 

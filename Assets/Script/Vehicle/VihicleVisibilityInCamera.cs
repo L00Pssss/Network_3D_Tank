@@ -27,7 +27,7 @@ public class VihicleVisibilityInCamera : MonoBehaviour
 
         for (int i = 0; i < allVehicle.Length; i++)
         {
-            if(allVehicle[i] == Player.Local.ActiveVechicle) continue;
+            if(allVehicle[i] == Player.Local.ActiveVehicle) continue;
             
             vehicles.Add(allVehicle[i]);
         }
@@ -37,7 +37,7 @@ public class VihicleVisibilityInCamera : MonoBehaviour
     {
         for (int i = 0; i < vehicles.Count; i++)
         {
-            bool isVisible = Player.Local.ActiveVechicle.vehicleViewer.IsVisible((vehicles[i].netIdentity));
+            bool isVisible = Player.Local.ActiveVehicle.vehicleViewer.IsVisible((vehicles[i].netIdentity));
 
             vehicles[i].SetVisible(isVisible);
         }

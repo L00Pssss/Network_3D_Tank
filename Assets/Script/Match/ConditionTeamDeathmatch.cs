@@ -24,9 +24,9 @@ public class ConditionTeamDeathmatch : MonoBehaviour, IMatchCodition
 
         foreach (var player in FindObjectsOfType<Player>())
         {
-            if (player.ActiveVechicle != null)
+            if (player.ActiveVehicle != null)
             {
-                player.ActiveVechicle.Destroyed += OnVehicleDestroyed;
+                player.ActiveVehicle.Destroyed += OnVehicleDestroyed;
                 
                 if (player.TeamId == TeamSide.teamRed)
                     red++;

@@ -75,7 +75,7 @@ public class Projectile : MonoBehaviour
 
                 if (player != null)
                 {
-                    player.Frags++;
+                    player.SvAddFrags();
                 }
             }
         }

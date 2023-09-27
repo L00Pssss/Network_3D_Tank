@@ -66,9 +66,9 @@ public class UIMinimap : MonoBehaviour
         {
             if (vehicles[i] == null) continue;
 
-            if (vehicles[i] != Player.Local.ActiveVechicle)
+            if (vehicles[i] != Player.Local.ActiveVehicle)
             {
-                bool isVisible = Player.Local.ActiveVechicle.vehicleViewer.IsVisible((vehicles[i].netIdentity));
+                bool isVisible = Player.Local.ActiveVehicle.vehicleViewer.IsVisible((vehicles[i].netIdentity));
             
                 tankMarks[i].gameObject.SetActive((isVisible));
             }

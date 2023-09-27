@@ -22,6 +22,13 @@ public class NetworkSessionManager : NetworkManager
 
     [SerializeField] private MatchController matchController;
 
+    
+    public Vector3 GetSpawnPointByTeam(int teamId)
+    {
+        return teamId % 2 == 0
+            ? RandomSpawnPointGreen
+            : RandomSpawnZonesBlue;
+    }
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
         base.OnServerAddPlayer(conn);
