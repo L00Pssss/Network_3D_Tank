@@ -1,3 +1,4 @@
+using System.Collections;
 using Mirror;
 using UnityEngine.Events;
 using UnityEngine;
@@ -30,6 +31,7 @@ public class MatchController : NetworkBehaviour
     public event UnityAction SvMatchEnd;
 
     [SerializeField] private MatchMemberSpawner spawner;
+    [SerializeField] private float delayAfterSpawnBeforStartMatch = 0.5f;
 
     [SyncVar]
     private bool matchActive;
@@ -72,13 +74,22 @@ public class MatchController : NetworkBehaviour
 
         spawner.SvRespawnVehiclesAllMembers();
 
-        foreach (var v in matchCoditions)
+        RpcMatchStart();
+
+        StartCoroutine(StartEventMatchWithDelay(delayAfterSpawnBeforStartMatch));
+    }
+
+    private IEnumerator StartEventMatchWithDelay(float dalay)
+    {
+        yield return new WaitForSeconds(dalay);
+
+        foreach (var c in matchCoditions)
         {
-            v.OnServerMatchStart(this);
+            c.OnServerMatchStart(this);
         }
-
+        
         SvMatchStart?.Invoke();
-
+        
         RpcMatchStart();
     }
 

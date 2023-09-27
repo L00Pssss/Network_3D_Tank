@@ -29,6 +29,8 @@ public class MatchTimer : NetworkBehaviour, IMatchCodition
 
     private void Start()
     {
+        timeLeft = matchTime;
+
         if (isServer == true)
         {
             enabled = false;

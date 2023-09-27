@@ -1,3 +1,4 @@
+using System;
 using Mirror;
 using UnityEngine.Events;
 using UnityEngine;
@@ -42,6 +43,11 @@ public class Player : MatchMember
         ProjectileHit?.Invoke(hitResult);
     }
 
+    private void Start()
+    {
+        vehicleInput.enabled = false;
+    }
+
     public override void OnStartServer()
     {
         base.OnStartServer();
@@ -65,6 +71,8 @@ public class Player : MatchMember
             CmdSetName(NetworkSessionManager.Instance.GetComponent<NetworkManagerHUD>().PlayerNickname);
 
             NetworkSessionManager.Match.MatchEnd += OnMatchEnd;
+            
+            NetworkSessionManager.Match.MatchStart += OnMatchStart;
 
             data = new MatchMemberData((int) netId, NetworkSessionManager.Instance.GetComponent<NetworkManagerHUD>().PlayerNickname, teamId, netIdentity);
 
@@ -73,7 +81,9 @@ public class Player : MatchMember
             CmdUpdateData(Data);
         }
     }
-    
+
+
+
     public override void OnStopClient()
     {
         base.OnStopClient();
@@ -83,14 +93,11 @@ public class Player : MatchMember
             NetworkSessionManager.Match.MatchEnd -= OnMatchEnd;
         }
     }
-
-    [Command]
-    private void CmdAddPlayer(MatchMemberData memberData)
-    {
-        MatchMemberList.Instance.SvAddMember(memberData);
-    }
     
-
+    private void OnMatchStart()
+    {
+        vehicleInput.enabled = true;
+    }
 
     private void OnMatchEnd()
     {
@@ -100,6 +107,14 @@ public class Player : MatchMember
             vehicleInput.enabled = false;
         }
     }
+
+    [Command]
+    private void CmdAddPlayer(MatchMemberData memberData)
+    {
+        MatchMemberList.Instance.SvAddMember(memberData);
+    }
+    
+    
 
     private void Update()
     {
@@ -150,7 +165,7 @@ public class Player : MatchMember
         ActiveVehicle = playerVehicle.GetComponentInParent<Vehicle>();
         ActiveVehicle.Owner = netIdentity;
         ActiveVehicle.TeamId = teamId;
-
+        
         RpcSetVehicle(ActiveVehicle.netIdentity); // передача клиенту. 
     }
 
@@ -168,7 +183,7 @@ public class Player : MatchMember
             VehicleCamera.Instance.SetTarget(ActiveVehicle); // передаем камеру. 
         }
 
-        vehicleInput.enabled = true;
+        vehicleInput.enabled = false;
 
         VehicleSpawned?.Invoke(ActiveVehicle);
     }
