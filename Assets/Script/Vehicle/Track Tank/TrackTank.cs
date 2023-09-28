@@ -313,62 +313,21 @@ public class TrackTank : Vehicle
 
             if (steering != 0 && (Mathf.Abs(leftWheelRow.minRpm) < 1 || Mathf.Abs(rightWheelRow.minRpm) < 1))
             {
-                rightWheelRow.SetTorque(rotateTorqueInMotion);
-                leftWheelRow.SetTorque(rotateTorqueInMotion);
+                rightWheelRow.SetTorque(rotateTorqueInMotion * Mathf.Sign(currentMotorTorque));
+                leftWheelRow.SetTorque(rotateTorqueInMotion * Mathf.Sign(currentMotorTorque));
             }
             else
             {
                 if (steering < 0)
                 {
-                    leftWheelRow.Break(rotateBreakInMotion);
+                    leftWheelRow.Break(rotateBreakInMotion * Mathf.Sign(currentMotorTorque));
                     rightWheelRow.SetTorque(rotateTorqueInMotion);
                 }
+
                 if (steering > 0)
                 {
-                    leftWheelRow.SetTorque(rotateTorqueInMotion);
+                    leftWheelRow.SetTorque(rotateTorqueInMotion * Mathf.Sign(currentMotorTorque));
                     rightWheelRow.Break(rotateBreakInMotion);
-                }
-
-                // ƒобавл€ем логику дл€ поворота при движении назад
-                if (targetMotorTorque < 0 && (steering < 0 || steering > 0))
-                {
-                    if (Mathf.Abs(leftWheelRow.minRpm) < 1 || Mathf.Abs(rightWheelRow.minRpm) < 1)
-                    {
-                        // ¬ этом случае, разрешаем поворот только влево или вправо при вращении назад
-                        if (steering < 0)
-                        {
-                            leftWheelRow.SetTorque(-rotateTorqueInPlase);
-                            rightWheelRow.SetTorque(rotateTorqueInPlase);
-                        }
-                        else if (steering > 0)
-                        {
-                            leftWheelRow.SetTorque(rotateTorqueInPlase);
-                            rightWheelRow.SetTorque(-rotateTorqueInPlase);
-                        }
-                    }
-                }
-
-                // ƒополнительна€ логика дл€ обработки смены направлени€ движени€
-                if (targetMotorTorque < 0)
-                {
-                    if (steering == 0)
-                    {
-                        // ѕомен€йте местами leftWheelRow и rightWheelRow
-                        rightWheelRow.SetTorque(currentMotorTorque);
-                        leftWheelRow.SetTorque(currentMotorTorque);
-                    }
-                    else if (steering < 0)
-                    {
-                        // ѕомен€йте местами leftWheelRow и rightWheelRow
-                        rightWheelRow.SetTorque(currentMotorTorque);
-                        leftWheelRow.SetTorque(currentMotorTorque * 0.5f);
-                    }
-                    else if (steering > 0)
-                    {
-                        // ѕомен€йте местами leftWheelRow и rightWheelRow
-                        rightWheelRow.SetTorque(currentMotorTorque * 0.5f);
-                        leftWheelRow.SetTorque(currentMotorTorque);
-                    }
                 }
             }
 
