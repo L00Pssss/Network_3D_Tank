@@ -4212,6 +4212,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b154aa4e82070c048ba603ee44cae227, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sensorForward: {fileID: 6694700825939395532}
+  sensorBackward: {fileID: 7702199877339525221}
+  sensorRight: {fileID: 1171021267994592003}
+  sensorLeft: {fileID: 5379876571428021644}
 --- !u!1 &4088013986436401957
 GameObject:
   m_ObjectHideFlags: 0

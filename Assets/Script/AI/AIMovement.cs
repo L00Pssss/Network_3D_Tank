@@ -76,7 +76,44 @@ public class AIMovement : MonoBehaviour
         var referenceDirection = GetReferenceMovementDirectionZX();
         var tankDir = GetTankDirectionZX();
 
-        turnControl = Mathf.Clamp(Vector3.SignedAngle(tankDir, referenceDirection,Vector3.up), -45.0f, 45.0f) / 45.0f;
+
+        var forwardSensorState = sensorForward.Raycast();
+        var leftSensorState = sensorForward.Raycast();
+        var rightSensorState = sensorForward.Raycast();
+
+        if (forwardSensorState.Item1)
+        {
+            forwardThrust = 0;
+
+            if (leftSensorState.Item1 == false)
+            {
+                turnControl = -1;
+                forwardThrust = -0.2f;
+            }
+            else if (rightSensorState.Item1 == false)
+            {
+                turnControl = 1;
+                forwardThrust = -0.2f;
+            }
+            else
+            {
+                forwardThrust = -1;
+            }
+        }
+
+        else
+        {
+            turnControl = Mathf.Clamp(Vector3.SignedAngle(tankDir, referenceDirection,Vector3.up), -45.0f, 45.0f) / 45.0f;
+
+            const float minSideDistance = 1;
+
+            if (leftSensorState is { Item1: true, Item2: < minSideDistance } && turnControl < 0)
+                turnControl = -turnControl;
+            
+            if (rightSensorState.Item1 && rightSensorState.Item2 < minSideDistance && turnControl > 0)
+                turnControl = -turnControl;
+        }
+
         
         vehicle.SetTargetControl(new Vector3(turnControl,0,forwardThrust));
     }
