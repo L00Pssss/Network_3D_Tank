@@ -320,8 +320,8 @@ public class TrackTank : Vehicle
             {
                 if (steering < 0)
                 {
-                    leftWheelRow.Break(rotateBreakInMotion * Mathf.Sign(currentMotorTorque));
-                    rightWheelRow.SetTorque(rotateTorqueInMotion);
+                    leftWheelRow.Break(rotateBreakInMotion);
+                    rightWheelRow.SetTorque(rotateTorqueInMotion * Mathf.Sign(currentMotorTorque));
                 }
 
                 if (steering > 0)
