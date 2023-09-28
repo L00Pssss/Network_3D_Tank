@@ -74,8 +74,6 @@ public class MatchController : NetworkBehaviour
 
         spawner.SvRespawnVehiclesAllMembers();
 
-        RpcMatchStart();
-
         StartCoroutine(StartEventMatchWithDelay(delayAfterSpawnBeforStartMatch));
     }
 

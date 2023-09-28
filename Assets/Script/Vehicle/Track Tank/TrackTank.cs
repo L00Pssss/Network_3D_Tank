@@ -177,6 +177,15 @@ public class TrackTank : Vehicle
 
     private void FixedUpdate()
     {
+        if (isServer == true)
+        {
+            UpdateMotorTorque();
+
+            SvUpdateWheelRpm(LeftWheelRmp, RighttWheelRmp);
+
+            SvUpdateLinearVelocity(LinerVelocity);
+        }
+        
         if (isOwned == true)
         {
             UpdateMotorTorque();
@@ -196,6 +205,12 @@ public class TrackTank : Vehicle
     [Command]
     private void CmdUpdateLinearVelocity(float velocity)
     {
+        SvUpdateLinearVelocity(velocity);
+    }
+    
+    [Server]
+    private void SvUpdateLinearVelocity(float velocity)
+    {
         syncLinearVelocity = velocity;
     }
 
@@ -204,6 +219,8 @@ public class TrackTank : Vehicle
     {
         RpcUpdateWheelRpm(leftRpm, rightRpm);
     }
+    
+
 
     [ClientRpc(includeOwner = false)]
     private void RpcUpdateWheelRpm(float leftRpm, float rightRpm)

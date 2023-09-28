@@ -13,7 +13,7 @@ public class SizeMap : MonoBehaviour
     {
         return new Vector3(positon.x / (size.x * 0.5f), 0, positon.z / (size.y * 0.5f));
     }
-
+    
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
