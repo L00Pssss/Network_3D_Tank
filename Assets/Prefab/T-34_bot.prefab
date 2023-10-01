@@ -4216,6 +4216,8 @@ MonoBehaviour:
   sensorBackward: {fileID: 7702199877339525221}
   sensorRight: {fileID: 1171021267994592003}
   sensorLeft: {fileID: 5379876571428021644}
+  stopDistance: 2
+  pathUpdateRate: 0.33
 --- !u!1 &4088013986436401957
 GameObject:
   m_ObjectHideFlags: 0
