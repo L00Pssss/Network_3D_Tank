@@ -60,6 +60,21 @@ public class Turret : NetworkBehaviour
         }
     }
 
+    [Server]
+    public void SvFire()
+    {
+        if (fireTimer > 0) return;
+        if (ammunitions[syncSelectedAmmunitionIndex].SvDrawAmmo(1) == false) return;
+
+        OnFire();
+
+        fireTimer = fireRate;
+
+        RpcFIre();
+        
+        Shot?.Invoke();
+    }
+
     [Command]
     private void CmdReloadAmmunation()
     {
@@ -76,16 +91,7 @@ public class Turret : NetworkBehaviour
     [Command]
     private void CmdFire()
     {
-        if (fireTimer > 0) return;
-        if (ammunitions[syncSelectedAmmunitionIndex].SvDrawAmmo(1) == false) return;
-
-        OnFire();
-
-        fireTimer = fireRate;
-
-        RpcFIre();
-        
-        Shot?.Invoke();
+        SvFire();
     }
 
     [ClientRpc]

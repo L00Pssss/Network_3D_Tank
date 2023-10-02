@@ -149,6 +149,7 @@ public class TrackTank : Vehicle
     [SerializeField] private float currentMotorTorque;
 
     public float LeftWheelRmp => leftWheelRow.minRpm;
+   
     public float RighttWheelRmp => rightWheelRow.minRpm;
 
     private void Awake()

@@ -132,11 +132,37 @@ public class VehicleViewer : NetworkBehaviour
             remainingTimeLastUpdate = 0;
         }
     }
+    
+    
 
     public bool IsVisible(NetworkIdentity identity)
     {
         return visibleVehicles.Contains(identity);
     }
+    
+    public List<Vehicle> GetAllVehicle()
+    {
+        List<Vehicle> allVehicle = new List<Vehicle>(allVehicleDimensions.Count);
+        for(int i = 0; i <  allVehicleDimensions.Count; i++)
+        {
+            allVehicle.Add(allVehicleDimensions[i].Vehicle);
+        }
+
+        return allVehicle;
+    }
+    
+    public List<Vehicle> GetAllVisibleVehicle()
+    {
+        List<Vehicle> allVisibleVehicle = new List<Vehicle>(allVehicleDimensions.Count);
+        for(int i = 0; i <  visibleVehicles.Count; i++)
+        {
+            allVisibleVehicle.Add(visibleVehicles[i].GetComponent<Vehicle>());
+        }
+
+        return allVisibleVehicle;
+    }
+    
+    
 
     private bool CheckVisibility(Vector3 viewPoint, VehicleDimensions vehicleDimensions)
     {

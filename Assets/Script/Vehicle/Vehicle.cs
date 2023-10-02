@@ -51,7 +51,12 @@ public class Vehicle : Destructible
         set
         {
             netAimPoint = value;  // Client;
-            CmdSetNetAimPoint(value); // Server;
+            
+            if (Owner == true)
+            {
+                CmdSetNetAimPoint(value); // Server;
+            }
+
             NetAimPointEvent?.Invoke();
         }
     }

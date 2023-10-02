@@ -6,6 +6,8 @@ public class VehicleDimensions : MonoBehaviour
 {
     [SerializeField] protected Transform[] points;
 
+    [SerializeField] private Transform[] priorityFirePoints;
+
     private Vehicle vehicle;
     public Vehicle Vehicle => vehicle;
 
@@ -21,7 +23,7 @@ public class VehicleDimensions : MonoBehaviour
 
         for (int i = 0; i < points.Length; i++)
         {
-        //    Debug.DrawLine(point, points[i].position, color);
+         //    Debug.DrawLine(point, points[i].position, color);
 
             int lenghtRaycastHit  = Physics.RaycastNonAlloc(point, (points[i].position - point).normalized, hits,
                 Vector3.Distance(point, points[i].position));
@@ -29,19 +31,29 @@ public class VehicleDimensions : MonoBehaviour
             visible = true;
             for (int j = 0; j < lenghtRaycastHit; j++)
             {
-                if(hits[j].collider.transform.root == source)
-                    continue;
-                
-                if(hits[j].collider.transform.root == transform.root)
-                    continue;
+                if (hits[j].collider.transform.root == source || hits[j].collider.transform.root == transform.root)
 
-                visible = false;
+                    visible = false;
             }
 
             if (visible == true)
                 return visible;
         }
         return false;
+    }
+
+    public Transform GetPriorityFirePoint()
+    {
+        if (priorityFirePoints.Length > 0)
+        {
+            int randomIndex = UnityEngine.Random.Range(0, priorityFirePoints.Length);
+            return priorityFirePoints[randomIndex];
+        }
+        else
+        {
+            Debug.LogError("Null Points");
+            return null;
+        }
     }
     
     #if UNITY_EDITOR

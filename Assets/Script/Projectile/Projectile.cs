@@ -48,7 +48,15 @@ public class Projectile : MonoBehaviour
                 SvAddFrags();
             }
 
-            Owner.GetComponent<Player>().SvInvokeProjectileHit(hitResult);
+            if (Owner != null)
+            {
+                Player player = Owner.GetComponent<Player>();
+
+                if (player != null)
+                {
+                    player.SvInvokeProjectileHit(hitResult);
+                }
+            }
         }
 
 
@@ -71,11 +79,11 @@ public class Projectile : MonoBehaviour
         {
             if (Owner != null)
             {
-                Player player = Owner.GetComponent<Player>();
+                MatchMember member = Owner.GetComponent<MatchMember>();
 
-                if (player != null)
+                if (member != null)
                 {
-                    player.SvAddFrags();
+                    member.SvAddFrags();
                 }
             }
         }

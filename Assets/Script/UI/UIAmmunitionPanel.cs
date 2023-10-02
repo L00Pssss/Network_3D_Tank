@@ -26,7 +26,6 @@ public class UIAmmunitionPanel : MonoBehaviour
             NetworkSessionManager.Match.MatchStart -= OnMatchStarted;
             NetworkSessionManager.Match.MatchEnd -= OnMatchEnd;
         }
-
     }
 
     private void OnMatchStarted()
