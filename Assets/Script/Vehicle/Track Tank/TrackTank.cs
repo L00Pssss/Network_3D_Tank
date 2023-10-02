@@ -144,9 +144,22 @@ public class TrackTank : Vehicle
     [Header("Friction")]
     [SerializeField] private float minSidewayStiffnessInPlace;
     [SerializeField] private float minSidewayStiffnessInMotion;
-
-    private Rigidbody rigidBody;
     [SerializeField] private float currentMotorTorque;
+    
+    
+    private Rigidbody rigidBody;
+    
+    private bool isMobile = true; // По умолчанию машина активна
+
+    public bool IsMobile
+    {
+        get { return isMobile; }
+        set { isMobile = value; }
+    }
+    
+    
+    
+
 
     public float LeftWheelRmp => leftWheelRow.minRpm;
    
@@ -239,6 +252,12 @@ public class TrackTank : Vehicle
         float breakTorque = this.breakTorque * targetInputControl.y;
         float steering = targetInputControl.x;
 
+
+        if (!isMobile)
+        {
+            targetMotorTorque = 0;
+            steering = 0;
+        }
 
         // Update target motor torque
         if (targetMotorTorque > 0)

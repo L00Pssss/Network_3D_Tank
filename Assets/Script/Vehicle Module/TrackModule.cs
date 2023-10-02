@@ -22,20 +22,14 @@ public class TrackModule : NetworkBehaviour
      //   base.OnStartClient();
         
         tank = GetComponent<TrackTank>();
-
+        
         leftTrack.Destroyed += OnLeftTrackDestroyed;
         rightTrack.Destroyed += OnRightTrackDestroyed;
         
         leftTrack.Recovered += OnLeftTrackRecovered;
         rightTrack.Recovered += OnRightTrackRecovered;
     }
-
-    private void Start()
-    {
-
-        
-        
-    }
+    
 
     private void OnDestroy()
     {
@@ -58,9 +52,10 @@ public class TrackModule : NetworkBehaviour
 
     private void OnRightTrackDestroyed(Destructible arg0)
     {
-        ChangeActiveObjects(rightTrackMesh, rightTrackDamageMesh);
         Debug.Log("POPAL");
+        ChangeActiveObjects(rightTrackMesh, rightTrackDamageMesh);
         
+
         TakeAwayMobility();
 
     }
@@ -78,10 +73,9 @@ public class TrackModule : NetworkBehaviour
 
     private void OnLeftTrackDestroyed(Destructible arg0)
     {
-        ChangeActiveObjects(leftTrackMesh, leftTrackDamageMesh);
-        
         Debug.Log("POPAL");
-        
+        ChangeActiveObjects(leftTrackMesh, leftTrackDamageMesh);
+
         TakeAwayMobility();
         
         
@@ -96,11 +90,13 @@ public class TrackModule : NetworkBehaviour
 
     private void TakeAwayMobility()
     {
-        tank.enabled = false;
+        tank.IsMobile = false;
+    //    tank.enabled = false;
     }
 
     private void RegainMobility()
     {
-        tank.enabled = true;
+        tank.IsMobile = true;
+   //     tank.enabled = true;
     }
 }
