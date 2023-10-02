@@ -106,15 +106,15 @@ NavMeshSettings:
   m_BuildSettings:
     serializedVersion: 2
     agentTypeID: 0
-    agentRadius: 1.5
-    agentHeight: 2
-    agentSlope: 30
-    agentClimb: 0.6
+    agentRadius: 5
+    agentHeight: 4
+    agentSlope: 35
+    agentClimb: 5
     ledgeDropHeight: 0
     maxJumpAcrossDistance: 0
     minRegionArea: 2
     manualCellSize: 0
-    cellSize: 0.5
+    cellSize: 1.6666666
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
@@ -122,7 +122,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 23800000, guid: 1a30435eb7acc4442af8342959160812, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 9f33df6a0915f244eb9a91f93a7a8a79, type: 2}
 --- !u!1 &18945717
 GameObject:
   m_ObjectHideFlags: 0
@@ -422,7 +422,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   botPrefab: {fileID: 3859343835399678058, guid: 8a80188020424c04eadd43f086065f13, type: 3}
-  targetAmountMemberTeam: 3
+  targetAmountMemberTeam: 1
 --- !u!114 &203022494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3458,7 +3458,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b0fecffa3f624585964b0d0eb21b18e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  port: 56461
+  port: 56443
   DualMode: 1
   NoDelay: 1
   Interval: 10
@@ -4081,7 +4081,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   spawner: {fileID: 203022493}
-  delayAfterSpawnBeforStartMatch: 5
+  delayAfterSpawnBeforStartMatch: 0.5
   WinTeamId: -1
 --- !u!114 &1893903809
 MonoBehaviour:
