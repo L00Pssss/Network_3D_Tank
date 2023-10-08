@@ -23,12 +23,11 @@ public class AIShooter : MonoBehaviour
 
     private void Update()
     {
-        FindTarget();
         LookOnTarget();
         TryFire();
     }
 
-    private void FindTarget()
+    public void FindTarget()
     {
         List<Vehicle> visibleVehicles  = vehicleViewer.GetAllVisibleVehicle();
 

@@ -23,7 +23,7 @@ public class UIReloadModule : MonoBehaviour
             NetworkSessionManager.Events.PlayerVehicleSpawned -= UpdateVehicleModules;
         }
         
-        if (vehicleModule != null)
+        if (vehicleModule is { Length: > 0 })
         {
             vehicleModule[0].OnTimerUpdate -= UpdateLeftTrackModule;
             vehicleModule[1].OnTimerUpdate -= UpdateRightTrackModule;

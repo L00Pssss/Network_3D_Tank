@@ -66,7 +66,7 @@ public class VehicleInput : MonoBehaviour
     
     void ConfirmSelection()
     {
-        Debug.Log((selectedProjectileIndex));
+       // Debug.Log((selectedProjectileIndex));
         if (selectedProjectileIndex != -1)
         {
             player.ActiveVehicle.Turret.SetSelectProjectile(selectedProjectileIndex);

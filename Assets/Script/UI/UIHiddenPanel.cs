@@ -11,7 +11,7 @@ public class UIHiddenPanel : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (NetworkSessionManager.Match != null)
+        if (NetworkSessionManager.Instance != null && NetworkSessionManager.Match != null)
         {
             NetworkSessionManager.Match.MatchStart -= HiddenPanel;
         }

@@ -34,8 +34,8 @@ public class UIAmmunitionPanel : MonoBehaviour
 
         turret.UpdateSelectedAmmunation += OnTurretUpdateSlectedAmmunation;
 
-        Debug.Log((turret.Ammunitions.Length));
-        Debug.Log((turret.name));
+   //     Debug.Log((turret.Ammunitions.Length));
+  //      Debug.Log((turret.name));
 
         for (int i = 0; i < ammunitionPanel.childCount; i++)
         {
@@ -77,7 +77,7 @@ public class UIAmmunitionPanel : MonoBehaviour
     
     private void AmmoCountChanged(int ammoCount)
     {
-        Debug.Log(ammoCount + " RPCAmmoCountChanged"  );
+//        Debug.Log(ammoCount + " RPCAmmoCountChanged"  );
         allAmmunitionElements[turret.SelectedAmmunitionIndex].UpdateAmmoCount(ammoCount);
     }
 

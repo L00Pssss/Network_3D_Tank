@@ -18,9 +18,70 @@ public class UICannonAim : MonoBehaviour
 
     [SerializeField] private float smoothSpeed = 5f; // Скорость сглаживания
 
+    [SerializeField] private float maxSpreadSize = 150f;
+    [SerializeField] private float minSpreadSize = 90f;
+    [SerializeField] private float changeDurationSeconds = 1f; // Время изменения размера в секундах
+    private float progress = 0f; // Общий прогресс изменения размера от 0 до 1
+    private float elapsedTime = 0f; // Время, прошедшее с начала изменения размера
+    private bool isExpanding = true; // Флаг для отслеживания увеличения или уменьшения круга
+    private bool isChangingSize = false; // Флаг для отслеживания увеличения или уменьшения круга
+
+    
+    private void Update()
+    {
+        if (isChangingSize)
+        {
+            elapsedTime += (isExpanding ? 1 : -1) * Time.deltaTime;
+            
+            progress = Mathf.Clamp01(elapsedTime / changeDurationSeconds);
+            
+            float newSize = Mathf.Lerp(maxSpreadSize, minSpreadSize, progress);
+            
+            aim.rectTransform.sizeDelta = new Vector2(newSize, newSize);
+
+            if (progress >= 1f)
+            {
+                // Если прошло достаточно времени, сбрасываем elapsedTime и флаг isChangingSize
+                elapsedTime = 0f;
+                isChangingSize = false;
+            }
+        }
+
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            StartChangingSize(false);
+        }
+
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            StartChangingSize(true); // Уменьшение
+        }
+    }
+
+    public void StartChangingSize(bool expand)
+    {
+        if (expand == false)
+        {
+            aim.rectTransform.sizeDelta = new Vector2(maxSpreadSize, maxSpreadSize);
+            isChangingSize = expand;
+        }
+        else
+        {
+            isExpanding = expand;
+            isChangingSize = true;
+        }
+
+    }
+    
+    
+
 
     private void Start()
     {
+        
+        aim.rectTransform.sizeDelta = new Vector2(maxSpreadSize, maxSpreadSize);
+
         NetworkSessionManager.Events.PlayerVehicleSpawned += UpdateUI;
     }
 

@@ -42,7 +42,10 @@ public class AIMovement : MonoBehaviour
     private float timerUpdatePath;
     
     private bool hasPath;
-    private bool reachedDestination; 
+    private bool reachedDestination;
+
+    public bool HasPath => hasPath;
+    public bool ReachedDestination => reachedDestination;
 
     private void Awake()
     {
@@ -52,8 +55,6 @@ public class AIMovement : MonoBehaviour
 
     private void Update()
     {
-        SetDestination(GameObject.FindGameObjectWithTag("Finish").transform.position);
-
         if (pathUpdateRate > 0)
         {
             timerUpdatePath += timerUpdatePath;

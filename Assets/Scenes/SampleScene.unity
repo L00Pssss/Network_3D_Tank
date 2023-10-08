@@ -339,7 +339,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -470,7 +470,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   botPrefab: {fileID: 3859343835399678058, guid: 8a80188020424c04eadd43f086065f13, type: 3}
-  targetAmountMemberTeam: 10
+  targetAmountMemberTeam: 0
 --- !u!114 &203022494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1483,7 +1483,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &583849651
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3312,7 +3312,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -4482,7 +4482,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1500282580
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4557,6 +4557,9 @@ MonoBehaviour:
   aim: {fileID: 1500282581}
   reloadSlider: {fileID: 1733367887}
   smoothSpeed: 5
+  maxSpreadSize: 150
+  minSpreadSize: 90
+  changeDurationSeconds: 5
 --- !u!114 &1500282584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6438,7 +6441,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1917991120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7740,7 +7743,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7273562722037853171, guid: d33b390feb7b9d44ba17b20f16297528, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7348178275737145912, guid: d33b390feb7b9d44ba17b20f16297528, type: 3}
       propertyPath: m_Value

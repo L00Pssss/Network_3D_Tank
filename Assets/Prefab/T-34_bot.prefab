@@ -3770,6 +3770,7 @@ GameObject:
   - component: {fileID: 3699118951671943427}
   - component: {fileID: 9174976644518748635}
   - component: {fileID: 135092312742223680}
+  - component: {fileID: 4458074334626843527}
   - component: {fileID: 1195323333100981810}
   - component: {fileID: 1891616320519459314}
   m_Layer: 0
@@ -4316,6 +4317,28 @@ MonoBehaviour:
   syncInterval: 0
   teamId: 0
   vehicle: {fileID: 3859343835399678061}
+--- !u!114 &4458074334626843527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3859343835399678058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3494ed5a7d3e8b845bb5fbd1b3a8b0ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  behaviourType: 0
+  patrolChance: 0.75
+  supportChance: 0.2
+  invaderBaseChance: 0.2
+  vehicle: {fileID: 3859343835399678061}
+  movement: {fileID: 1195323333100981810}
+  shooter: {fileID: 1891616320519459314}
 --- !u!114 &1195323333100981810
 MonoBehaviour:
   m_ObjectHideFlags: 0

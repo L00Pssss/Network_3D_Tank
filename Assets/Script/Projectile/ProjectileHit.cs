@@ -107,7 +107,7 @@ public class ProjectileHit : MonoBehaviour
         }
 
         
-        Debug.Log($"armor: {hitArmor.Thickness}, resucedArmor {reducedArmor},normal {normalization}, angel: {angel}, penetration: {projectilePenetration} Type: {hitResult.Type} ");
+//        Debug.Log($"armor: {hitArmor.Thickness}, resucedArmor {reducedArmor},normal {normalization}, angel: {angel}, penetration: {projectilePenetration} Type: {hitResult.Type} ");
 
         if (hitResult.Type == ProjectileHitType.Penetration)
             hitResult.Damage = projectile.Properties.GetSpreadDamage();
