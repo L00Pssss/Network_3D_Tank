@@ -2786,6 +2786,7 @@ Transform:
   m_Children:
   - {fileID: 624368916646106654}
   - {fileID: 8800167975858104065}
+  - {fileID: 7898812414210108305}
   m_Father: {fileID: 4401281158462984309}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3703,6 +3704,8 @@ MonoBehaviour:
   fireSound: {fileID: 624368916647795296}
   mazzel: {fileID: 624368916646106640}
   foreceRecoil: 30000
+  epsilon: 0.01
+  minAngleDifference: 0.5
 --- !u!114 &3859343835399678059
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6119,6 +6122,69 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &7815098555799805231
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7898812414210108305}
+  - component: {fileID: 2123893855676872340}
+  - component: {fileID: 1339772125907910114}
+  m_Layer: 0
+  m_Name: Raycast
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7898812414210108305
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7815098555799805231}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0, z: 3.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5611373410646796691}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2123893855676872340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7815098555799805231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6384cc2bffc34f24ba8d95f00247ed32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  raycastOrigin: {fileID: 8800167975858104065}
+  raycastInterval: 2
+  maxStillTime: 2
+  positionTolerance: 0.1
+  cannonAim: {fileID: 6996043035099471378}
+--- !u!114 &1339772125907910114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7815098555799805231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc7bb492dbff8a244a9a547b497420c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parent: {fileID: 5611373410646796691}
 --- !u!1 &7936709652003702891
 GameObject:
   m_ObjectHideFlags: 0

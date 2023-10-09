@@ -26,6 +26,7 @@ public class UICannonAim : MonoBehaviour
     private bool isExpanding = true; // Флаг для отслеживания увеличения или уменьшения круга
     private bool isChangingSize = false; // Флаг для отслеживания увеличения или уменьшения круга
 
+    public float ProgressAim => progress;
     
     private void Update()
     {
@@ -50,12 +51,12 @@ public class UICannonAim : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.K))
         {
-            StartChangingSize(false);
+            StartChangingSize(true);
         }
 
         if (Input.GetKeyDown(KeyCode.J))
         {
-            StartChangingSize(true); // Уменьшение
+            StartChangingSize(false); // Уменьшение
         }
     }
 
@@ -70,6 +71,7 @@ public class UICannonAim : MonoBehaviour
         {
             isExpanding = expand;
             isChangingSize = true;
+
         }
 
     }
