@@ -4476,13 +4476,14 @@ GameObject:
   - component: {fileID: 1500282581}
   - component: {fileID: 1500282583}
   - component: {fileID: 1500282584}
+  - component: {fileID: 1500282585}
   m_Layer: 5
   m_Name: CannonAim
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1500282580
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4557,9 +4558,6 @@ MonoBehaviour:
   aim: {fileID: 1500282581}
   reloadSlider: {fileID: 1733367887}
   smoothSpeed: 5
-  maxSpreadSize: 150
-  minSpreadSize: 90
-  changeDurationSeconds: 5
 --- !u!114 &1500282584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4575,6 +4573,19 @@ MonoBehaviour:
   m_EffectColor: {r: 0.07058824, g: 0.18039216, b: 0.65882355, a: 1}
   m_EffectDistance: {x: 2, y: -2}
   m_UseGraphicAlpha: 1
+--- !u!114 &1500282585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1500282579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 513182d5cc53e184ca2043bb888ac0a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aim: {fileID: 1500282581}
 --- !u!1 &1522024705
 GameObject:
   m_ObjectHideFlags: 0
@@ -5737,7 +5748,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 150, y: 150}
+  m_SizeDelta: {x: 250, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1733367887
 MonoBehaviour:

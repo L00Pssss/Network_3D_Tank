@@ -1,12 +1,13 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(TankTurret))]
 public class TankTurret : Turret
 {
     private TrackTank tank;
 
-    [SerializeField] private UICannonAim cannonAim;
+    [SerializeField] private AimController aimController;
 
 
     [SerializeField] private Transform tower;
@@ -33,6 +34,7 @@ public class TankTurret : Turret
     {
         tank = GetComponent<TrackTank>();
         tankRigidbody = tank.GetComponent<Rigidbody>();
+        aimController = GetComponent<AimController>();
 
     }
 
@@ -58,7 +60,7 @@ public class TankTurret : Turret
         projectile.transform.position = launchPoint.position;
 
 
-        
+
         Vector3 finalDirection = launchPoint.forward + RandomVectorPosition();
 
         projectile.transform.forward = finalDirection.normalized;
@@ -68,13 +70,14 @@ public class TankTurret : Turret
 
     private Vector3 RandomVectorPosition()
     {
-        float randomX = Random.Range(-0.2f * cannonAim.ProgressAim, 0.2f * cannonAim.ProgressAim);
-        float randomY = Random.Range(-0.2f * cannonAim.ProgressAim, 0.2f * cannonAim.ProgressAim);
-        float randomZ = Random.Range(-0.2f * cannonAim.ProgressAim, 0.2f * cannonAim.ProgressAim);
+        
+        float randomX = Random.Range(-0.2f * aimController.Progress, 0.2f * aimController.Progress);
+        float randomY = Random.Range(-0.2f * aimController.Progress, 0.2f * aimController.Progress);
+        float randomZ = Random.Range(-0.2f * aimController.Progress, 0.2f * aimController.Progress);
 
         Vector3 deviation = new Vector3(randomX, randomY, randomZ);
 
-        Debug.Log("cannonAim.ProgressAim: " + cannonAim.ProgressAim + " deviation: " + deviation);
+        Debug.Log("aimController.Progress " + aimController.Progress + " deviation: " + deviation);
         return deviation;
     }
 

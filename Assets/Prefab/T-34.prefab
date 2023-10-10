@@ -3454,6 +3454,7 @@ GameObject:
   - component: {fileID: 1196831028043778912}
   - component: {fileID: 3699118951671943427}
   - component: {fileID: 9174976644518748635}
+  - component: {fileID: 7875283357467871407}
   m_Layer: 0
   m_Name: T-34
   m_TagString: Untagged
@@ -3694,7 +3695,7 @@ MonoBehaviour:
   - {fileID: 3304789513335127234}
   - {fileID: 9057295644812582518}
   syncSelectedAmmunitionIndex: 0
-  cannonAim: {fileID: 6996043035099471378}
+  aimController: {fileID: 7875283357467871407}
   tower: {fileID: 6059145924912126952}
   mask: {fileID: 4401281158462984309}
   horizontalRotationSpeed: 30
@@ -3704,8 +3705,6 @@ MonoBehaviour:
   fireSound: {fileID: 624368916647795296}
   mazzel: {fileID: 624368916646106640}
   foreceRecoil: 30000
-  epsilon: 0.01
-  minAngleDifference: 0.5
 --- !u!114 &3859343835399678059
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3980,6 +3979,25 @@ MonoBehaviour:
   percent: 0
   percentLerpRate: 0.5
   percentOnFire: 0.07
+--- !u!114 &7875283357467871407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3859343835399678058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62a8824e0db2a5c46bee1cf22be08114, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  tankMovementDetector: {fileID: 2123893855676872340}
+  maxSpreadSize: 150
+  minSpreadSize: 90
+  changeDurationSeconds: 1
 --- !u!1 &3872633360517986711
 GameObject:
   m_ObjectHideFlags: 0
@@ -4332,7 +4350,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 150, y: 150}
+  m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3317458053280169985
 CanvasRenderer:
@@ -4579,7 +4597,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5597304999247805227}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 0
   m_Camera: {fileID: 0}
@@ -6171,7 +6189,7 @@ MonoBehaviour:
   raycastInterval: 2
   maxStillTime: 2
   positionTolerance: 0.1
-  cannonAim: {fileID: 6996043035099471378}
+  cannonUIAim: {fileID: 0}
 --- !u!114 &1339772125907910114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6598,7 +6616,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7442084447734581425
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6673,9 +6691,6 @@ MonoBehaviour:
   aim: {fileID: 6209935459938712914}
   reloadSlider: {fileID: 8311931768313277936}
   smoothSpeed: 5
-  maxSpreadSize: 150
-  minSpreadSize: 90
-  changeDurationSeconds: 5
 --- !u!114 &4792103597502863610
 MonoBehaviour:
   m_ObjectHideFlags: 0

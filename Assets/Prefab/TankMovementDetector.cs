@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 public class TankMovementDetector : MonoBehaviour
 {
@@ -10,8 +12,9 @@ public class TankMovementDetector : MonoBehaviour
     [SerializeField] private float maxStillTime = 2.0f; // Максимальное время бездействия для увеличения прицела
     [SerializeField] private float positionTolerance = 0.2f; // Погрешность в положении
     
-    
-    [SerializeField] private UICannonAim cannonAim;
+    public event UnityAction<bool> OnUpdate;
+
+    [FormerlySerializedAs("cannonAim")] [SerializeField] private UIAimController cannonUIAim;
 
     private float timeSinceLastHit; // Время с момента последнего попадания луча
     private Vector3 lastHitPosition; // Предыдущая позиция точки попадания луча
@@ -41,11 +44,11 @@ public class TankMovementDetector : MonoBehaviour
             // Проверяем, изменилась ли позиция точки попадания луча с учетом погрешности
             if (Vector3.Distance(hit.point, lastHitPosition) > positionTolerance)
             {
-                Debug.Log("DA");
+              
                 // Танк движется, сбрасываем время бездействия
                 if (checking == true)
                 {
-                    cannonAim.StartChangingSize(false);
+                    OnUpdate?.Invoke(false);
                     checking = false;
                 }
 
@@ -62,7 +65,7 @@ public class TankMovementDetector : MonoBehaviour
                     // Здесь можно выполнить логику увеличения прицела
                     if (checking == false)
                     {
-                        cannonAim.StartChangingSize(true);
+                        OnUpdate?.Invoke(true);
                         checking = true;
                     }
                     
