@@ -3807,7 +3807,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   projectileProperties: {fileID: 11400000, guid: dd20cc11ee0061c4ea72d86fdf3c1bdf, type: 2}
-  syncAmmoCount: 15
+  syncAmmoCount: 310
 --- !u!114 &3304789513335127234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3824,7 +3824,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   projectileProperties: {fileID: 11400000, guid: 6c673f46d25318b42a137f59873f4170, type: 2}
-  syncAmmoCount: 5
+  syncAmmoCount: 50
 --- !u!114 &9057295644812582518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3841,7 +3841,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   projectileProperties: {fileID: 11400000, guid: ea41022315219a84fa7f01b4b8741267, type: 2}
-  syncAmmoCount: 5
+  syncAmmoCount: 500
 --- !u!114 &6686647065120636079
 MonoBehaviour:
   m_ObjectHideFlags: 0
