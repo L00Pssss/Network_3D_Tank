@@ -470,7 +470,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   botPrefab: {fileID: 3859343835399678058, guid: 8a80188020424c04eadd43f086065f13, type: 3}
-  targetAmountMemberTeam: 0
+  targetAmountMemberTeam: 1
 --- !u!114 &203022494
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -70,14 +70,30 @@ public class TankTurret : Turret
 
     private Vector3 RandomVectorPosition()
     {
-        
-        float randomX = Random.Range(-0.2f * aimController.Progress, 0.2f * aimController.Progress);
-        float randomY = Random.Range(-0.2f * aimController.Progress, 0.2f * aimController.Progress);
-        float randomZ = Random.Range(-0.2f * aimController.Progress, 0.2f * aimController.Progress);
+        // Определите минимальный и максимальный разброс в градусах
+        float minDeviationDegrees = 0f; // Минимальный разброс в нуле, когда aimController.Progress равен 0
+        float maxDeviationDegrees = 2f; // Максимальный разброс при aimController.Progress равен 1
+
+        // Вычислите текущий разброс, учитывая aimController.Progress
+        float currentDeviationDegrees = Mathf.Lerp(minDeviationDegrees, maxDeviationDegrees, aimController.Progress);
+
+        // Если aimController.Progress равен 0, установите текущий разброс в 0 градусов
+        if (aimController.Progress == 0)
+        {
+            currentDeviationDegrees = 0;
+        }
+
+        // Преобразуйте градусы в радианы
+        float currentDeviationRadians = currentDeviationDegrees * Mathf.Deg2Rad;
+
+        // Вычислите случайный разброс в радианах
+        float randomX = Random.Range(-currentDeviationRadians, currentDeviationRadians);
+        float randomY = Random.Range(-currentDeviationRadians, currentDeviationRadians);
+        float randomZ = Random.Range(-currentDeviationRadians, currentDeviationRadians);
 
         Vector3 deviation = new Vector3(randomX, randomY, randomZ);
 
-        Debug.Log("aimController.Progress " + aimController.Progress + " deviation: " + deviation);
+        Debug.Log("Deviation: " + deviation);
         return deviation;
     }
 
