@@ -30,9 +30,10 @@ public class Bot : MatchMember
     public override void OnStopServer()
     {
         base.OnStopServer();
-        
-        MatchMemberList.Instance.SvRemoveMember(data);
-        
+        if (MatchMemberList.Instance != null)
+        {
+            MatchMemberList.Instance.SvRemoveMember(data);
+        }
     }
 
     public override void OnStartClient()

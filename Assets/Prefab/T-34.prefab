@@ -3773,7 +3773,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   target: {fileID: 4523008661314286288}
-  clientAuthority: 1
+  clientAuthority: 0
   syncPosition: 1
   syncRotation: 1
   syncScale: 0
@@ -3997,7 +3997,7 @@ MonoBehaviour:
   tankMovementDetector: {fileID: 2123893855676872340}
   maxSpreadSize: 150
   minSpreadSize: 90
-  changeDurationSeconds: 1
+  changeDurationSeconds: 2.5
 --- !u!1 &3872633360517986711
 GameObject:
   m_ObjectHideFlags: 0
@@ -6186,9 +6186,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastOrigin: {fileID: 8800167975858104065}
-  raycastInterval: 2
-  maxStillTime: 2
-  positionTolerance: 0.1
+  raycastInterval: 0.33
+  maxStillTime: 1
+  positionTolerance: 0.5
   cannonUIAim: {fileID: 0}
 --- !u!114 &1339772125907910114
 MonoBehaviour:

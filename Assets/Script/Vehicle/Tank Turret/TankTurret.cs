@@ -51,7 +51,7 @@ public class TankTurret : Turret
 
         var projectile = Instantiate(SelectedProjectile.ProjectilePrefab); // var - тот же.
 
-        Debug.Log($"projectile + {projectile.name}");
+    //    Debug.Log($"projectile + {projectile.name}");
 
         projectile.Owner = tank.Owner;
         projectile.SetProperties(SelectedProjectile);
@@ -70,30 +70,32 @@ public class TankTurret : Turret
 
     private Vector3 RandomVectorPosition()
     {
-        // Определите минимальный и максимальный разброс в градусах
+        //  минимальный и максимальный разброс в градусах
         float minDeviationDegrees = 0f; // Минимальный разброс в нуле, когда aimController.Progress равен 0
         float maxDeviationDegrees = 2f; // Максимальный разброс при aimController.Progress равен 1
 
+        Debug.Log("aimController.Progress: " + aimController.Progress);
+            
         // Вычислите текущий разброс, учитывая aimController.Progress
         float currentDeviationDegrees = Mathf.Lerp(minDeviationDegrees, maxDeviationDegrees, aimController.Progress);
 
-        // Если aimController.Progress равен 0, установите текущий разброс в 0 градусов
+        // Если aimController.Progress равен 0, устанавливает текущий разброс в 0 градусов
         if (aimController.Progress == 0)
         {
             currentDeviationDegrees = 0;
         }
 
-        // Преобразуйте градусы в радианы
+        // Преобразуем  градусы в радианы
         float currentDeviationRadians = currentDeviationDegrees * Mathf.Deg2Rad;
 
-        // Вычислите случайный разброс в радианах
+        // Вычисляем случайный разброс в радианах
         float randomX = Random.Range(-currentDeviationRadians, currentDeviationRadians);
         float randomY = Random.Range(-currentDeviationRadians, currentDeviationRadians);
         float randomZ = Random.Range(-currentDeviationRadians, currentDeviationRadians);
 
         Vector3 deviation = new Vector3(randomX, randomY, randomZ);
 
-        Debug.Log("Deviation: " + deviation);
+     //   Debug.Log("Deviation: " + deviation);
         return deviation;
     }
 

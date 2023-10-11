@@ -4017,6 +4017,7 @@ MonoBehaviour:
   - {fileID: 3304789513335127234}
   - {fileID: 9057295644812582518}
   syncSelectedAmmunitionIndex: 0
+  aimController: {fileID: 0}
   tower: {fileID: 6059145924912126952}
   mask: {fileID: 4401281158462984309}
   horizontalRotationSpeed: 30
@@ -4094,7 +4095,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   target: {fileID: 4523008661314286288}
-  clientAuthority: 1
+  clientAuthority: 0
   syncPosition: 1
   syncRotation: 1
   syncScale: 0

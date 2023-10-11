@@ -44,7 +44,7 @@ public class Ammunition : NetworkBehaviour
     
     private void SyncAmmoCount(int oldValue, int newValue)
     {
-        Debug.Log(newValue + " SyncAmmoCount");
+      //  Debug.Log(newValue + " SyncAmmoCount");
         AmmoCountChanged?.Invoke(newValue);
     }
 

@@ -73,6 +73,7 @@ public class AimController : NetworkBehaviour
                 {
                     // Если прошло достаточно времени, сбрасываем elapsedTime и флаг isChangingSize
                     elapsedTime = 0f;
+                    RpcUpdateProgress(progress = 0);
                     isChangingSize = false;
                 }
             }
@@ -83,10 +84,10 @@ public class AimController : NetworkBehaviour
     private void RpcUpdateNewSize(float newSize, bool check)
     {
         // Вызывается на сервере для обновления ProgressAim для всех клиентов
-        Debug.Log("newSize : " + newSize);
+      //  Debug.Log("newSize : " + newSize);
         OnUpdateNewSize?.Invoke(newSize);
 
-        if (!check)
+        if (check == false)
         {
             progress = 1;
         }

@@ -9,13 +9,13 @@ public class AnimationGif : MonoBehaviour
 
     private RawImage image = null;
 
-    private Renderer renderer = null;
+    private Renderer render = null;
 
     private void Awake()
     {
         image = GetComponent<RawImage>();
 
-        renderer = GetComponent<Renderer>();
+        render = GetComponent<Renderer>();
     }
 
 
@@ -25,8 +25,8 @@ public class AnimationGif : MonoBehaviour
 
         index = index % frames.Length;
 
-        if (renderer != null)
-            renderer.material.mainTexture = frames[(int)index];
+        if (render != null)
+            render.material.mainTexture = frames[(int)index];
         else
             image.texture = frames[(int)index];
     }
